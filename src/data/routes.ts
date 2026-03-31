@@ -1,12 +1,4 @@
-export const ROUTES: string[] = [
-    "Route 101",
-    "Route 102",
-    "Route 103",
-    "Petalburg Woods",
-    "Route 104",
-    "Rustboro City",
-    "Route 116",
-    "Rusturf Tunnel",
-    "Route 110",
-    "Mauville City",
-  ]
+import seaglassRoutes from "./games/emerald-seaglass/routes.json";
+
+/** @deprecated Prefer game packs via `getGamePack` and `routes.json`. */
+export const ROUTES: string[] = seaglassRoutes.map((r) => r.name);

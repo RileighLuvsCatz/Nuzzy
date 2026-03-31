@@ -1,0 +1,27 @@
+[
+  {
+    "id": "roxanne",
+    "name": "Roxanne",
+    "location": "Rustboro Gym",
+    "team": [
+      {
+        "species": "Geodude",
+        "types": ["Rock", "Ground"],
+        "moves": ["Rock Throw", "Tackle", "Defense Curl"],
+        "item": null
+      },
+      {
+        "species": "Geodude",
+        "types": ["Rock", "Ground"],
+        "moves": ["Rock Throw", "Magnitude"],
+        "item": null
+      },
+      {
+        "species": "Nosepass",
+        "types": ["Rock"],
+        "moves": ["Rock Throw", "Harden", "Block"],
+        "item": null
+      }
+    ]
+  }
+]

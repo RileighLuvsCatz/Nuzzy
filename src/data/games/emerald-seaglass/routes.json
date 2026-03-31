@@ -1,0 +1,12 @@
+[
+  { "id": "route-101", "name": "Route 101" },
+  { "id": "route-102", "name": "Route 102" },
+  { "id": "route-103", "name": "Route 103" },
+  { "id": "petalburg-woods", "name": "Petalburg Woods" },
+  { "id": "route-104", "name": "Route 104" },
+  { "id": "rustboro-city", "name": "Rustboro City" },
+  { "id": "route-116", "name": "Route 116" },
+  { "id": "rusturf-tunnel", "name": "Rusturf Tunnel" },
+  { "id": "route-110", "name": "Route 110" },
+  { "id": "mauville-city", "name": "Mauville City" }
+]
