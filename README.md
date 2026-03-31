@@ -25,7 +25,7 @@ A web-based tracking tool for Pokémon Nuzlocke runs across ROM hacks and mainli
 - **Build Tool:** Vite
 - **Routing:** React Router v6
 - **Styling:** Tailwind CSS
-- **Language:** JavaScript (ES6+)
+- **Language:** TypeScript
 
 ## 🎮 What is a Nuzlocke?
 
