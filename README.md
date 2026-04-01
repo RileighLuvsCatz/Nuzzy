@@ -1,147 +1,119 @@
 # Nuzzy - Nuzlocke Tracker
 
-A web-based tracking tool for Pokémon Nuzlocke runs across ROM hacks and mainline games. Built with React, Vite, and Tailwind CSS.
+A web-based tracking tool for Pokémon Nuzlocke challenge runs. Built with React, TypeScript, and Tailwind CSS.
 
-**Currently Supporting:** Pokémon Emerald Seaglass  
-**Coming Soon:** Radical Red, FireRed, Emerald, Platinum, HeartGold/SoulSilver
+**Currently Supporting:** Pokémon Emerald  
+**Next Up:** Pokémon Radical Red, DS Pokémon Titles
 
 ![Project Status](https://img.shields.io/badge/status-in%20development-yellow)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
-## 🎯 Features (Planned)
+## Current Status
 
-- 🚧 Clean, responsive landing page
-- 🚧 Navigation between New Run, Continue Run, and About pages
-- 🚧 Track Nuzlocke runs with encounter logging
-- 🚧 Team management with party and box system
-- 🚧 Death logging and graveyard view
-- 🚧 Boss team documentation and strategy planning
-- 🚧 Type coverage analysis
-- 🚧 Run statistics and history
+Nuzzy is in active, early development. The core tracker loop is functional for Pokémon Emerald:
 
-## 🛠️ Tech Stack
+- **Run management** -- Create, name, and persist multiple runs via localStorage (includes schema migration for older saves)
+- **Encounter logging** -- Log catches per route from the game's catch pool, assign nicknames, and track status (Alive / Dead / Boxed)
+- **Boss reference** -- View boss trainer teams (Pokémon, types, moves, held items) inline with the route progression
+- **Multi-run support** -- Switch between saved runs from the navbar; runs are stored in a versioned library
+- **Routing** -- Navigation between landing, new-run creation, and the tracker view
 
-- **Framework:** React 18
-- **Build Tool:** Vite
-- **Routing:** React Router v6
-- **Styling:** Tailwind CSS
-- **Language:** TypeScript
+The landing page is currently a stub and is the next area of focus.
 
-## 🎮 What is a Nuzlocke?
+## Features
 
-A Nuzlocke is a self-imposed challenge for Pokémon games with two core rules:
+### Implemented
 
-1. **First Encounter Only:** You may only catch the first Pokémon encountered in each area
-2. **Permadeath:** If a Pokémon faints, it's considered "dead" and must be released or permanently boxed
-3. **Nicknames Required:** All Pokémon must be nicknamed to create emotional attachment
+- Run creation with game selection
+- Progression-ordered tracker (routes and boss fights in game order)
+- Per-route encounter logging with species selection from catch pools
+- Encounter status tracking (Alive / Dead / Boxed)
+- Boss team reference tables (species, types, moves, items)
+- localStorage persistence with migration support
+- Navbar with run switcher
+- Game data packs for Emerald (route data, boss teams, progression order)
 
-Additional optional rules can make the challenge even harder!
+### Planned
 
-## About Emerald Seaglass
-I'm Limiting the scope of the project to just tracking one game at a time for now, wiht plans to allow for other Pokémon titles in the future. The game I chose is Pokémon Emerald Seaglass.
+- Landing page with project overview
+- Emerald Seaglass game pack (data exists, integration in progress)
+- Type coverage analysis
+- Run statistics and analytics
+- Graveyard view for fallen Pokémon
+- Export/import functionality
+- Radical Red and mainline game support
 
-Pokémon Emerald Seaglass is an enhanced Emerald ROM hack featuring:
+## Tech Stack
 
-- Quality-of-life improvements and modern mechanics
-- Expanded Pokémon availability from multiple generations
-- Rebalanced difficulty for challenging but fair gameplay
-- Enhanced graphics and updated movesets
-- Perfect for Nuzlocke runs with balanced progression
+- **Framework:** React 19
+- **Build Tool:** Vite 8
+- **Routing:** React Router 7
+- **Styling:** Tailwind CSS 4
+- **Language:** TypeScript 5.9
+- **Linting:** ESLint 9
 
-Starting with Seaglass provides a solid foundation before expanding to more complex hacks like Radical Red and mainline titles. Also its the game I'm currently playing, and I want it for personal use.
+## What is a Nuzlocke?
 
-## 🎮 Planned Game Support
+A Nuzlocke is a self-imposed challenge for Pokémon games with three core rules:
 
-### Phase 1: Foundation
-- ✅ **Pokémon Emerald Seaglass** (Current focus)
+1. **First Encounter Only** -- You may only catch the first Pokémon encountered in each area.
+2. **Permadeath** -- If a Pokémon faints, it is considered dead and must be released or permanently boxed.
+3. **Nicknames Required** -- All Pokémon must be nicknamed to build attachment.
 
-### Phase 2: Expansion
-- 🔜 **Pokémon Radical Red** - Extreme difficulty ROM hack
+Additional optional rules can raise the difficulty further.
 
-### Phase 3: Mainline Games
-- 📅 **FireRed/LeafGreen** - Gen 3 Kanto
-- 📅 **Emerald** - Gen 3 Hoenn
-- 📅 **Platinum** - Gen 4 Sinnoh
-- 📅 **HeartGold/SoulSilver** - Gen 4 Johto
+## Roadmap
 
-### Phase 4: Additional ROM Hacks
-- 📅 Community-requested hacks based on user feedback
+### Near-term
 
-## 🗺️ Roadmap
+- Landing page implementation
+- Dedicated graveyard / death summary view
+- Type coverage calculator
 
-### Phase 1: Foundation (Current)
-- [ ] Project setup with React + Vite
-- [ ] Basic navigation and routing
-- [ ] Landing page with project info
-- [ ] Design system and component library
+### Later
 
-### Phase 2: Core Tracker (Emerald Seaglass)
-- [ ] Run creation and management
-- [ ] Route encounter tracking (Hoenn region)
-- [ ] Team management (party + box)
-- [ ] Death logging system
-- [ ] localStorage persistence
-- [ ] Seaglass-specific boss teams
+- Radical Red support (route data, boss AI documentation)
+- Mainline game support (Platinum, HeartGold/SoulSilver, Black/White, Black2/White2)
+- Export/import runs
+- Run statistics and analytics
+- Backend with user auth and cloud sync
+- Enable Emerald Seaglass game pack for run creation
 
-### Phase 3: Advanced Features
-- [ ] Type coverage calculator
-- [ ] Run statistics and analytics
-- [ ] Export/import functionality
-- [ ] Damage calculator
+## Contributing
 
-### Phase 4: Radical Red Support
-- [ ] Radical Red route data
-- [ ] Boss AI documentation
-- [ ] Competitive team suggestions
-- [ ] Multiple difficulty modes
-
-### Phase 5: Mainline & Additional Games
-- [ ] FireRed/LeafGreen support
-- [ ] Emerald (vanilla) support
-- [ ] Platinum support
-- [ ] HeartGold/SoulSilver support
-- [ ] Game-agnostic custom mode
-
-### Phase 6: Backend & Cloud
-- [ ] User authentication
-- [ ] Cloud save sync
-- [ ] Multi-run management
-- [ ] Community features
-
-## 🤝 Contributing
-
-This is currently a learning project, but contributions are welcome! If you'd like to contribute:
+This is currently a personal project, but contributions are welcome.
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
+2. Create a feature branch (`git checkout -b feature/your-feature`)
+3. Commit your changes
+4. Push to the branch
 5. Open a Pull Request
 
-## 📝 Development Notes
+## Development Notes
 
-This project is being built as a learning exercise to demonstrate:
+This project demonstrates:
 
 - Modern React patterns and hooks
 - Component-based architecture
-- State management
-- Responsive design with Tailwind
-- Git workflow and version control
+- Client-side state management and persistence
+- Responsive design with Tailwind CSS
+- TypeScript for type safety across the codebase
 
 The focus is on clean, maintainable code and incremental feature development.
 
-## 📄 License
+## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License -- see the LICENSE file for details.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
-- Pokémon and all related properties are © Nintendo, Game Freak, and The Pokémon Company
+- Pokémon and all related properties are (c) Nintendo, Game Freak, and The Pokémon Company
 - Emerald Seaglass ROM hack by the Seaglass development team
 - Radical Red ROM hack by Soupercell and the RR team
 - Nuzlocke challenge created by Nick Franco (Nuzlocke Comics)
+- Project Inspiration: [Nuzlocke.app](https://github.com/domtronn/nuzlocke.app)
 
-## 📧 Contact
+## Contact
 
 Project Link: [https://github.com/RileighLuvsCatz/Nuzzy](https://github.com/RileighLuvsCatz/Nuzzy)
 
