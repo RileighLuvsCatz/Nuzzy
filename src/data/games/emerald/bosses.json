@@ -1,0 +1,2021 @@
+[
+  {
+    "id": "mt1",
+    "name": "Tabitha",
+    "team": [
+      {
+        "species": "Numel",
+        "types": [
+          "Fire",
+          "Ground"
+        ],
+        "moves": [
+          "Growl",
+          "Tackle",
+          "Ember"
+        ],
+        "item": null
+      },
+      {
+        "species": "Poochyena",
+        "types": [
+          "Dark"
+        ],
+        "moves": [
+          "Howl",
+          "Sand Attack",
+          "Bite",
+          "Odor Sleuth"
+        ],
+        "item": null
+      },
+      {
+        "species": "Numel",
+        "types": [
+          "Fire",
+          "Ground"
+        ],
+        "moves": [
+          "Growl",
+          "Tackle",
+          "Ember",
+          "Magnitude"
+        ],
+        "item": null
+      },
+      {
+        "species": "Zubat",
+        "types": [
+          "Poison",
+          "Flying"
+        ],
+        "moves": [
+          "Supersonic",
+          "Astonish",
+          "Bite",
+          "Wing Attack"
+        ],
+        "item": null
+      }
+    ],
+    "location": "Mt. Chimney"
+  },
+  {
+    "id": "mt2",
+    "name": "Tabitha",
+    "team": [
+      {
+        "species": "Numel",
+        "types": [
+          "Fire",
+          "Ground"
+        ],
+        "moves": [
+          "Tackle",
+          "Ember",
+          "Magnitude",
+          "Focus Energy"
+        ],
+        "item": null
+      },
+      {
+        "species": "Mightyena",
+        "types": [
+          "Dark"
+        ],
+        "moves": [
+          "Bite",
+          "Odor Sleuth",
+          "Roar",
+          "Swagger"
+        ],
+        "item": null
+      },
+      {
+        "species": "Camerupt",
+        "types": [
+          "Fire",
+          "Ground"
+        ],
+        "moves": [
+          "Focus Energy",
+          "Take Down",
+          "Amnesia",
+          "Rock Slide"
+        ],
+        "item": null
+      },
+      {
+        "species": "Zubat",
+        "types": [
+          "Poison",
+          "Flying"
+        ],
+        "moves": [
+          "Astonish",
+          "Confuse Ray",
+          "Bite",
+          "Wing Attack"
+        ],
+        "item": null
+      }
+    ],
+    "location": "Team Magma Hideout"
+  },
+  {
+    "id": "mtmax",
+    "name": "Maxie",
+    "team": [
+      {
+        "species": "Mightyena",
+        "types": [
+          "Dark"
+        ],
+        "moves": [
+          "Roar",
+          "Swagger",
+          "Scary Face",
+          "Take Down"
+        ],
+        "item": null
+      },
+      {
+        "species": "Crobat",
+        "types": [
+          "Poison",
+          "Flying"
+        ],
+        "moves": [
+          "Bite",
+          "Confuse Ray",
+          "Wing Attack",
+          "Air Cutter"
+        ],
+        "item": null
+      },
+      {
+        "species": "Camerupt",
+        "types": [
+          "Fire",
+          "Ground"
+        ],
+        "moves": [
+          "Take Down",
+          "Amnesia",
+          "Rock Slide",
+          "Earthquake"
+        ],
+        "item": null
+      }
+    ],
+    "location": "Team Magma Hideout"
+  },
+  {
+    "id": "mtmaxt",
+    "name": "Maxie & Tabitha",
+    "team": [
+      {
+        "species": "Mightyena",
+        "types": [
+          "Dark"
+        ],
+        "moves": [
+          "Roar",
+          "Take Down",
+          "Scary Face",
+          "Taunt"
+        ],
+        "item": null
+      },
+      {
+        "species": "Crobat",
+        "types": [
+          "Poison",
+          "Flying"
+        ],
+        "moves": [
+          "Mean Look",
+          "Confuse Ray",
+          "Wing Attack",
+          "Air Cutter"
+        ],
+        "item": null
+      },
+      {
+        "species": "Camerupt",
+        "types": [
+          "Fire",
+          "Ground"
+        ],
+        "moves": [
+          "Take Down",
+          "Amnesia",
+          "Rock Slide",
+          "Earthquake"
+        ],
+        "item": null
+      },
+      {
+        "species": "Camerupt",
+        "types": [
+          "Fire",
+          "Ground"
+        ],
+        "moves": [
+          "Focus Energy",
+          "Take Down",
+          "Amnesia",
+          "Rock Slide"
+        ],
+        "item": null
+      },
+      {
+        "species": "Mightyena",
+        "types": [
+          "Dark"
+        ],
+        "moves": [
+          "Roar",
+          "Take Down",
+          "Scary Face",
+          "Swagger"
+        ],
+        "item": null
+      },
+      {
+        "species": "Golbat",
+        "types": [
+          "Poison",
+          "Flying"
+        ],
+        "moves": [
+          "Bite",
+          "Confuse Ray",
+          "Wing Attack",
+          "Air Cutter"
+        ],
+        "item": null
+      }
+    ],
+    "location": "Mossdeep Space Center"
+  },
+  {
+    "id": "as1",
+    "name": "Shelly",
+    "team": [
+      {
+        "species": "Carvanha",
+        "types": [
+          "Water",
+          "Dark"
+        ],
+        "moves": [
+          "Focus Energy",
+          "Scary Face",
+          "Crunch",
+          "Screech"
+        ],
+        "item": null
+      },
+      {
+        "species": "Mightyena",
+        "types": [
+          "Dark"
+        ],
+        "moves": [
+          "Bite",
+          "Odor Sleuth",
+          "Roar",
+          "Swagger"
+        ],
+        "item": null
+      }
+    ],
+    "location": "Weather Institute"
+  },
+  {
+    "id": "as2",
+    "name": "Shelly",
+    "team": [
+      {
+        "species": "Sharpedo",
+        "types": [
+          "Water",
+          "Dark"
+        ],
+        "moves": [
+          "Scary Face",
+          "Crunch",
+          "Screech",
+          "Slash"
+        ],
+        "item": null
+      },
+      {
+        "species": "Mightyena",
+        "types": [
+          "Dark"
+        ],
+        "moves": [
+          "Take Down",
+          "Scary Face",
+          "Roar",
+          "Swagger"
+        ],
+        "item": null
+      }
+    ],
+    "location": "Seafloor Cavern"
+  },
+  {
+    "id": "am1",
+    "name": "Matt",
+    "team": [
+      {
+        "species": "Sharpedo",
+        "types": [
+          "Water",
+          "Dark"
+        ],
+        "moves": [
+          "Scary Face",
+          "Crunch",
+          "Screech",
+          "Slash"
+        ],
+        "item": null
+      },
+      {
+        "species": "Mightyena",
+        "types": [
+          "Dark"
+        ],
+        "moves": [
+          "Odor Sleuth",
+          "Roar",
+          "Swagger",
+          "Scary Face"
+        ],
+        "item": null
+      },
+      {
+        "species": "Golbat",
+        "types": [
+          "Poison",
+          "Flying"
+        ],
+        "moves": [
+          "Astonish",
+          "Confuse Ray",
+          "Bite",
+          "Wing Attack"
+        ],
+        "item": null
+      }
+    ],
+    "location": "Team Aqua Hideout"
+  },
+  {
+    "id": "aqarc",
+    "name": "Archie",
+    "team": [
+      {
+        "species": "Mightyena",
+        "types": [
+          "Dark"
+        ],
+        "moves": [
+          "Take Down",
+          "Roar",
+          "Swagger",
+          "Scary Face"
+        ],
+        "item": null
+      },
+      {
+        "species": "Golbat",
+        "types": [
+          "Poison",
+          "Flying"
+        ],
+        "moves": [
+          "Bite",
+          "Confuse Ray",
+          "Air Cutter",
+          "Wing Attack"
+        ],
+        "item": null
+      },
+      {
+        "species": "Sharpedo",
+        "types": [
+          "Water",
+          "Dark"
+        ],
+        "moves": [
+          "Screech",
+          "Slash",
+          "Swagger",
+          "Taunt"
+        ],
+        "item": null
+      }
+    ],
+    "location": "Seafloor Cavern"
+  },
+  {
+    "id": "w1",
+    "name": "Wally",
+    "team": [
+      {
+        "species": "Ralts",
+        "types": [
+          "Psychic"
+        ],
+        "moves": [
+          "Growl",
+          "Confusion",
+          "Double Team",
+          "Teleport"
+        ],
+        "item": null
+      }
+    ],
+    "location": "Mauville City"
+  },
+  {
+    "id": "w2",
+    "name": "Wally",
+    "team": [
+      {
+        "species": "Altaria",
+        "types": [
+          "Dragon",
+          "Flying"
+        ],
+        "moves": [
+          "Aerial Ace",
+          "Safeguard",
+          "Dragon Breath",
+          "Dragon Dance"
+        ],
+        "item": null
+      },
+      {
+        "species": "Delcatty",
+        "types": [
+          "Normal"
+        ],
+        "moves": [
+          "Sing",
+          "Assist",
+          "Charm",
+          "Feint Attack"
+        ],
+        "item": null
+      },
+      {
+        "species": "Roselia",
+        "types": [
+          "Grass",
+          "Poison"
+        ],
+        "moves": [
+          "Magical Leaf",
+          "Leech Seed",
+          "Giga Drain",
+          "Toxic"
+        ],
+        "item": null
+      },
+      {
+        "species": "Magneton",
+        "types": [
+          "Electric",
+          "Steel"
+        ],
+        "moves": [
+          "Supersonic",
+          "Thunderbolt",
+          "Tri Attack",
+          "Screech"
+        ],
+        "item": null
+      },
+      {
+        "species": "Gardevoir",
+        "types": [
+          "Psychic"
+        ],
+        "moves": [
+          "Double Team",
+          "Calm Mind",
+          "Psychic",
+          "Future Sight"
+        ],
+        "item": null
+      }
+    ],
+    "location": "Victory Road"
+  },
+  {
+    "id": "r1",
+    "name": "May",
+    "team": [
+      {
+        "species": "Torchic",
+        "types": [
+          "Fire"
+        ],
+        "moves": [
+          "Scratch",
+          "Growl"
+        ],
+        "item": null
+      },
+      {
+        "species": "Mudkip",
+        "types": [
+          "Water"
+        ],
+        "moves": [
+          "Tackle",
+          "Growl"
+        ],
+        "item": null
+      },
+      {
+        "species": "Treecko",
+        "types": [
+          "Grass"
+        ],
+        "moves": [
+          "Pound",
+          "Leer"
+        ],
+        "item": null
+      }
+    ],
+    "location": "Route 103"
+  },
+  {
+    "id": "r2",
+    "name": "May",
+    "team": [
+      {
+        "species": "Lotad",
+        "types": [
+          "Water",
+          "Grass"
+        ],
+        "moves": [
+          "Astonish",
+          "Growl",
+          "Absorb",
+          "Nature Power"
+        ],
+        "item": null
+      },
+      {
+        "species": "Torchic",
+        "types": [
+          "Fire"
+        ],
+        "moves": [
+          "Scratch",
+          "Growl",
+          "Focus Energy",
+          "Ember"
+        ],
+        "item": null
+      },
+      {
+        "species": "Torkoal",
+        "types": [
+          "Fire"
+        ],
+        "moves": [
+          "Curse",
+          "Smog",
+          "Ember"
+        ],
+        "item": null
+      },
+      {
+        "species": "Mudkip",
+        "types": [
+          "Water"
+        ],
+        "moves": [
+          "Growl",
+          "Mud Slap",
+          "Water Gun",
+          "Bide"
+        ],
+        "item": null
+      },
+      {
+        "species": "Wingull",
+        "types": [
+          "Water",
+          "Flying"
+        ],
+        "moves": [
+          "Growl",
+          "Water Gun",
+          "Supersonic",
+          "Wing Attack"
+        ],
+        "item": null
+      },
+      {
+        "species": "Treecko",
+        "types": [
+          "Grass"
+        ],
+        "moves": [
+          "Pound",
+          "Leer",
+          "Absorb",
+          "Quick Attack"
+        ],
+        "item": null
+      }
+    ],
+    "location": "Rustboro City"
+  },
+  {
+    "id": "r3",
+    "name": "May",
+    "team": [
+      {
+        "species": "Wingull",
+        "types": [
+          "Water",
+          "Flying"
+        ],
+        "moves": [
+          "Growl",
+          "Water Gun",
+          "Supersonic",
+          "Wing Attack"
+        ],
+        "item": null
+      },
+      {
+        "species": "Lombre",
+        "types": [
+          "Water",
+          "Grass"
+        ],
+        "moves": [
+          "Astonish",
+          "Growl",
+          "Absorb",
+          "Nature Power"
+        ],
+        "item": null
+      },
+      {
+        "species": "Combusken",
+        "types": [
+          "Fire",
+          "Fighting"
+        ],
+        "moves": [
+          "Focus Energy",
+          "Ember",
+          "Double Kick",
+          "Peck"
+        ],
+        "item": null
+      },
+      {
+        "species": "Lombre",
+        "types": [
+          "Water",
+          "Grass"
+        ],
+        "moves": [
+          "Astonish",
+          "Growl",
+          "Absorb",
+          "Nature Power"
+        ],
+        "item": null
+      },
+      {
+        "species": "Slugma",
+        "types": [
+          "Fire"
+        ],
+        "moves": [
+          "Yawn",
+          "Smog",
+          "Ember",
+          "Rock Tomb"
+        ],
+        "item": null
+      },
+      {
+        "species": "Marshtomp",
+        "types": [
+          "Water",
+          "Ground"
+        ],
+        "moves": [
+          "Water Gun",
+          "Bide",
+          "Mud Shot",
+          "Foresight"
+        ],
+        "item": null
+      },
+      {
+        "species": "Slugma",
+        "types": [
+          "Fire"
+        ],
+        "moves": [
+          "Yawn",
+          "Smog",
+          "Ember",
+          "Rock Tomb"
+        ],
+        "item": null
+      },
+      {
+        "species": "Wingull",
+        "types": [
+          "Water",
+          "Flying"
+        ],
+        "moves": [
+          "Growl",
+          "Water Gun",
+          "Supersonic",
+          "Wing Attack"
+        ],
+        "item": null
+      },
+      {
+        "species": "Grovyle",
+        "types": [
+          "Grass"
+        ],
+        "moves": [
+          "Absorb",
+          "Quick Attack",
+          "Fury Cutter",
+          "Pursuit"
+        ],
+        "item": null
+      }
+    ],
+    "location": "Route 110"
+  },
+  {
+    "id": "r4",
+    "name": "May",
+    "team": [
+      {
+        "species": "Pelipper",
+        "types": [
+          "Water",
+          "Flying"
+        ],
+        "moves": [
+          "Wing Attack",
+          "Supersonic",
+          "Mist",
+          "Protect"
+        ],
+        "item": null
+      },
+      {
+        "species": "Pelipper",
+        "types": [
+          "Water",
+          "Flying"
+        ],
+        "moves": [
+          "Wing Attack",
+          "Supersonic",
+          "Mist",
+          "Protect"
+        ],
+        "item": null
+      },
+      {
+        "species": "Lombre",
+        "types": [
+          "Water",
+          "Grass"
+        ],
+        "moves": [
+          "Absorb",
+          "Fake Out",
+          "Nature Power",
+          "Fury Swipes"
+        ],
+        "item": null
+      },
+      {
+        "species": "Lombre",
+        "types": [
+          "Water",
+          "Grass"
+        ],
+        "moves": [
+          "Absorb",
+          "Fake Out",
+          "Nature Power",
+          "Fury Swipes"
+        ],
+        "item": null
+      },
+      {
+        "species": "Slugma",
+        "types": [
+          "Fire"
+        ],
+        "moves": [
+          "Harden",
+          "Amnesia",
+          "Ember",
+          "Rock Throw"
+        ],
+        "item": null
+      },
+      {
+        "species": "Slugma",
+        "types": [
+          "Fire"
+        ],
+        "moves": [
+          "Harden",
+          "Amnesia",
+          "Ember",
+          "Rock Throw"
+        ],
+        "item": null
+      },
+      {
+        "species": "Combusken",
+        "types": [
+          "Fire",
+          "Fighting"
+        ],
+        "moves": [
+          "Double Kick",
+          "Bulk Up",
+          "Peck",
+          "Sand Attack"
+        ],
+        "item": null
+      },
+      {
+        "species": "Marshtomp",
+        "types": [
+          "Water",
+          "Ground"
+        ],
+        "moves": [
+          "Mud Shot",
+          "Mud Sport",
+          "Foresight",
+          "Take Down"
+        ],
+        "item": null
+      },
+      {
+        "species": "Grovyle",
+        "types": [
+          "Grass"
+        ],
+        "moves": [
+          "Fury Cutter",
+          "Leaf Blade",
+          "Pursuit",
+          "Screech"
+        ],
+        "item": null
+      }
+    ],
+    "location": "Weather Institute"
+  },
+  {
+    "id": "r5",
+    "name": "May",
+    "team": [
+      {
+        "species": "Tropius",
+        "types": [
+          "Grass",
+          "Flying"
+        ],
+        "moves": [
+          "Stomp",
+          "Sweet Scent",
+          "Whirlwind",
+          "Magical Leaf"
+        ],
+        "item": null
+      },
+      {
+        "species": "Pelipper",
+        "types": [
+          "Water",
+          "Flying"
+        ],
+        "moves": [
+          "Wing Attack",
+          "Supersonic",
+          "Mist",
+          "Protect"
+        ],
+        "item": null
+      },
+      {
+        "species": "Pelipper",
+        "types": [
+          "Water",
+          "Flying"
+        ],
+        "moves": [
+          "Wing Attack",
+          "Supersonic",
+          "Mist",
+          "Protect"
+        ],
+        "item": null
+      },
+      {
+        "species": "Ludicolo",
+        "types": [
+          "Water",
+          "Grass"
+        ],
+        "moves": [
+          "Astonish",
+          "Absorb",
+          "Growl",
+          "Nature Power"
+        ],
+        "item": null
+      },
+      {
+        "species": "Ludicolo",
+        "types": [
+          "Water",
+          "Grass"
+        ],
+        "moves": [
+          "Astonish",
+          "Absorb",
+          "Growl",
+          "Nature Power"
+        ],
+        "item": null
+      },
+      {
+        "species": "Slugma",
+        "types": [
+          "Fire"
+        ],
+        "moves": [
+          "Harden",
+          "Amnesia",
+          "Ember",
+          "Rock Throw"
+        ],
+        "item": null
+      },
+      {
+        "species": "Slugma",
+        "types": [
+          "Fire"
+        ],
+        "moves": [
+          "Harden",
+          "Amnesia",
+          "Ember",
+          "Rock Throw"
+        ],
+        "item": null
+      },
+      {
+        "species": "Combusken",
+        "types": [
+          "Fire",
+          "Fighting"
+        ],
+        "moves": [
+          "Sand Attack",
+          "Bulk Up",
+          "Peck",
+          "Quick Attack"
+        ],
+        "item": null
+      },
+      {
+        "species": "Marshtomp",
+        "types": [
+          "Water",
+          "Ground"
+        ],
+        "moves": [
+          "Mud Shot",
+          "Mud Sport",
+          "Foresight",
+          "Take Down"
+        ],
+        "item": null
+      },
+      {
+        "species": "Grovyle",
+        "types": [
+          "Grass"
+        ],
+        "moves": [
+          "Fury Cutter",
+          "Leaf Blade",
+          "Pursuit",
+          "Screech"
+        ],
+        "item": null
+      }
+    ],
+    "location": "Lilycove City"
+  },
+  {
+    "id": "roxanne",
+    "name": "Roxanne",
+    "team": [
+      {
+        "species": "Geodude",
+        "types": [
+          "Rock",
+          "Ground"
+        ],
+        "moves": [
+          "Tackle",
+          "Defense Curl",
+          "Rock Throw",
+          "Rock Tomb"
+        ],
+        "item": null
+      },
+      {
+        "species": "Geodude",
+        "types": [
+          "Rock",
+          "Ground"
+        ],
+        "moves": [
+          "Tackle",
+          "Defense Curl",
+          "Rock Throw",
+          "Rock Tomb"
+        ],
+        "item": null
+      },
+      {
+        "species": "Nosepass",
+        "types": [
+          "Rock"
+        ],
+        "moves": [
+          "Block",
+          "Harden",
+          "Tackle",
+          "Rock Tomb"
+        ],
+        "item": null
+      }
+    ],
+    "location": "Rustboro Gym"
+  },
+  {
+    "id": "brawly",
+    "name": "Brawly",
+    "team": [
+      {
+        "species": "Machop",
+        "types": [
+          "Fighting"
+        ],
+        "moves": [
+          "Karate Chop",
+          "Low Kick",
+          "Seismic Toss",
+          "Bulk Up"
+        ],
+        "item": null
+      },
+      {
+        "species": "Meditite",
+        "types": [
+          "Fighting",
+          "Psychic"
+        ],
+        "moves": [
+          "Focus Punch",
+          "Light Screen",
+          "Reflect",
+          "Bulk Up"
+        ],
+        "item": null
+      },
+      {
+        "species": "Makuhita",
+        "types": [
+          "Fighting"
+        ],
+        "moves": [
+          "Arm Thrust",
+          "Vital Throw",
+          "Reversal",
+          "Bulk Up"
+        ],
+        "item": "Sitrus Berry"
+      }
+    ],
+    "location": "Dewford Gym"
+  },
+  {
+    "id": "wattson",
+    "name": "Wattson",
+    "team": [
+      {
+        "species": "Voltorb",
+        "types": [
+          "Electric"
+        ],
+        "moves": [
+          "Rollout",
+          "Spark",
+          "Self Destruct",
+          "Shock Wave"
+        ],
+        "item": null
+      },
+      {
+        "species": "Electrike",
+        "types": [
+          "Electric"
+        ],
+        "moves": [
+          "Shock Wave",
+          "Leer",
+          "Quick Attack",
+          "Howl"
+        ],
+        "item": null
+      },
+      {
+        "species": "Magneton",
+        "types": [
+          "Electric",
+          "Steel"
+        ],
+        "moves": [
+          "Supersonic",
+          "Thunder Wave",
+          "Shock Wave",
+          "Sonic Boom"
+        ],
+        "item": null
+      },
+      {
+        "species": "Manectric",
+        "types": [
+          "Electric"
+        ],
+        "moves": [
+          "Quick Attack",
+          "Shock Wave",
+          "Thunder Wave",
+          "Howl"
+        ],
+        "item": "Sitrus Berry"
+      }
+    ],
+    "location": "Mauville City Gym"
+  },
+  {
+    "id": "flannery",
+    "name": "Flannery",
+    "team": [
+      {
+        "species": "Numel",
+        "types": [
+          "Fire",
+          "Ground"
+        ],
+        "moves": [
+          "Overheat",
+          "Take Down",
+          "Magnitude",
+          "Sunny Day"
+        ],
+        "item": null
+      },
+      {
+        "species": "Slugma",
+        "types": [
+          "Fire"
+        ],
+        "moves": [
+          "Overheat",
+          "Smog",
+          "Light Screen",
+          "Sunny Day"
+        ],
+        "item": null
+      },
+      {
+        "species": "Camerupt",
+        "types": [
+          "Fire",
+          "Ground"
+        ],
+        "moves": [
+          "Overheat",
+          "Tackle",
+          "Sunny Day",
+          "Attract"
+        ],
+        "item": null
+      },
+      {
+        "species": "Torkoal",
+        "types": [
+          "Fire"
+        ],
+        "moves": [
+          "Overheat",
+          "Sunny Day",
+          "Body Slam",
+          "Attract"
+        ],
+        "item": "White Herb"
+      }
+    ],
+    "location": "Lavaridge Gym"
+  },
+  {
+    "id": "norman",
+    "name": "Norman",
+    "team": [
+      {
+        "species": "Spinda",
+        "types": [
+          "Normal"
+        ],
+        "moves": [
+          "Teeter Dance",
+          "Psybeam",
+          "Facade",
+          "Encore"
+        ],
+        "item": null
+      },
+      {
+        "species": "Vigoroth",
+        "types": [
+          "Normal"
+        ],
+        "moves": [
+          "Slash",
+          "Facade",
+          "Encore",
+          "Feint Attack"
+        ],
+        "item": null
+      },
+      {
+        "species": "Linoone",
+        "types": [
+          "Normal"
+        ],
+        "moves": [
+          "Slash",
+          "Belly Drum",
+          "Facade",
+          "Headbutt"
+        ],
+        "item": null
+      },
+      {
+        "species": "Slaking",
+        "types": [
+          "Normal"
+        ],
+        "moves": [
+          "Counter",
+          "Yawn",
+          "Facade",
+          "Feint Attack"
+        ],
+        "item": "Sitrus Berry"
+      }
+    ],
+    "location": "Petalburg Gym"
+  },
+  {
+    "id": "winona",
+    "name": "Winona",
+    "team": [
+      {
+        "species": "Swablu",
+        "types": [
+          "Normal",
+          "Flying"
+        ],
+        "moves": [
+          "Perish Song",
+          "Mirror Move",
+          "Safeguard",
+          "Aerial Ace"
+        ],
+        "item": null
+      },
+      {
+        "species": "Tropius",
+        "types": [
+          "Grass",
+          "Flying"
+        ],
+        "moves": [
+          "Sunny Day",
+          "Aerial Ace",
+          "Solar Beam",
+          "Synthesis"
+        ],
+        "item": null
+      },
+      {
+        "species": "Pelipper",
+        "types": [
+          "Water",
+          "Flying"
+        ],
+        "moves": [
+          "Water Gun",
+          "Supersonic",
+          "Protect",
+          "Aerial Ace"
+        ],
+        "item": null
+      },
+      {
+        "species": "Skarmory",
+        "types": [
+          "Steel",
+          "Flying"
+        ],
+        "moves": [
+          "Sand Attack",
+          "Fury Attack",
+          "Steel Wing",
+          "Aerial Ace"
+        ],
+        "item": null
+      },
+      {
+        "species": "Altaria",
+        "types": [
+          "Dragon",
+          "Flying"
+        ],
+        "moves": [
+          "Earthquake",
+          "Dragon Breath",
+          "Dragon Dance",
+          "Aerial Ace"
+        ],
+        "item": "Oran Berry"
+      }
+    ],
+    "location": "Fortree City Gym"
+  },
+  {
+    "id": "tate-and-liza",
+    "name": "Tate & Liza",
+    "team": [
+      {
+        "species": "Claydol",
+        "types": [
+          "Ground",
+          "Psychic"
+        ],
+        "moves": [
+          "Earthquake",
+          "Ancient Power",
+          "Psychic",
+          "Light Screen"
+        ],
+        "item": null
+      },
+      {
+        "species": "Xatu",
+        "types": [
+          "Psychic",
+          "Flying"
+        ],
+        "moves": [
+          "Psychic",
+          "Sunny Day",
+          "Confuse Ray",
+          "Calm Mind"
+        ],
+        "item": null
+      },
+      {
+        "species": "Lunatone",
+        "types": [
+          "Rock",
+          "Psychic"
+        ],
+        "moves": [
+          "Light Screen",
+          "Psychic",
+          "Hypnosis",
+          "Calm Mind"
+        ],
+        "item": "Sitrus Berry"
+      },
+      {
+        "species": "Solrock",
+        "types": [
+          "Rock",
+          "Psychic"
+        ],
+        "moves": [
+          "Sunny Day",
+          "Solar Beam",
+          "Psychic",
+          "Flamethrower"
+        ],
+        "item": "Sitrus Berry"
+      }
+    ],
+    "location": "Mossdeep City Gym"
+  },
+  {
+    "id": "juan",
+    "name": "Juan",
+    "team": [
+      {
+        "species": "Luvdisc",
+        "types": [
+          "Water"
+        ],
+        "moves": [
+          "Water Pulse",
+          "Attract",
+          "Sweet Kiss",
+          "Flail"
+        ],
+        "item": null
+      },
+      {
+        "species": "Whiscash",
+        "types": [
+          "Water",
+          "Ground"
+        ],
+        "moves": [
+          "Rain Dance",
+          "Water Pulse",
+          "Amnesia",
+          "Earthquake"
+        ],
+        "item": null
+      },
+      {
+        "species": "Sealeo",
+        "types": [
+          "Ice",
+          "Water"
+        ],
+        "moves": [
+          "Encore",
+          "Body Slam",
+          "Aurora Beam",
+          "Water Pulse"
+        ],
+        "item": null
+      },
+      {
+        "species": "Crawdaunt",
+        "types": [
+          "Water",
+          "Dark"
+        ],
+        "moves": [
+          "Water Pulse",
+          "Crabhammer",
+          "Taunt",
+          "Leer"
+        ],
+        "item": null
+      },
+      {
+        "species": "Kingdra",
+        "types": [
+          "Water",
+          "Dragon"
+        ],
+        "moves": [
+          "Water Pulse",
+          "Double Team",
+          "Ice Beam",
+          "Rest"
+        ],
+        "item": "Chesto Berry"
+      }
+    ],
+    "location": "Sootopolis Gym"
+  },
+  {
+    "id": "sidney",
+    "name": "Sidney",
+    "team": [
+      {
+        "species": "Mightyena",
+        "types": [
+          "Dark"
+        ],
+        "moves": [
+          "Roar",
+          "Double Edge",
+          "Sand Attack",
+          "Crunch"
+        ],
+        "item": null
+      },
+      {
+        "species": "Shiftry",
+        "types": [
+          "Grass",
+          "Dark"
+        ],
+        "moves": [
+          "Torment",
+          "Double Team",
+          "Swagger",
+          "Extrasensory"
+        ],
+        "item": null
+      },
+      {
+        "species": "Cacturne",
+        "types": [
+          "Grass",
+          "Dark"
+        ],
+        "moves": [
+          "Leech Seed",
+          "Feint Attack",
+          "Needle Arm",
+          "Cotton Spore"
+        ],
+        "item": null
+      },
+      {
+        "species": "Crawdaunt",
+        "types": [
+          "Water",
+          "Dark"
+        ],
+        "moves": [
+          "Surf",
+          "Swords Dance",
+          "Strength",
+          "Facade"
+        ],
+        "item": null
+      },
+      {
+        "species": "Absol",
+        "types": [
+          "Dark"
+        ],
+        "moves": [
+          "Aerial Ace",
+          "Rock Slide",
+          "Swords Dance",
+          "Slash"
+        ],
+        "item": "Sitrus Berry"
+      }
+    ],
+    "location": "Pokémon League"
+  },
+  {
+    "id": "phoebe",
+    "name": "Phoebe",
+    "team": [
+      {
+        "species": "Dusclops",
+        "types": [
+          "Ghost"
+        ],
+        "moves": [
+          "Shadow Punch",
+          "Confuse Ray",
+          "Curse",
+          "Protect"
+        ],
+        "item": null
+      },
+      {
+        "species": "Banette",
+        "types": [
+          "Ghost"
+        ],
+        "moves": [
+          "Shadow Ball",
+          "Grudge",
+          "Will O Wisp",
+          "Feint Attack"
+        ],
+        "item": null
+      },
+      {
+        "species": "Sableye",
+        "types": [
+          "Dark",
+          "Ghost"
+        ],
+        "moves": [
+          "Shadow Ball",
+          "Double Team",
+          "Night Shade",
+          "Feint Attack"
+        ],
+        "item": null
+      },
+      {
+        "species": "Banette",
+        "types": [
+          "Ghost"
+        ],
+        "moves": [
+          "Shadow Ball",
+          "Psychic",
+          "Thunderbolt",
+          "Facade"
+        ],
+        "item": null
+      },
+      {
+        "species": "Dusclops",
+        "types": [
+          "Ghost"
+        ],
+        "moves": [
+          "Shadow Ball",
+          "Ice Beam",
+          "Rock Slide",
+          "Earthquake"
+        ],
+        "item": "Sitrus Berry"
+      }
+    ],
+    "location": "Pokémon League"
+  },
+  {
+    "id": "glacia",
+    "name": "Glacia",
+    "team": [
+      {
+        "species": "Sealeo",
+        "types": [
+          "Ice",
+          "Water"
+        ],
+        "moves": [
+          "Encore",
+          "Body Slam",
+          "Hail",
+          "Ice Ball"
+        ],
+        "item": null
+      },
+      {
+        "species": "Glalie",
+        "types": [
+          "Ice"
+        ],
+        "moves": [
+          "Light Screen",
+          "Crunch",
+          "Icy Wind",
+          "Ice Beam"
+        ],
+        "item": null
+      },
+      {
+        "species": "Sealeo",
+        "types": [
+          "Ice",
+          "Water"
+        ],
+        "moves": [
+          "Attract",
+          "Double Edge",
+          "Hail",
+          "Blizzard"
+        ],
+        "item": null
+      },
+      {
+        "species": "Glalie",
+        "types": [
+          "Ice"
+        ],
+        "moves": [
+          "Shadow Ball",
+          "Explosion",
+          "Hail",
+          "Ice Beam"
+        ],
+        "item": null
+      },
+      {
+        "species": "Walrein",
+        "types": [
+          "Ice",
+          "Water"
+        ],
+        "moves": [
+          "Surf",
+          "Body Slam",
+          "Ice Beam",
+          "Sheer Cold"
+        ],
+        "item": "Sitrus Berry"
+      }
+    ],
+    "location": "Pokémon League"
+  },
+  {
+    "id": "drake",
+    "name": "Drake",
+    "team": [
+      {
+        "species": "Shelgon",
+        "types": [
+          "Dragon"
+        ],
+        "moves": [
+          "Rock Tomb",
+          "Dragon Claw",
+          "Protect",
+          "Double Edge"
+        ],
+        "item": null
+      },
+      {
+        "species": "Altaria",
+        "types": [
+          "Dragon",
+          "Flying"
+        ],
+        "moves": [
+          "Double Edge",
+          "Dragon Breath",
+          "Dragon Dance",
+          "Aerial Ace"
+        ],
+        "item": null
+      },
+      {
+        "species": "Kingdra",
+        "types": [
+          "Water",
+          "Dragon"
+        ],
+        "moves": [
+          "Smokescreen",
+          "Dragon Dance",
+          "Surf",
+          "Body Slam"
+        ],
+        "item": null
+      },
+      {
+        "species": "Flygon",
+        "types": [
+          "Ground",
+          "Dragon"
+        ],
+        "moves": [
+          "Flamethrower",
+          "Crunch",
+          "Dragon Breath",
+          "Earthquake"
+        ],
+        "item": null
+      },
+      {
+        "species": "Salamence",
+        "types": [
+          "Dragon",
+          "Flying"
+        ],
+        "moves": [
+          "Flamethrower",
+          "Dragon Claw",
+          "Rock Slide",
+          "Crunch"
+        ],
+        "item": "Sitrus Berry"
+      }
+    ],
+    "location": "Pokémon League"
+  },
+  {
+    "id": "wallace-champion",
+    "name": "Wallace",
+    "team": [
+      {
+        "species": "Wailord",
+        "types": [
+          "Water"
+        ],
+        "moves": [
+          "Rain Dance",
+          "Water Spout",
+          "Double Edge",
+          "Blizzard"
+        ],
+        "item": null
+      },
+      {
+        "species": "Tentacruel",
+        "types": [
+          "Water",
+          "Poison"
+        ],
+        "moves": [
+          "Toxic",
+          "Hydro Pump",
+          "Sludge Bomb",
+          "Ice Beam"
+        ],
+        "item": null
+      },
+      {
+        "species": "Ludicolo",
+        "types": [
+          "Water",
+          "Grass"
+        ],
+        "moves": [
+          "Giga Drain",
+          "Surf",
+          "Leech Seed",
+          "Double Team"
+        ],
+        "item": null
+      },
+      {
+        "species": "Whiscash",
+        "types": [
+          "Water",
+          "Ground"
+        ],
+        "moves": [
+          "Earthquake",
+          "Surf",
+          "Amnesia",
+          "Hyper Beam"
+        ],
+        "item": null
+      },
+      {
+        "species": "Gyarados",
+        "types": [
+          "Water",
+          "Flying"
+        ],
+        "moves": [
+          "Dragon Dance",
+          "Earthquake",
+          "Hyper Beam",
+          "Surf"
+        ],
+        "item": null
+      },
+      {
+        "species": "Milotic",
+        "types": [
+          "Water"
+        ],
+        "moves": [
+          "Recover",
+          "Surf",
+          "Ice Beam",
+          "Toxic"
+        ],
+        "item": "Sitrus Berry"
+      }
+    ],
+    "location": "Pokémon League Champion"
+  },
+  {
+    "id": "steven-champion",
+    "name": "Steven",
+    "team": [
+      {
+        "species": "Skarmory",
+        "types": [
+          "Steel",
+          "Flying"
+        ],
+        "moves": [
+          "Toxic",
+          "Aerial Ace",
+          "Spikes",
+          "Steel Wing"
+        ],
+        "item": null
+      },
+      {
+        "species": "Claydol",
+        "types": [
+          "Ground",
+          "Psychic"
+        ],
+        "moves": [
+          "Reflect",
+          "Light Screen",
+          "Ancient Power",
+          "Earthquake"
+        ],
+        "item": null
+      },
+      {
+        "species": "Aggron",
+        "types": [
+          "Steel",
+          "Rock"
+        ],
+        "moves": [
+          "Thunder",
+          "Earthquake",
+          "Solar Beam",
+          "Dragon Claw"
+        ],
+        "item": null
+      },
+      {
+        "species": "Cradily",
+        "types": [
+          "Rock",
+          "Grass"
+        ],
+        "moves": [
+          "Giga Drain",
+          "Ingrain",
+          "Ancient Power",
+          "Confuse Ray"
+        ],
+        "item": null
+      },
+      {
+        "species": "Armaldo",
+        "types": [
+          "Rock",
+          "Bug"
+        ],
+        "moves": [
+          "Water Pulse",
+          "Ancient Power",
+          "Aerial Ace",
+          "Slash"
+        ],
+        "item": null
+      },
+      {
+        "species": "Metagross",
+        "types": [
+          "Steel",
+          "Psychic"
+        ],
+        "moves": [
+          "Earthquake",
+          "Psychic",
+          "Meteor Mash",
+          "Shadow Ball"
+        ],
+        "item": "Sitrus Berry"
+      }
+    ],
+    "location": "Meteor Falls Champion"
+  }
+]

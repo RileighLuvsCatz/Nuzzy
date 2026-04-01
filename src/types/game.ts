@@ -1,6 +1,7 @@
 export interface RouteDef {
   id: string;
   name: string;
+  catchPool?: string[];
   notes?: string;
   subsection?: string;
 }

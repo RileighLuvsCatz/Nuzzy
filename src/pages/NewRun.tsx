@@ -6,11 +6,14 @@ import { createRun, saveRun } from "../run/storage";
 export default function NewRun() {
   const navigate = useNavigate();
   const [runName, setRunName] = useState("");
-  const [gameId, setGameId] = useState(GAME_OPTIONS[0]?.id ?? "");
+
+  const firstSelectable = GAME_OPTIONS.find((g) => !g.disabled);
+  const [gameId, setGameId] = useState(firstSelectable?.id ?? "");
 
   function handleStart() {
     if (!runName.trim() || !gameId) return;
     const option = GAME_OPTIONS.find((g) => g.id === gameId);
+    if (option?.disabled) return;
     const run = createRun({
       name: runName.trim(),
       gameId,
@@ -34,7 +37,7 @@ export default function NewRun() {
           value={runName}
           onChange={(e) => setRunName(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleStart()}
-          placeholder="e.g. Seaglass Wedlocke"
+          placeholder="e.g. Emerald Nuzlocke"
           className="w-full px-3 py-2 bg-gray-900 border border-gray-800 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-red-500"
         />
       </div>
@@ -50,7 +53,7 @@ export default function NewRun() {
           className="w-full px-3 py-2 bg-gray-900 border border-gray-800 rounded-lg text-white focus:outline-none focus:border-red-500"
         >
           {GAME_OPTIONS.map((g) => (
-            <option key={g.id} value={g.id}>
+            <option key={g.id} value={g.id} disabled={g.disabled}>
               {g.title}
             </option>
           ))}

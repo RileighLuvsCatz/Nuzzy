@@ -1,0 +1,871 @@
+[
+  {
+    "id": "starter",
+    "name": "Starter",
+    "catchPool": [
+      "Treecko",
+      "Mudkip",
+      "Torchic"
+    ]
+  },
+  {
+    "id": "littleroot-town",
+    "name": "Littleroot Town",
+    "catchPool": [
+      "Chikorita",
+      "Cyndaquil",
+      "Totodile"
+    ]
+  },
+  {
+    "id": "route-101",
+    "name": "Route 101",
+    "catchPool": [
+      "Poochyena",
+      "Zigzagoon",
+      "Wurmple"
+    ]
+  },
+  {
+    "id": "route-103",
+    "name": "Route 103",
+    "catchPool": [
+      "Tentacool",
+      "Magikarp",
+      "Poochyena",
+      "Zigzagoon",
+      "Wingull",
+      "Pelipper",
+      "Sharpedo",
+      "Wailmer"
+    ]
+  },
+  {
+    "id": "route-102",
+    "name": "Route 102",
+    "catchPool": [
+      "Goldeen",
+      "Magikarp",
+      "Marill",
+      "Poochyena",
+      "Zigzagoon",
+      "Wurmple",
+      "Lotad",
+      "Seedot",
+      "Ralts",
+      "Corphish"
+    ]
+  },
+  {
+    "id": "petalburg-city",
+    "name": "Petalburg City",
+    "catchPool": [
+      "Goldeen",
+      "Magikarp",
+      "Marill",
+      "Corphish"
+    ]
+  },
+  {
+    "id": "route-104",
+    "name": "Route 104",
+    "catchPool": [
+      "Magikarp",
+      "Marill",
+      "Poochyena",
+      "Wurmple",
+      "Taillow",
+      "Wingull",
+      "Pelipper"
+    ]
+  },
+  {
+    "id": "petalburg-woods",
+    "name": "Petalburg Woods",
+    "catchPool": [
+      "Poochyena",
+      "Wurmple",
+      "Silcoon",
+      "Cascoon",
+      "Taillow",
+      "Shroomish",
+      "Slakoth"
+    ]
+  },
+  {
+    "id": "rustboro-city",
+    "name": "Rustboro City",
+    "catchPool": [
+      "Seedot",
+      "Lileep",
+      "Anorith"
+    ]
+  },
+  {
+    "id": "route-105",
+    "name": "Route 105",
+    "catchPool": [
+      "Tentacool",
+      "Magikarp",
+      "Wingull",
+      "Pelipper",
+      "Wailmer",
+      "Regice"
+    ]
+  },
+  {
+    "id": "route-116",
+    "name": "Route 116",
+    "catchPool": [
+      "Abra",
+      "Poochyena",
+      "Taillow",
+      "Nincada",
+      "Whismur",
+      "Skitty"
+    ]
+  },
+  {
+    "id": "rusturf-tunnel",
+    "name": "Rusturf Tunnel",
+    "catchPool": [
+      "Whismur"
+    ]
+  },
+  {
+    "id": "dewford-town",
+    "name": "Dewford Town",
+    "catchPool": [
+      "Tentacool",
+      "Magikarp",
+      "Wailmer"
+    ]
+  },
+  {
+    "id": "route-106",
+    "name": "Route 106",
+    "catchPool": [
+      "Tentacool",
+      "Magikarp",
+      "Wingull",
+      "Pelipper",
+      "Wailmer"
+    ]
+  },
+  {
+    "id": "granite-cave",
+    "name": "Granite Cave",
+    "catchPool": [
+      "Zubat",
+      "Abra",
+      "Geodude",
+      "Makuhita",
+      "Nosepass",
+      "Sableye",
+      "Aron"
+    ]
+  },
+  {
+    "id": "route-107",
+    "name": "Route 107",
+    "catchPool": [
+      "Tentacool",
+      "Magikarp",
+      "Wingull",
+      "Pelipper",
+      "Wailmer"
+    ]
+  },
+  {
+    "id": "slateport-city",
+    "name": "Slateport City",
+    "catchPool": [
+      "Tentacool",
+      "Magikarp",
+      "Wingull",
+      "Pelipper",
+      "Wailmer"
+    ]
+  },
+  {
+    "id": "route-110",
+    "name": "Route 110",
+    "catchPool": [
+      "Oddish",
+      "Tentacool",
+      "Magikarp",
+      "Poochyena",
+      "Wingull",
+      "Pelipper",
+      "Electrike",
+      "Plusle",
+      "Minun",
+      "Gulpin",
+      "Wailmer"
+    ]
+  },
+  {
+    "id": "altering-cave",
+    "name": "Altering Cave",
+    "catchPool": [
+      "Zubat",
+      "Mareep",
+      "Aipom",
+      "Pineco",
+      "Shuckle",
+      "Teddiursa",
+      "Houndour",
+      "Stantler",
+      "Smeargle"
+    ]
+  },
+  {
+    "id": "route-117",
+    "name": "Route 117",
+    "catchPool": [
+      "Oddish",
+      "Goldeen",
+      "Magikarp",
+      "Marill",
+      "Poochyena",
+      "Seedot",
+      "Volbeat",
+      "Illumise",
+      "Corphish"
+    ]
+  },
+  {
+    "id": "route-112",
+    "name": "Route 112",
+    "catchPool": [
+      "Marill",
+      "Numel"
+    ]
+  },
+  {
+    "id": "route-113",
+    "name": "Route 113",
+    "catchPool": [
+      "Slugma",
+      "Skarmory",
+      "Spinda"
+    ]
+  },
+  {
+    "id": "route-114",
+    "name": "Route 114",
+    "catchPool": [
+      "Geodude",
+      "Goldeen",
+      "Magikarp",
+      "Marill",
+      "Lotad",
+      "Lombre",
+      "Nuzleaf",
+      "Swablu",
+      "Seviper",
+      "Barboach"
+    ]
+  },
+  {
+    "id": "desert-underpass",
+    "name": "Desert Underpass",
+    "catchPool": [
+      "Ditto",
+      "Whismur",
+      "Loudred"
+    ]
+  },
+  {
+    "id": "meteor-falls",
+    "name": "Meteor Falls",
+    "catchPool": [
+      "Zubat",
+      "Golbat",
+      "Goldeen",
+      "Magikarp",
+      "Solrock",
+      "Barboach",
+      "Whiscash",
+      "Bagon"
+    ]
+  },
+  {
+    "id": "route-115",
+    "name": "Route 115",
+    "catchPool": [
+      "Jigglypuff",
+      "Tentacool",
+      "Magikarp",
+      "Taillow",
+      "Swellow",
+      "Wingull",
+      "Pelipper",
+      "Wailmer",
+      "Swablu"
+    ]
+  },
+  {
+    "id": "jagged-pass",
+    "name": "Jagged Pass",
+    "catchPool": [
+      "Machop",
+      "Numel",
+      "Spoink"
+    ]
+  },
+  {
+    "id": "lavaridge-town",
+    "name": "Lavaridge Town",
+    "catchPool": [
+      "Wynaut"
+    ]
+  },
+  {
+    "id": "fiery-path",
+    "name": "Fiery Path",
+    "catchPool": [
+      "Machop",
+      "Grimer",
+      "Koffing",
+      "Slugma",
+      "Numel",
+      "Torkoal"
+    ]
+  },
+  {
+    "id": "route-111",
+    "name": "Route 111",
+    "catchPool": [
+      "Sandshrew",
+      "Geodude",
+      "Goldeen",
+      "Magikarp",
+      "Marill",
+      "Trapinch",
+      "Cacnea",
+      "Barboach",
+      "Baltoy",
+      "Regirock"
+    ]
+  },
+  {
+    "id": "mirage-tower",
+    "name": "Mirage Tower",
+    "catchPool": [
+      "Sandshrew",
+      "Trapinch"
+    ]
+  },
+  {
+    "id": "new-mauville",
+    "name": "New Mauville",
+    "catchPool": [
+      "Magnemite",
+      "Magneton",
+      "Voltorb",
+      "Electrode"
+    ]
+  },
+  {
+    "id": "route-118",
+    "name": "Route 118",
+    "catchPool": [
+      "Tentacool",
+      "Goldeen",
+      "Magikarp",
+      "Zigzagoon",
+      "Linoone",
+      "Wingull",
+      "Pelipper",
+      "Electrike",
+      "Manectric",
+      "Carvanha",
+      "Sharpedo",
+      "Kecleon"
+    ]
+  },
+  {
+    "id": "route-119",
+    "name": "Route 119",
+    "catchPool": [
+      "Oddish",
+      "Tentacool",
+      "Goldeen",
+      "Magikarp",
+      "Zigzagoon",
+      "Linoone",
+      "Wingull",
+      "Pelipper",
+      "Carvanha",
+      "Feebas",
+      "Castform",
+      "Kecleon",
+      "Tropius"
+    ]
+  },
+  {
+    "id": "fortree-city",
+    "name": "Fortree City",
+    "catchPool": [
+      "Skitty",
+      "Plusle"
+    ]
+  },
+  {
+    "id": "route-120",
+    "name": "Route 120",
+    "catchPool": [
+      "Oddish",
+      "Goldeen",
+      "Magikarp",
+      "Marill",
+      "Poochyena",
+      "Mightyena",
+      "Seedot",
+      "Barboach",
+      "Kecleon",
+      "Absol",
+      "Registeel"
+    ]
+  },
+  {
+    "id": "route-121",
+    "name": "Route 121",
+    "catchPool": [
+      "Oddish",
+      "Gloom",
+      "Tentacool",
+      "Magikarp",
+      "Poochyena",
+      "Mightyena",
+      "Wingull",
+      "Pelipper",
+      "Wailmer",
+      "Kecleon",
+      "Shuppet"
+    ]
+  },
+  {
+    "id": "safari-zone",
+    "name": "Safari Zone",
+    "catchPool": [
+      "Pikachu",
+      "Oddish",
+      "Gloom",
+      "Psyduck",
+      "Golduck",
+      "Geodude",
+      "Doduo",
+      "Dodrio",
+      "Rhyhorn",
+      "Goldeen",
+      "Seaking",
+      "Pinsir",
+      "Magikarp",
+      "Hoothoot",
+      "Ledyba",
+      "Spinarak",
+      "Natu",
+      "Xatu",
+      "Mareep",
+      "Marill",
+      "Aipom",
+      "Sunkern",
+      "Wooper",
+      "Quagsire",
+      "Wobbuffet",
+      "Girafarig",
+      "Pineco",
+      "Gligar",
+      "Snubbull",
+      "Shuckle",
+      "Heracross",
+      "Teddiursa",
+      "Remoraid",
+      "Octillery",
+      "Houndour",
+      "Phanpy",
+      "Stantler",
+      "Miltank"
+    ]
+  },
+  {
+    "id": "route-122",
+    "name": "Route 122",
+    "catchPool": [
+      "Tentacool",
+      "Magikarp",
+      "Wingull",
+      "Pelipper",
+      "Sharpedo",
+      "Wailmer"
+    ]
+  },
+  {
+    "id": "mt-pyre",
+    "name": "Mt. Pyre",
+    "catchPool": [
+      "Vulpix",
+      "Wingull",
+      "Shuppet",
+      "Duskull",
+      "Chimecho"
+    ]
+  },
+  {
+    "id": "route-123",
+    "name": "Route 123",
+    "catchPool": [
+      "Oddish",
+      "Gloom",
+      "Tentacool",
+      "Magikarp",
+      "Poochyena",
+      "Mightyena",
+      "Wingull",
+      "Pelipper",
+      "Wailmer",
+      "Kecleon",
+      "Shuppet"
+    ]
+  },
+  {
+    "id": "team-magma-hideout",
+    "name": "Team Magma Hideout",
+    "catchPool": [
+      "Geodude",
+      "Graveler",
+      "Electrode",
+      "Torkoal"
+    ]
+  },
+  {
+    "id": "lilycove-city",
+    "name": "Lilycove City",
+    "catchPool": [
+      "Tentacool",
+      "Staryu",
+      "Magikarp",
+      "Wingull",
+      "Pelipper",
+      "Wailmer"
+    ]
+  },
+  {
+    "id": "route-124",
+    "name": "Route 124",
+    "catchPool": [
+      "Tentacool",
+      "Magikarp",
+      "Chinchou",
+      "Wingull",
+      "Pelipper",
+      "Sharpedo",
+      "Wailmer",
+      "Clamperl",
+      "Relicanth"
+    ]
+  },
+  {
+    "id": "mossdeep-city",
+    "name": "Mossdeep City",
+    "catchPool": [
+      "Tentacool",
+      "Magikarp",
+      "Wingull",
+      "Pelipper",
+      "Sharpedo",
+      "Wailmer",
+      "Beldum"
+    ]
+  },
+  {
+    "id": "route-125",
+    "name": "Route 125",
+    "catchPool": [
+      "Tentacool",
+      "Magikarp",
+      "Wingull",
+      "Pelipper",
+      "Sharpedo",
+      "Wailmer"
+    ]
+  },
+  {
+    "id": "shoal-cave",
+    "name": "Shoal Cave",
+    "catchPool": [
+      "Zubat",
+      "Golbat",
+      "Tentacool",
+      "Magikarp",
+      "Wailmer",
+      "Snorunt",
+      "Spheal"
+    ]
+  },
+  {
+    "id": "route-127",
+    "name": "Route 127",
+    "catchPool": [
+      "Tentacool",
+      "Magikarp",
+      "Wingull",
+      "Pelipper",
+      "Sharpedo",
+      "Wailmer"
+    ]
+  },
+  {
+    "id": "route-128",
+    "name": "Route 128",
+    "catchPool": [
+      "Tentacool",
+      "Magikarp",
+      "Corsola",
+      "Wingull",
+      "Pelipper",
+      "Wailmer",
+      "Luvdisc"
+    ]
+  },
+  {
+    "id": "seafloor-cavern",
+    "name": "Seafloor Cavern",
+    "catchPool": [
+      "Zubat",
+      "Golbat",
+      "Tentacool",
+      "Magikarp",
+      "Wailmer"
+    ]
+  },
+  {
+    "id": "route-126",
+    "name": "Route 126",
+    "catchPool": [
+      "Tentacool",
+      "Magikarp",
+      "Chinchou",
+      "Wingull",
+      "Pelipper",
+      "Sharpedo",
+      "Wailmer",
+      "Clamperl",
+      "Relicanth"
+    ]
+  },
+  {
+    "id": "sootopolis-city",
+    "name": "Sootopolis City",
+    "catchPool": [
+      "Tentacool",
+      "Magikarp",
+      "Gyarados"
+    ]
+  },
+  {
+    "id": "cave-of-origin",
+    "name": "Cave of Origin",
+    "catchPool": [
+      "Zubat",
+      "Golbat",
+      "Sableye",
+      "Mawile",
+      "Kyogre",
+      "Groudon"
+    ]
+  },
+  {
+    "id": "route-129",
+    "name": "Route 129",
+    "catchPool": [
+      "Tentacool",
+      "Magikarp",
+      "Wingull",
+      "Pelipper",
+      "Sharpedo",
+      "Wailmer",
+      "Wailord"
+    ]
+  },
+  {
+    "id": "route-130",
+    "name": "Route 130",
+    "catchPool": [
+      "Tentacool",
+      "Magikarp",
+      "Wingull",
+      "Pelipper",
+      "Sharpedo",
+      "Wailmer"
+    ]
+  },
+  {
+    "id": "route-131",
+    "name": "Route 131",
+    "catchPool": [
+      "Tentacool",
+      "Magikarp",
+      "Wingull",
+      "Pelipper",
+      "Sharpedo",
+      "Wailmer"
+    ]
+  },
+  {
+    "id": "sky-pillar",
+    "name": "Sky Pillar",
+    "catchPool": [
+      "Golbat",
+      "Sableye",
+      "Altaria",
+      "Claydol",
+      "Banette",
+      "Rayquaza"
+    ]
+  },
+  {
+    "id": "pacifidlog-town",
+    "name": "Pacifidlog Town",
+    "catchPool": [
+      "Tentacool",
+      "Horsea",
+      "Magikarp",
+      "Wingull",
+      "Pelipper",
+      "Sharpedo",
+      "Wailmer"
+    ]
+  },
+  {
+    "id": "mirage-island",
+    "name": "Mirage Island",
+    "catchPool": [
+      "Wynaut"
+    ]
+  },
+  {
+    "id": "route-108",
+    "name": "Route 108",
+    "catchPool": [
+      "Tentacool",
+      "Magikarp",
+      "Wingull",
+      "Pelipper",
+      "Wailmer"
+    ]
+  },
+  {
+    "id": "abandoned-ship",
+    "name": "Abandoned Ship",
+    "catchPool": [
+      "Tentacool",
+      "Tentacruel",
+      "Magikarp"
+    ]
+  },
+  {
+    "id": "route-109",
+    "name": "Route 109",
+    "catchPool": [
+      "Tentacool",
+      "Magikarp",
+      "Wingull",
+      "Pelipper",
+      "Wailmer"
+    ]
+  },
+  {
+    "id": "route-132",
+    "name": "Route 132",
+    "catchPool": [
+      "Tentacool",
+      "Horsea",
+      "Magikarp",
+      "Wingull",
+      "Pelipper",
+      "Sharpedo",
+      "Wailmer"
+    ]
+  },
+  {
+    "id": "route-133",
+    "name": "Route 133",
+    "catchPool": [
+      "Tentacool",
+      "Horsea",
+      "Magikarp",
+      "Wingull",
+      "Pelipper",
+      "Sharpedo",
+      "Wailmer"
+    ]
+  },
+  {
+    "id": "route-134",
+    "name": "Route 134",
+    "catchPool": [
+      "Tentacool",
+      "Horsea",
+      "Magikarp",
+      "Wingull",
+      "Pelipper",
+      "Sharpedo",
+      "Wailmer"
+    ]
+  },
+  {
+    "id": "ever-grande-city",
+    "name": "Ever Grande City",
+    "catchPool": [
+      "Tentacool",
+      "Magikarp",
+      "Corsola",
+      "Wingull",
+      "Pelipper",
+      "Wailmer",
+      "Luvdisc"
+    ]
+  },
+  {
+    "id": "victory-road",
+    "name": "Victory Road",
+    "catchPool": [
+      "Zubat",
+      "Golbat",
+      "Geodude",
+      "Graveler",
+      "Goldeen",
+      "Magikarp",
+      "Whismur",
+      "Loudred",
+      "Makuhita",
+      "Hariyama",
+      "Sableye",
+      "Mawile",
+      "Aron",
+      "Lairon",
+      "Barboach",
+      "Whiscash"
+    ]
+  },
+  {
+    "id": "ss-tidal",
+    "name": "S.S. Tidal",
+    "catchPool": []
+  },
+  {
+    "id": "battle-frontier",
+    "name": "Battle Frontier",
+    "catchPool": []
+  },
+  {
+    "id": "artisan-cave",
+    "name": "Artisan Cave",
+    "catchPool": [
+      "Smeargle"
+    ]
+  }
+]

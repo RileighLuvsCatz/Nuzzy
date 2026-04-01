@@ -1,12 +1,20 @@
-import seaglassRoutes from "../data/games/emerald-seaglass/routes.json";
-import { EMERALD_SEAGLASS_GAME_ID } from "../data/games";
+import { getGamePack, EMERALD_GAME_ID } from "../data/games";
 import type { Encounter, Run, Status } from "../types";
 
-const STORAGE_KEY = "nuzzy_run";
+const LEGACY_KEY = "nuzzy_run";
+const LIBRARY_KEY = "nuzzy_run_library";
 
-const ROUTE_NAME_TO_ID = new Map(
-  seaglassRoutes.map((r) => [r.name, r.id] as const),
-);
+interface RunLibrary {
+  schemaVersion: 2;
+  runs: Run[];
+  activeRunId: string | null;
+}
+
+function routeNameToIdMap(gameId: string): Map<string, string> {
+  const pack = getGamePack(gameId);
+  if (!pack) return new Map();
+  return new Map(pack.routes.map((r) => [r.name, r.id]));
+}
 
 function isStatus(x: unknown): x is Status {
   return x === "Alive" || x === "Dead" || x === "Boxed";
@@ -14,13 +22,12 @@ function isStatus(x: unknown): x is Status {
 
 function normalizeEncounter(
   e: unknown,
-  routeNameToId: Map<string, string>,
+  nameToId: Map<string, string>,
 ): Encounter | null {
   if (!e || typeof e !== "object") return null;
   const obj = e as Record<string, unknown>;
   const id = typeof obj.id === "string" ? obj.id : crypto.randomUUID();
-  const pokemon =
-    typeof obj.pokemon === "string" ? obj.pokemon : "";
+  const pokemon = typeof obj.pokemon === "string" ? obj.pokemon : "";
   if (!pokemon) return null;
   const nickname =
     typeof obj.nickname === "string" && obj.nickname.trim()
@@ -29,101 +36,143 @@ function normalizeEncounter(
   const status = isStatus(obj.status) ? obj.status : "Alive";
   let routeId = typeof obj.routeId === "string" ? obj.routeId : "";
   if (!routeId && typeof obj.location === "string") {
-    routeId = routeNameToId.get(obj.location) ?? "";
+    routeId = nameToId.get(obj.location) ?? "";
   }
   if (!routeId && typeof obj.route === "string") {
-    routeId = routeNameToId.get(obj.route) ?? "";
+    routeId = nameToId.get(obj.route) ?? "";
   }
   if (!routeId) return null;
   return { id, routeId, pokemon, nickname, status };
 }
 
-function migrateToV1(data: Record<string, unknown>): Run | null {
+function parseRunRecord(data: Record<string, unknown>): Run | null {
+  const schemaVersion =
+    typeof data.schemaVersion === "number" ? data.schemaVersion : 0;
+
   const id = typeof data.id === "string" ? data.id : crypto.randomUUID();
   const name = typeof data.name === "string" ? data.name : "Run";
   const gameId =
-    typeof data.gameId === "string" ? data.gameId : EMERALD_SEAGLASS_GAME_ID;
+    typeof data.gameId === "string" ? data.gameId : EMERALD_GAME_ID;
   const gameTitle =
     typeof data.gameTitle === "string"
       ? data.gameTitle
       : typeof data.game === "string"
-        ? data.game
+        ? (data.game as string)
         : undefined;
   const createdAt =
     typeof data.createdAt === "string"
       ? data.createdAt
       : new Date().toISOString();
+
+  if (schemaVersion >= 1 && (!data.id || !data.name || !data.gameId || !data.createdAt)) {
+    return null;
+  }
+
+  const nameToId = routeNameToIdMap(gameId);
   const encRaw = data.encounters;
   const encounters: Encounter[] = [];
   if (Array.isArray(encRaw)) {
     for (const item of encRaw) {
-      const enc = normalizeEncounter(item, ROUTE_NAME_TO_ID);
+      const enc = normalizeEncounter(item, nameToId);
       if (enc) encounters.push(enc);
     }
   }
-  return {
-    id,
-    name,
-    gameId,
-    gameTitle,
-    createdAt,
-    encounters,
-    schemaVersion: 1,
-  };
+
+  return { id, name, gameId, gameTitle, createdAt, encounters, schemaVersion: 1 };
 }
 
-function parseRun(data: Record<string, unknown>): Run | null {
-  const schemaVersion =
-    typeof data.schemaVersion === "number" ? data.schemaVersion : 0;
-  if (schemaVersion < 1) {
-    return migrateToV1(data);
-  }
-
-  const id = typeof data.id === "string" ? data.id : null;
-  const name = typeof data.name === "string" ? data.name : null;
-  const gameId = typeof data.gameId === "string" ? data.gameId : null;
-  const createdAt = typeof data.createdAt === "string" ? data.createdAt : null;
-  if (!id || !name || !gameId || !createdAt) return null;
-
-  const encRaw = data.encounters;
-  if (!Array.isArray(encRaw)) return null;
-
-  const encounters: Encounter[] = [];
-  for (const item of encRaw) {
-    const enc = normalizeEncounter(item, ROUTE_NAME_TO_ID);
-    if (enc) encounters.push(enc);
-  }
-
-  return {
-    id,
-    name,
-    gameId,
-    gameTitle:
-      typeof data.gameTitle === "string" ? data.gameTitle : undefined,
-    createdAt,
-    encounters,
-    schemaVersion: 1,
-  };
-}
-
-export function loadRun(): Run | null {
-  const raw = localStorage.getItem(STORAGE_KEY);
+function loadLibraryRaw(): RunLibrary | null {
+  const raw = localStorage.getItem(LIBRARY_KEY);
   if (!raw) return null;
   try {
     const data = JSON.parse(raw) as unknown;
     if (!data || typeof data !== "object") return null;
-    return parseRun(data as Record<string, unknown>);
+    const obj = data as Record<string, unknown>;
+    if (obj.schemaVersion !== 2) return null;
+    if (!Array.isArray(obj.runs)) return null;
+
+    const runs: Run[] = [];
+    for (const r of obj.runs) {
+      if (r && typeof r === "object") {
+        const parsed = parseRunRecord(r as Record<string, unknown>);
+        if (parsed) runs.push(parsed);
+      }
+    }
+    const activeRunId =
+      typeof obj.activeRunId === "string" ? obj.activeRunId : null;
+    return { schemaVersion: 2, runs, activeRunId };
   } catch {
     return null;
   }
 }
 
-export function saveRun(run: Run): void {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(run));
+function migrateLegacy(): RunLibrary | null {
+  const raw = localStorage.getItem(LEGACY_KEY);
+  if (!raw) return null;
+  try {
+    const data = JSON.parse(raw) as unknown;
+    if (!data || typeof data !== "object") return null;
+    const run = parseRunRecord(data as Record<string, unknown>);
+    if (!run) return null;
+    const lib: RunLibrary = {
+      schemaVersion: 2,
+      runs: [run],
+      activeRunId: run.id,
+    };
+    persistLibrary(lib);
+    localStorage.removeItem(LEGACY_KEY);
+    return lib;
+  } catch {
+    return null;
+  }
 }
 
-export function clearRun(): void {
-  localStorage.removeItem(STORAGE_KEY);
+function persistLibrary(lib: RunLibrary): void {
+  localStorage.setItem(LIBRARY_KEY, JSON.stringify(lib));
+}
+
+function getLibrary(): RunLibrary {
+  return loadLibraryRaw() ?? migrateLegacy() ?? { schemaVersion: 2, runs: [], activeRunId: null };
+}
+
+// ---- Public API ----
+
+export function listRuns(): Run[] {
+  return getLibrary().runs;
+}
+
+export function loadActiveRun(): Run | null {
+  const lib = getLibrary();
+  if (!lib.activeRunId) return null;
+  return lib.runs.find((r) => r.id === lib.activeRunId) ?? null;
+}
+
+export function setActiveRun(id: string): void {
+  const lib = getLibrary();
+  if (!lib.runs.some((r) => r.id === id)) return;
+  lib.activeRunId = id;
+  persistLibrary(lib);
+}
+
+export function saveRun(run: Run): void {
+  const lib = getLibrary();
+  const idx = lib.runs.findIndex((r) => r.id === run.id);
+  if (idx >= 0) {
+    lib.runs[idx] = run;
+  } else {
+    lib.runs.push(run);
+  }
+  lib.activeRunId = run.id;
+  persistLibrary(lib);
+}
+
+export function deleteRun(id: string): void {
+  const lib = getLibrary();
+  lib.runs = lib.runs.filter((r) => r.id !== id);
+  if (lib.activeRunId === id) {
+    lib.activeRunId = lib.runs[0]?.id ?? null;
+  }
+  persistLibrary(lib);
 }
 
 export function createRun(params: {

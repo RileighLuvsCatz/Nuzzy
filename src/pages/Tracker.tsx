@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { getGamePack } from "../data/games";
-import { loadRun, saveRun } from "../run/storage";
+import { loadActiveRun, saveRun } from "../run/storage";
 import type { BossDef, RouteDef } from "../types/game";
 import type { Encounter, Status } from "../types";
 
@@ -19,11 +19,127 @@ function bossMap(bosses: BossDef[]): Map<string, BossDef> {
   return new Map(bosses.map((b) => [b.id, b]));
 }
 
-export default function Tracker() {
-  const [run, setRun] = useState(() => loadRun());
-  const [pokemon, setPokemon] = useState("");
+function RouteSection({
+  route,
+  encounters,
+  onAdd,
+  onStatusChange,
+}: {
+  route: RouteDef;
+  encounters: Encounter[];
+  onAdd: (routeId: string, pokemon: string, nickname: string, status: Status) => void;
+  onStatusChange: (encounterId: string, newStatus: Status) => void;
+}) {
+  const pool = route.catchPool ?? [];
+  const [species, setSpecies] = useState(pool[0] ?? "");
   const [nickname, setNickname] = useState("");
   const [status, setStatus] = useState<Status>("Alive");
+
+  function handleLog() {
+    if (!species || !nickname.trim()) return;
+    onAdd(route.id, species, nickname.trim(), status);
+    setNickname("");
+    setStatus("Alive");
+  }
+
+  return (
+    <section className="border border-gray-800 rounded-xl overflow-hidden bg-gray-900/50">
+      <div className="px-4 py-3 bg-gray-900 border-b border-gray-800">
+        <span className="font-semibold text-white">{route.name}</span>
+        <span className="text-gray-500 text-sm ml-2">
+          {encounters.length} encounter{encounters.length !== 1 ? "s" : ""}
+        </span>
+      </div>
+
+      <div className="p-4 space-y-3">
+        {pool.length > 0 ? (
+          <div className="flex flex-wrap items-end gap-2">
+            <div className="space-y-1 min-w-[140px] flex-1">
+              <label className="block text-xs text-gray-400">Pokémon</label>
+              <select
+                value={species}
+                onChange={(e) => setSpecies(e.target.value)}
+                className="w-full px-2 py-1.5 bg-gray-800 border border-gray-700 rounded text-sm text-white focus:outline-none focus:border-red-500"
+              >
+                {pool.map((s) => (
+                  <option key={s} value={s}>
+                    {s}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="space-y-1 min-w-[120px] flex-1">
+              <label className="block text-xs text-gray-400">Nickname</label>
+              <input
+                type="text"
+                value={nickname}
+                onChange={(e) => setNickname(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleLog()}
+                placeholder="Nickname"
+                className="w-full px-2 py-1.5 bg-gray-800 border border-gray-700 rounded text-sm text-white placeholder-gray-500 focus:outline-none focus:border-red-500"
+              />
+            </div>
+            <div className="space-y-1 min-w-[90px]">
+              <label className="block text-xs text-gray-400">Status</label>
+              <select
+                value={status}
+                onChange={(e) => setStatus(e.target.value as Status)}
+                className="w-full px-2 py-1.5 bg-gray-800 border border-gray-700 rounded text-sm text-white focus:outline-none focus:border-red-500"
+              >
+                <option value="Alive">Alive</option>
+                <option value="Dead">Dead</option>
+                <option value="Boxed">Boxed</option>
+              </select>
+            </div>
+            <button
+              type="button"
+              onClick={handleLog}
+              disabled={!species || !nickname.trim()}
+              className="px-4 py-1.5 bg-red-500 hover:bg-red-400 disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed text-white text-sm font-semibold rounded transition-colors"
+            >
+              Log
+            </button>
+          </div>
+        ) : (
+          <p className="text-gray-600 text-sm italic">
+            No encounter data for this area.
+          </p>
+        )}
+
+        {encounters.map((encounter) => (
+          <div
+            key={encounter.id}
+            className="flex items-center justify-between bg-gray-900 border border-gray-800 rounded-lg px-4 py-3 gap-3 flex-wrap"
+          >
+            <div>
+              <span className="font-medium text-white">
+                {encounter.nickname}
+              </span>
+              <span className="text-gray-400 text-sm ml-2">
+                ({encounter.pokemon})
+              </span>
+            </div>
+            <select
+              value={encounter.status}
+              onChange={(e) =>
+                onStatusChange(encounter.id, e.target.value as Status)
+              }
+              className={`bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm focus:outline-none shrink-0 ${STATUS_COLORS[encounter.status]}`}
+              aria-label={`Status for ${encounter.nickname}`}
+            >
+              <option value="Alive">Alive</option>
+              <option value="Dead">Dead</option>
+              <option value="Boxed">Boxed</option>
+            </select>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+export default function Tracker() {
+  const [run, setRun] = useState(() => loadActiveRun());
 
   const pack = run ? getGamePack(run.gameId) : undefined;
   const routesById = useMemo(
@@ -35,37 +151,25 @@ export default function Tracker() {
     [pack],
   );
 
-  const defaultRouteId = pack?.routes[0]?.id ?? "";
-  const [selectedRouteId, setSelectedRouteId] = useState(defaultRouteId);
-
-  useEffect(() => {
-    if (pack?.routes[0]?.id) {
-      setSelectedRouteId((prev) =>
-        prev && routesById.has(prev) ? prev : (pack.routes[0]?.id ?? ""),
-      );
-    }
-  }, [pack, routesById]);
-
   useEffect(() => {
     if (run) saveRun(run);
   }, [run]);
 
-  function handleAddEncounter() {
-    if (!run || !pack || !pokemon.trim() || !nickname.trim()) return;
-    if (!selectedRouteId || !routesById.has(selectedRouteId)) return;
-
+  function handleAddEncounter(
+    routeId: string,
+    pokemon: string,
+    nickname: string,
+    status: Status,
+  ) {
+    if (!run) return;
     const newEncounter: Encounter = {
       id: crypto.randomUUID(),
-      routeId: selectedRouteId,
-      pokemon: pokemon.trim(),
-      nickname: nickname.trim(),
+      routeId,
+      pokemon,
+      nickname,
       status,
     };
-
     setRun({ ...run, encounters: [...run.encounters, newEncounter] });
-    setPokemon("");
-    setNickname("");
-    setStatus("Alive");
   }
 
   function handleStatusChange(encounterId: string, newStatus: Status) {
@@ -113,79 +217,6 @@ export default function Tracker() {
         <p className="text-gray-400">{displayTitle}</p>
       </div>
 
-      <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 space-y-4">
-        <h2 className="text-lg font-semibold text-white">Log encounter</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-1">
-            <label htmlFor="route" className="block text-sm text-gray-400">
-              Route / area
-            </label>
-            <select
-              id="route"
-              value={selectedRouteId}
-              onChange={(e) => setSelectedRouteId(e.target.value)}
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-red-500"
-            >
-              {pack.routes.map((r) => (
-                <option key={r.id} value={r.id}>
-                  {r.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="space-y-1">
-            <label htmlFor="status" className="block text-sm text-gray-400">
-              Status
-            </label>
-            <select
-              id="status"
-              value={status}
-              onChange={(e) => setStatus(e.target.value as Status)}
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-red-500"
-            >
-              <option value="Alive">Alive</option>
-              <option value="Dead">Dead</option>
-              <option value="Boxed">Boxed</option>
-            </select>
-          </div>
-          <div className="space-y-1">
-            <label htmlFor="pokemon" className="block text-sm text-gray-400">
-              Pokémon
-            </label>
-            <input
-              id="pokemon"
-              type="text"
-              value={pokemon}
-              onChange={(e) => setPokemon(e.target.value)}
-              placeholder="e.g. Torchic"
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-red-500"
-            />
-          </div>
-          <div className="space-y-1">
-            <label htmlFor="nickname" className="block text-sm text-gray-400">
-              Nickname
-            </label>
-            <input
-              id="nickname"
-              type="text"
-              value={nickname}
-              onChange={(e) => setNickname(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleAddEncounter()}
-              placeholder="e.g. Blaze"
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-red-500"
-            />
-          </div>
-        </div>
-        <button
-          type="button"
-          onClick={handleAddEncounter}
-          disabled={!pokemon.trim() || !nickname.trim()}
-          className="px-6 py-2 bg-red-500 hover:bg-red-400 disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition-colors"
-        >
-          Log encounter
-        </button>
-      </div>
-
       <div className="space-y-6">
         <h2 className="text-lg font-semibold text-white">Progression</h2>
         {pack.progression.map((segment, index) => {
@@ -196,61 +227,13 @@ export default function Tracker() {
               (e) => e.routeId === segment.routeId,
             );
             return (
-              <section
+              <RouteSection
                 key={`route-${segment.routeId}-${index}`}
-                className="border border-gray-800 rounded-xl overflow-hidden bg-gray-900/50"
-              >
-                <button
-                  type="button"
-                  onClick={() => setSelectedRouteId(segment.routeId)}
-                  className="w-full text-left px-4 py-3 bg-gray-900 hover:bg-gray-800/80 transition-colors border-b border-gray-800"
-                >
-                  <span className="font-semibold text-white">{route.name}</span>
-                  <span className="text-gray-500 text-sm ml-2">
-                    {forRoute.length} encounter
-                    {forRoute.length !== 1 ? "s" : ""}
-                  </span>
-                  <span className="text-gray-600 text-xs ml-2">
-                    (click to select in form)
-                  </span>
-                </button>
-                <div className="p-4 space-y-2">
-                  {forRoute.length === 0 ? (
-                    <p className="text-gray-500 text-sm">No Pokémon logged.</p>
-                  ) : (
-                    forRoute.map((encounter) => (
-                      <div
-                        key={encounter.id}
-                        className="flex items-center justify-between bg-gray-900 border border-gray-800 rounded-lg px-4 py-3 gap-3 flex-wrap"
-                      >
-                        <div>
-                          <span className="font-medium text-white">
-                            {encounter.nickname}
-                          </span>
-                          <span className="text-gray-400 text-sm ml-2">
-                            ({encounter.pokemon})
-                          </span>
-                        </div>
-                        <select
-                          value={encounter.status}
-                          onChange={(e) =>
-                            handleStatusChange(
-                              encounter.id,
-                              e.target.value as Status,
-                            )
-                          }
-                          className={`bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm focus:outline-none shrink-0 ${STATUS_COLORS[encounter.status]}`}
-                          aria-label={`Status for ${encounter.nickname}`}
-                        >
-                          <option value="Alive">Alive</option>
-                          <option value="Dead">Dead</option>
-                          <option value="Boxed">Boxed</option>
-                        </select>
-                      </div>
-                    ))
-                  )}
-                </div>
-               </section>
+                route={route}
+                encounters={forRoute}
+                onAdd={handleAddEncounter}
+                onStatusChange={handleStatusChange}
+              />
             );
           }
 
@@ -283,7 +266,9 @@ export default function Tracker() {
                         key={`${boss.id}-${member.species}-${i}`}
                         className="border-b border-gray-800/80 last:border-0"
                       >
-                        <td className="py-2 pr-4 text-white">{member.species}</td>
+                        <td className="py-2 pr-4 text-white">
+                          {member.species}
+                        </td>
                         <td className="py-2 pr-4 text-gray-300">
                           {member.types.join(" / ")}
                         </td>
