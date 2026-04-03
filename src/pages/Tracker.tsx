@@ -4,6 +4,7 @@ import { getGamePack } from "../data/games";
 import { loadActiveRun, saveRun } from "../run/storage";
 import type { BossDef, RouteDef } from "../types/game";
 import type { Encounter, Status } from "../types";
+import PokemonSprite from "../components/PokemonSprite";
 
 const STATUS_COLORS: Record<Status, string> = {
   Alive: "text-green-400",
@@ -54,6 +55,11 @@ function RouteSection({
       <div className="p-4 space-y-3">
         {pool.length > 0 ? (
           <div className="flex flex-wrap items-end gap-2">
+            {species && (
+              <div className="shrink-0 self-center w-10 h-10 rounded-md bg-gray-800 flex items-center justify-center overflow-hidden">
+                <PokemonSprite species={species} size={36} />
+              </div>
+            )}
             <div className="space-y-1 min-w-[140px] flex-1">
               <label className="block text-xs text-gray-400">Pokémon</label>
               <select
@@ -109,14 +115,17 @@ function RouteSection({
         {encounters.map((encounter) => (
           <div
             key={encounter.id}
-            className="flex items-center justify-between bg-gray-900 border border-gray-800 rounded-lg px-4 py-3 gap-3 flex-wrap"
+            className="flex items-center bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 gap-3"
           >
-            <div>
+            <div className="shrink-0 w-10 h-10 rounded-md bg-gray-800 flex items-center justify-center overflow-hidden">
+              <PokemonSprite species={encounter.pokemon} size={36} />
+            </div>
+            <div className="flex-1 min-w-0">
               <span className="font-medium text-white">
                 {encounter.nickname}
               </span>
-              <span className="text-gray-400 text-sm ml-2">
-                ({encounter.pokemon})
+              <span className="text-gray-500 text-sm ml-1.5">
+                {encounter.pokemon}
               </span>
             </div>
             <select
@@ -267,7 +276,10 @@ export default function Tracker() {
                         className="border-b border-gray-800/80 last:border-0"
                       >
                         <td className="py-2 pr-4 text-white">
-                          {member.species}
+                          <span className="inline-flex items-center gap-1.5">
+                            <PokemonSprite species={member.species} size={28} />
+                            {member.species}
+                          </span>
                         </td>
                         <td className="py-2 pr-4 text-gray-300">
                           {member.types.join(" / ")}
