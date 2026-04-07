@@ -26,7 +26,7 @@ export default function Navbar() {
   function handlePick(id: string) {
     setActiveRun(id);
     setOpen(false);
-    navigate("/tracker");
+    navigate("/tracker", { state: { activeRunId: id }, replace: true });
   }
 
   return (

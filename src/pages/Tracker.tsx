@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { getGamePack } from "../data/games";
 import { loadActiveRun, saveRun } from "../run/storage";
 import type { BossDef, RouteDef } from "../types/game";
@@ -148,7 +148,12 @@ function RouteSection({
 }
 
 export default function Tracker() {
+  const location = useLocation();
   const [run, setRun] = useState(() => loadActiveRun());
+
+  useEffect(() => {
+    setRun(loadActiveRun());
+  }, [location.state]);
 
   const pack = run ? getGamePack(run.gameId) : undefined;
   const routesById = useMemo(
