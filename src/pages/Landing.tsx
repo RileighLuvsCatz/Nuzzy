@@ -56,8 +56,8 @@ export default function Landing() {
           </li>
         </ul>
         <p className="text-sm text-gray-500">
-          Nuzzy tracks your encounters, boss battles, and team status (Alive /
-          Dead / Boxed) along the game's progression so you can focus on the
+          Nuzzy tracks your encounters, boss battles, and team status (Team /
+          Boxed / Dead) along the game's progression so you can focus on the
           run.
         </p>
       </section>

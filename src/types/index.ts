@@ -1,4 +1,4 @@
-export type Status = "Alive" | "Dead" | "Boxed";
+export type Status = "Team" | "Boxed" | "Dead";
 
 export interface Encounter {
   id: string;

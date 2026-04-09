@@ -17,7 +17,13 @@ function routeNameToIdMap(gameId: string): Map<string, string> {
 }
 
 function isStatus(x: unknown): x is Status {
-  return x === "Alive" || x === "Dead" || x === "Boxed";
+  return x === "Team" || x === "Dead" || x === "Boxed";
+}
+
+function migrateStatus(x: unknown): Status {
+  if (x === "Alive") return "Team";
+  if (isStatus(x)) return x;
+  return "Team";
 }
 
 function normalizeEncounter(
@@ -33,7 +39,7 @@ function normalizeEncounter(
     typeof obj.nickname === "string" && obj.nickname.trim()
       ? obj.nickname.trim()
       : pokemon;
-  const status = isStatus(obj.status) ? obj.status : "Alive";
+  const status = migrateStatus(obj.status);
   let routeId = typeof obj.routeId === "string" ? obj.routeId : "";
   if (!routeId && typeof obj.location === "string") {
     routeId = nameToId.get(obj.location) ?? "";

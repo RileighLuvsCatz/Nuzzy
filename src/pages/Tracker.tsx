@@ -7,7 +7,7 @@ import type { Encounter, Status } from "../types";
 import PokemonSprite from "../components/PokemonSprite";
 
 const STATUS_COLORS: Record<Status, string> = {
-  Alive: "text-green-400",
+  Team: "text-green-400",
   Dead: "text-red-400",
   Boxed: "text-yellow-400",
 };
@@ -34,13 +34,13 @@ function RouteSection({
   const pool = route.catchPool ?? [];
   const [species, setSpecies] = useState(pool[0] ?? "");
   const [nickname, setNickname] = useState("");
-  const [status, setStatus] = useState<Status>("Alive");
+  const [status, setStatus] = useState<Status>("Team");
 
   function handleLog() {
     if (!species || !nickname.trim()) return;
     onAdd(route.id, species, nickname.trim(), status);
     setNickname("");
-    setStatus("Alive");
+    setStatus("Team");
   }
 
   return (
@@ -92,9 +92,9 @@ function RouteSection({
                 onChange={(e) => setStatus(e.target.value as Status)}
                 className="w-full px-2 py-1.5 bg-gray-800 border border-gray-700 rounded text-sm text-white focus:outline-none focus:border-red-500"
               >
-                <option value="Alive">Alive</option>
-                <option value="Dead">Dead</option>
+                <option value="Team">Team</option>
                 <option value="Boxed">Boxed</option>
+                <option value="Dead">Dead</option>
               </select>
             </div>
             <button
@@ -136,9 +136,9 @@ function RouteSection({
               className={`bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm focus:outline-none shrink-0 ${STATUS_COLORS[encounter.status]}`}
               aria-label={`Status for ${encounter.nickname}`}
             >
-              <option value="Alive">Alive</option>
-              <option value="Dead">Dead</option>
+              <option value="Team">Team</option>
               <option value="Boxed">Boxed</option>
+              <option value="Dead">Dead</option>
             </select>
           </div>
         ))}
