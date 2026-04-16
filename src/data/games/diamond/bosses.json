@@ -1,0 +1,1871 @@
+[
+  {
+    "id": "b1",
+    "name": "Barry",
+    "team": [
+      {
+        "species": "Starly",
+        "types": [
+          "Normal",
+          "Flying"
+        ],
+        "moves": [
+          "Quick Attack",
+          "Growl"
+        ],
+        "item": null
+      },
+      {
+        "species": "Chimchar",
+        "types": [
+          "Fire"
+        ],
+        "moves": [
+          "Scratch",
+          "Leer"
+        ],
+        "item": null
+      },
+      {
+        "species": "Piplup",
+        "types": [
+          "Water"
+        ],
+        "moves": [
+          "Pound",
+          "Growl"
+        ],
+        "item": null
+      },
+      {
+        "species": "Turtwig",
+        "types": [
+          "Grass"
+        ],
+        "moves": [
+          "Tackle",
+          "Withdraw"
+        ],
+        "item": null
+      }
+    ],
+    "location": "Route 203"
+  },
+  {
+    "id": "b2",
+    "name": "Barry",
+    "team": [
+      {
+        "species": "Starly",
+        "types": [
+          "Normal",
+          "Flying"
+        ],
+        "moves": [
+          "Endeavor",
+          "Double Team",
+          "Wing Attack",
+          "Quick Attack"
+        ],
+        "item": null
+      },
+      {
+        "species": "Roselia",
+        "types": [
+          "Grass",
+          "Poison"
+        ],
+        "moves": [
+          "Poison Sting",
+          "Stun Spore",
+          "Mega Drain",
+          "Leech Seed"
+        ],
+        "item": null
+      },
+      {
+        "species": "Roselia",
+        "types": [
+          "Grass",
+          "Poison"
+        ],
+        "moves": [
+          "Poison Sting",
+          "Stun Spore",
+          "Mega Drain",
+          "Leech Seed"
+        ],
+        "item": null
+      },
+      {
+        "species": "Buizel",
+        "types": [
+          "Water"
+        ],
+        "moves": [
+          "Pursuit",
+          "Growl",
+          "Water Gun",
+          "Quick Attack"
+        ],
+        "item": null
+      },
+      {
+        "species": "Buizel",
+        "types": [
+          "Water"
+        ],
+        "moves": [
+          "Pursuit",
+          "Growl",
+          "Water Gun",
+          "Quick Attack"
+        ],
+        "item": null
+      },
+      {
+        "species": "Ponyta",
+        "types": [
+          "Fire"
+        ],
+        "moves": [
+          "Tackle",
+          "Tail Whip",
+          "Growl",
+          "Ember"
+        ],
+        "item": null
+      },
+      {
+        "species": "Ponyta",
+        "types": [
+          "Fire"
+        ],
+        "moves": [
+          "Tackle",
+          "Tail Whip",
+          "Growl",
+          "Ember"
+        ],
+        "item": null
+      },
+      {
+        "species": "Monferno",
+        "types": [
+          "Fire",
+          "Fighting"
+        ],
+        "moves": [
+          "Fury Swipes",
+          "Leer",
+          "Mach Punch",
+          "Flame Wheel"
+        ],
+        "item": null
+      },
+      {
+        "species": "Prinplup",
+        "types": [
+          "Water"
+        ],
+        "moves": [
+          "Peck",
+          "Metal Claw",
+          "Bubble",
+          "Growl"
+        ],
+        "item": null
+      },
+      {
+        "species": "Grotle",
+        "types": [
+          "Grass"
+        ],
+        "moves": [
+          "Tackle",
+          "Withdraw",
+          "Razor Leaf",
+          "Absorb"
+        ],
+        "item": null
+      }
+    ],
+    "location": "Hearthome City"
+  },
+  {
+    "id": "b3",
+    "name": "Barry",
+    "team": [
+      {
+        "species": "Starly",
+        "types": [
+          "Normal",
+          "Flying"
+        ],
+        "moves": [
+          "Endeavor",
+          "Double Team",
+          "Wing Attack",
+          "Quick Attack"
+        ],
+        "item": null
+      },
+      {
+        "species": "Roselia",
+        "types": [
+          "Grass",
+          "Poison"
+        ],
+        "moves": [
+          "Poison Sting",
+          "Toxic Spikes",
+          "Mega Drain",
+          "Magical Leaf"
+        ],
+        "item": null
+      },
+      {
+        "species": "Roselia",
+        "types": [
+          "Grass",
+          "Poison"
+        ],
+        "moves": [
+          "Poison Sting",
+          "Toxic Spikes",
+          "Mega Drain",
+          "Magical Leaf"
+        ],
+        "item": null
+      },
+      {
+        "species": "Buizel",
+        "types": [
+          "Water"
+        ],
+        "moves": [
+          "Pursuit",
+          "Aqua Jet",
+          "Quick Attack",
+          "Growl"
+        ],
+        "item": null
+      },
+      {
+        "species": "Buizel",
+        "types": [
+          "Water"
+        ],
+        "moves": [
+          "Pursuit",
+          "Aqua Jet",
+          "Quick Attack",
+          "Growl"
+        ],
+        "item": null
+      },
+      {
+        "species": "Ponyta",
+        "types": [
+          "Fire"
+        ],
+        "moves": [
+          "Stomp",
+          "Tail Whip",
+          "Growl",
+          "Ember"
+        ],
+        "item": null
+      },
+      {
+        "species": "Ponyta",
+        "types": [
+          "Fire"
+        ],
+        "moves": [
+          "Stomp",
+          "Tail Whip",
+          "Growl",
+          "Ember"
+        ],
+        "item": null
+      },
+      {
+        "species": "Monferno",
+        "types": [
+          "Fire",
+          "Fighting"
+        ],
+        "moves": [
+          "Fury Swipes",
+          "Leer",
+          "Mach Punch",
+          "Flame Wheel"
+        ],
+        "item": null
+      },
+      {
+        "species": "Prinplup",
+        "types": [
+          "Water"
+        ],
+        "moves": [
+          "Peck",
+          "Metal Claw",
+          "Bubble Beam",
+          "Growl"
+        ],
+        "item": null
+      },
+      {
+        "species": "Grotle",
+        "types": [
+          "Grass"
+        ],
+        "moves": [
+          "Bite",
+          "Withdraw",
+          "Razor Leaf",
+          "Mega Drain"
+        ],
+        "item": null
+      }
+    ],
+    "location": "Pastoria City"
+  },
+  {
+    "id": "b4",
+    "name": "Barry",
+    "team": [
+      {
+        "species": "Staravia",
+        "types": [
+          "Normal",
+          "Flying"
+        ],
+        "moves": [
+          "Aerial Ace",
+          "Double Team",
+          "Take Down",
+          "Quick Attack"
+        ],
+        "item": null
+      },
+      {
+        "species": "Heracross",
+        "types": [
+          "Bug",
+          "Fighting"
+        ],
+        "moves": [
+          "Horn Attack",
+          "Night Slash",
+          "Aerial Ace",
+          "Brick Break"
+        ],
+        "item": null
+      },
+      {
+        "species": "Roselia",
+        "types": [
+          "Grass",
+          "Poison"
+        ],
+        "moves": [
+          "Giga Drain",
+          "Grass Whistle",
+          "Leech Seed",
+          "Toxic Spikes"
+        ],
+        "item": null
+      },
+      {
+        "species": "Roselia",
+        "types": [
+          "Grass",
+          "Poison"
+        ],
+        "moves": [
+          "Giga Drain",
+          "Grass Whistle",
+          "Leech Seed",
+          "Toxic Spikes"
+        ],
+        "item": null
+      },
+      {
+        "species": "Buizel",
+        "types": [
+          "Water"
+        ],
+        "moves": [
+          "Pursuit",
+          "Aqua Jet",
+          "Quick Attack",
+          "Swift"
+        ],
+        "item": null
+      },
+      {
+        "species": "Buizel",
+        "types": [
+          "Water"
+        ],
+        "moves": [
+          "Pursuit",
+          "Aqua Jet",
+          "Quick Attack",
+          "Swift"
+        ],
+        "item": null
+      },
+      {
+        "species": "Ponyta",
+        "types": [
+          "Fire"
+        ],
+        "moves": [
+          "Stomp",
+          "Take Down",
+          "Tail Whip",
+          "Fire Spin"
+        ],
+        "item": null
+      },
+      {
+        "species": "Ponyta",
+        "types": [
+          "Fire"
+        ],
+        "moves": [
+          "Stomp",
+          "Take Down",
+          "Tail Whip",
+          "Fire Spin"
+        ],
+        "item": null
+      },
+      {
+        "species": "Monferno",
+        "types": [
+          "Fire",
+          "Fighting"
+        ],
+        "moves": [
+          "Flame Wheel",
+          "Aerial Ace",
+          "Mach Punch",
+          "Brick Break"
+        ],
+        "item": null
+      },
+      {
+        "species": "Prinplup",
+        "types": [
+          "Water"
+        ],
+        "moves": [
+          "Fury Attack",
+          "Bubble Beam",
+          "Metal Claw",
+          "Aerial Ace"
+        ],
+        "item": null
+      },
+      {
+        "species": "Grotle",
+        "types": [
+          "Grass"
+        ],
+        "moves": [
+          "Razor Leaf",
+          "Leech Seed",
+          "Bite",
+          "Mega Drain"
+        ],
+        "item": null
+      }
+    ],
+    "location": "Route 218"
+  },
+  {
+    "id": "b5",
+    "name": "Barry",
+    "team": [
+      {
+        "species": "Staraptor",
+        "types": [
+          "Normal",
+          "Flying"
+        ],
+        "moves": [
+          "Close Combat",
+          "Aerial Ace",
+          "Steel Wing",
+          "U Turn"
+        ],
+        "item": null
+      },
+      {
+        "species": "Heracross",
+        "types": [
+          "Bug",
+          "Fighting"
+        ],
+        "moves": [
+          "Rock Slide",
+          "Close Combat",
+          "Night Slash",
+          "Aerial Ace"
+        ],
+        "item": null
+      },
+      {
+        "species": "Snorlax",
+        "types": [
+          "Normal"
+        ],
+        "moves": [
+          "Rest",
+          "Crunch",
+          "Earthquake",
+          "Body Slam"
+        ],
+        "item": null
+      },
+      {
+        "species": "Roserade",
+        "types": [
+          "Grass",
+          "Poison"
+        ],
+        "moves": [
+          "Giga Drain",
+          "Grass Whistle",
+          "Poison Jab",
+          "Shadow Ball"
+        ],
+        "item": null
+      },
+      {
+        "species": "Roserade",
+        "types": [
+          "Grass",
+          "Poison"
+        ],
+        "moves": [
+          "Giga Drain",
+          "Grass Whistle",
+          "Poison Jab",
+          "Shadow Ball"
+        ],
+        "item": null
+      },
+      {
+        "species": "Floatzel",
+        "types": [
+          "Water"
+        ],
+        "moves": [
+          "Aqua Jet",
+          "Ice Fang",
+          "Crunch",
+          "Brick Break"
+        ],
+        "item": null
+      },
+      {
+        "species": "Floatzel",
+        "types": [
+          "Water"
+        ],
+        "moves": [
+          "Aqua Jet",
+          "Ice Fang",
+          "Crunch",
+          "Brick Break"
+        ],
+        "item": null
+      },
+      {
+        "species": "Rapidash",
+        "types": [
+          "Fire"
+        ],
+        "moves": [
+          "Will O Wisp",
+          "Sunny Day",
+          "Fire Blast",
+          "Bounce"
+        ],
+        "item": null
+      },
+      {
+        "species": "Rapidash",
+        "types": [
+          "Fire"
+        ],
+        "moves": [
+          "Will O Wisp",
+          "Sunny Day",
+          "Fire Blast",
+          "Bounce"
+        ],
+        "item": null
+      },
+      {
+        "species": "Infernape",
+        "types": [
+          "Fire",
+          "Fighting"
+        ],
+        "moves": [
+          "Flamethrower",
+          "Focus Blast",
+          "Aerial Ace",
+          "Shadow Claw"
+        ],
+        "item": null
+      },
+      {
+        "species": "Empoleon",
+        "types": [
+          "Water",
+          "Steel"
+        ],
+        "moves": [
+          "Brine",
+          "Metal Claw",
+          "Aerial Ace",
+          "Shadow Claw"
+        ],
+        "item": null
+      },
+      {
+        "species": "Torterra",
+        "types": [
+          "Grass",
+          "Ground"
+        ],
+        "moves": [
+          "Leaf Storm",
+          "Synthesis",
+          "Earthquake",
+          "Crunch"
+        ],
+        "item": null
+      }
+    ],
+    "location": "Victory Road"
+  },
+  {
+    "id": "mars1",
+    "name": "Mars",
+    "team": [
+      {
+        "species": "Zubat",
+        "types": [
+          "Poison",
+          "Flying"
+        ],
+        "moves": [
+          "Bite",
+          "Leech Life",
+          "Toxic"
+        ],
+        "item": null
+      },
+      {
+        "species": "Purugly",
+        "types": [
+          "Normal"
+        ],
+        "moves": [
+          "Fake Out",
+          "Scratch",
+          "Feint Attack"
+        ],
+        "item": "Oran Berry"
+      }
+    ],
+    "location": "Valley Windoworks"
+  },
+  {
+    "id": "mars2",
+    "name": "Mars",
+    "team": [
+      {
+        "species": "Golbat",
+        "types": [
+          "Poison",
+          "Flying"
+        ],
+        "moves": [
+          "Air Cutter",
+          "Supersonic",
+          "Bite",
+          "Toxic"
+        ],
+        "item": null
+      },
+      {
+        "species": "Bronzor",
+        "types": [
+          "Steel",
+          "Psychic"
+        ],
+        "moves": [
+          "Iron Defense",
+          "Gyro Ball",
+          "Confuse Ray",
+          "Extrasensory"
+        ],
+        "item": null
+      },
+      {
+        "species": "Purugly",
+        "types": [
+          "Normal"
+        ],
+        "moves": [
+          "Fake Out",
+          "Slash",
+          "Feint Attack",
+          "Hypnosis"
+        ],
+        "item": "Oran Berry"
+      }
+    ],
+    "location": "Lake Verity"
+  },
+  {
+    "id": "jup1",
+    "name": "Jupiter",
+    "team": [
+      {
+        "species": "Zubat",
+        "types": [
+          "Poison",
+          "Flying"
+        ],
+        "moves": [
+          "Wing Attack",
+          "Giga Drain",
+          "Bite"
+        ],
+        "item": null
+      },
+      {
+        "species": "Skuntank",
+        "types": [
+          "Poison",
+          "Dark"
+        ],
+        "moves": [
+          "Night Slash",
+          "Poison Gas",
+          "Smokescreen",
+          "Screech"
+        ],
+        "item": "Sitrus Berry"
+      }
+    ],
+    "location": "Eterna Building"
+  },
+  {
+    "id": "sat1",
+    "name": "Saturn",
+    "team": [
+      {
+        "species": "Kadabra",
+        "types": [
+          "Psychic"
+        ],
+        "moves": [
+          "Shock Wave",
+          "Embargo",
+          "Recover",
+          "Psychic"
+        ],
+        "item": null
+      },
+      {
+        "species": "Toxicroak",
+        "types": [
+          "Poison",
+          "Fighting"
+        ],
+        "moves": [
+          "Revenge",
+          "Feint Attack",
+          "Mud Bomb",
+          "Poison Jab"
+        ],
+        "item": "Sitrus Berry"
+      },
+      {
+        "species": "Bronzor",
+        "types": [
+          "Steel",
+          "Psychic"
+        ],
+        "moves": [
+          "Iron Defense",
+          "Gyro Ball",
+          "Rock Tomb",
+          "Shadow Ball"
+        ],
+        "item": null
+      }
+    ],
+    "location": "Valor Cavern"
+  },
+  {
+    "id": "sat2",
+    "name": "Saturn",
+    "team": [
+      {
+        "species": "Kadabra",
+        "types": [
+          "Psychic"
+        ],
+        "moves": [
+          "Shock Wave",
+          "Embargo",
+          "Recover",
+          "Psychic"
+        ],
+        "item": null
+      },
+      {
+        "species": "Toxicroak",
+        "types": [
+          "Poison",
+          "Fighting"
+        ],
+        "moves": [
+          "Brick Break",
+          "Swagger",
+          "X Scissor",
+          "Poison Jab"
+        ],
+        "item": "Sitrus Berry"
+      },
+      {
+        "species": "Bronzor",
+        "types": [
+          "Steel",
+          "Psychic"
+        ],
+        "moves": [
+          "Extrasensory",
+          "Gyro Ball",
+          "Confuse Ray",
+          "Shadow Ball"
+        ],
+        "item": null
+      }
+    ],
+    "location": "Galactic HQ"
+  },
+  {
+    "id": "mnj",
+    "name": "Mars & Jupiter",
+    "team": [
+      {
+        "species": "Bronzor",
+        "types": [
+          "Steel",
+          "Psychic"
+        ],
+        "moves": [
+          "Gyro Ball",
+          "Confuse Ray",
+          "Extrasensory",
+          "Light Screen"
+        ],
+        "item": null
+      },
+      {
+        "species": "Golbat",
+        "types": [
+          "Poison",
+          "Flying"
+        ],
+        "moves": [
+          "Air Cutter",
+          "Confuse Ray",
+          "Bite",
+          "Poison Fang"
+        ],
+        "item": null
+      },
+      {
+        "species": "Purugly",
+        "types": [
+          "Normal"
+        ],
+        "moves": [
+          "Shadow Claw",
+          "Slash",
+          "Aerial Ace",
+          "Hypnosis"
+        ],
+        "item": "Sitrus Berry"
+      },
+      {
+        "species": "Bronzor",
+        "types": [
+          "Steel",
+          "Psychic"
+        ],
+        "moves": [
+          "Gyro Ball",
+          "Rock Slide",
+          "Reflect",
+          "Extrasensory"
+        ],
+        "item": null
+      },
+      {
+        "species": "Golbat",
+        "types": [
+          "Poison",
+          "Flying"
+        ],
+        "moves": [
+          "Sludge Bomb",
+          "Air Cutter",
+          "Giga Drain",
+          "Mean Look"
+        ],
+        "item": null
+      },
+      {
+        "species": "Skuntank",
+        "types": [
+          "Poison",
+          "Dark"
+        ],
+        "moves": [
+          "Poison Jab",
+          "Night Slash",
+          "Flamethrower",
+          "Smokescreen"
+        ],
+        "item": "Sitrus Berry"
+      }
+    ],
+    "location": "Spear Pillar"
+  },
+  {
+    "id": "cyr1",
+    "name": "Cyrus",
+    "team": [
+      {
+        "species": "Murkrow",
+        "types": [
+          "Dark",
+          "Flying"
+        ],
+        "moves": [
+          "Night Shade",
+          "Astonish",
+          "Embargo",
+          "Drill Peck"
+        ],
+        "item": null
+      },
+      {
+        "species": "Golbat",
+        "types": [
+          "Poison",
+          "Flying"
+        ],
+        "moves": [
+          "Air Cutter",
+          "Poison Fang",
+          "Supersonic",
+          "Bite"
+        ],
+        "item": null
+      },
+      {
+        "species": "Sneasel",
+        "types": [
+          "Dark",
+          "Ice"
+        ],
+        "moves": [
+          "Ice Punch",
+          "Slash",
+          "Quick Attack",
+          "Screech"
+        ],
+        "item": "Sitrus Berry"
+      }
+    ],
+    "location": "Galactic HQ"
+  },
+  {
+    "id": "cyr2",
+    "name": "Cyrus",
+    "team": [
+      {
+        "species": "Honchkrow",
+        "types": [
+          "Dark",
+          "Flying"
+        ],
+        "moves": [
+          "Dark Pulse",
+          "Embargo",
+          "Drill Peck",
+          "Steel Wing"
+        ],
+        "item": null
+      },
+      {
+        "species": "Gyarados",
+        "types": [
+          "Water",
+          "Flying"
+        ],
+        "moves": [
+          "Aqua Tail",
+          "Giga Impact",
+          "Earthquake",
+          "Ice Fang"
+        ],
+        "item": null
+      },
+      {
+        "species": "Crobat",
+        "types": [
+          "Poison",
+          "Flying"
+        ],
+        "moves": [
+          "Air Slash",
+          "Cross Poison",
+          "Confuse Ray",
+          "Bite"
+        ],
+        "item": null
+      },
+      {
+        "species": "Weavile",
+        "types": [
+          "Dark",
+          "Ice"
+        ],
+        "moves": [
+          "Night Slash",
+          "Ice Punch",
+          "Brick Break",
+          "X Scissor"
+        ],
+        "item": "Sitrus Berry"
+      }
+    ],
+    "location": "Spear Pillar"
+  },
+  {
+    "id": "roark",
+    "name": "Roark",
+    "team": [
+      {
+        "species": "Geodude",
+        "types": [
+          "Rock",
+          "Ground"
+        ],
+        "moves": [
+          "Rock Throw",
+          "Stealth Rock"
+        ],
+        "item": null
+      },
+      {
+        "species": "Onix",
+        "types": [
+          "Rock",
+          "Ground"
+        ],
+        "moves": [
+          "Rock Throw",
+          "Screech",
+          "Stealth Rock"
+        ],
+        "item": null
+      },
+      {
+        "species": "Cranidos",
+        "types": [
+          "Rock"
+        ],
+        "moves": [
+          "Headbutt",
+          "Leer",
+          "Pursuit"
+        ],
+        "item": null
+      }
+    ],
+    "location": "Oreburgh Gym"
+  },
+  {
+    "id": "gardenia",
+    "name": "Gardenia",
+    "team": [
+      {
+        "species": "Cherubi",
+        "types": [
+          "Grass"
+        ],
+        "moves": [
+          "Grass Knot",
+          "Leech Seed",
+          "Safeguard",
+          "Growth"
+        ],
+        "item": null
+      },
+      {
+        "species": "Turtwig",
+        "types": [
+          "Grass"
+        ],
+        "moves": [
+          "Razor Leaf",
+          "Grass Knot",
+          "Withdraw",
+          "Reflect"
+        ],
+        "item": null
+      },
+      {
+        "species": "Roserade",
+        "types": [
+          "Grass",
+          "Poison"
+        ],
+        "moves": [
+          "Magical Leaf",
+          "Grass Knot",
+          "Stun Spore",
+          "Poison Sting"
+        ],
+        "item": "Sitrus Berry"
+      }
+    ],
+    "location": "Eterna Gym"
+  },
+  {
+    "id": "maylene",
+    "name": "Maylene",
+    "team": [
+      {
+        "species": "Meditite",
+        "types": [
+          "Fighting",
+          "Psychic"
+        ],
+        "moves": [
+          "Confusion",
+          "Meditate",
+          "Detect",
+          "Drain Punch"
+        ],
+        "item": null
+      },
+      {
+        "species": "Machoke",
+        "types": [
+          "Fighting"
+        ],
+        "moves": [
+          "Brick Break",
+          "Leer",
+          "Foresight",
+          "Rock Tomb"
+        ],
+        "item": null
+      },
+      {
+        "species": "Lucario",
+        "types": [
+          "Fighting",
+          "Steel"
+        ],
+        "moves": [
+          "Drain Punch",
+          "Force Palm",
+          "Metal Claw",
+          "Bone Rush"
+        ],
+        "item": "Sitrus Berry"
+      }
+    ],
+    "location": "Veilstone Gym"
+  },
+  {
+    "id": "crasher-wake",
+    "name": "Crasher Wake",
+    "team": [
+      {
+        "species": "Gyarados",
+        "types": [
+          "Water",
+          "Flying"
+        ],
+        "moves": [
+          "Brine",
+          "Dragon Rage",
+          "Bite",
+          "Swagger"
+        ],
+        "item": null
+      },
+      {
+        "species": "Quagsire",
+        "types": [
+          "Water",
+          "Ground"
+        ],
+        "moves": [
+          "Mud Bomb",
+          "Mud Sport",
+          "Slam",
+          "Tail Whip"
+        ],
+        "item": null
+      },
+      {
+        "species": "Floatzel",
+        "types": [
+          "Water"
+        ],
+        "moves": [
+          "Brine",
+          "Ice Fang",
+          "Pursuit",
+          "Swift"
+        ],
+        "item": "Sitrus Berry"
+      }
+    ],
+    "location": "Pastoria Gym"
+  },
+  {
+    "id": "fantina",
+    "name": "Fantina",
+    "team": [
+      {
+        "species": "Drifblim",
+        "types": [
+          "Ghost",
+          "Flying"
+        ],
+        "moves": [
+          "Ominous Wind",
+          "Astonish",
+          "Minimize",
+          "Gust"
+        ],
+        "item": null
+      },
+      {
+        "species": "Gengar",
+        "types": [
+          "Ghost",
+          "Poison"
+        ],
+        "moves": [
+          "Confuse Ray",
+          "Shadow Claw",
+          "Poison Jab",
+          "Spite"
+        ],
+        "item": null
+      },
+      {
+        "species": "Mismagius",
+        "types": [
+          "Ghost"
+        ],
+        "moves": [
+          "Confuse Ray",
+          "Shadow Ball",
+          "Psybeam",
+          "Magical Leaf"
+        ],
+        "item": "Sitrus Berry"
+      }
+    ],
+    "location": "Hearthome Gym"
+  },
+  {
+    "id": "byron",
+    "name": "Byron",
+    "team": [
+      {
+        "species": "Bronzor",
+        "types": [
+          "Steel",
+          "Psychic"
+        ],
+        "moves": [
+          "Flash Cannon",
+          "Confuse Ray",
+          "Extrasensory",
+          "Hypnosis"
+        ],
+        "item": null
+      },
+      {
+        "species": "Steelix",
+        "types": [
+          "Steel",
+          "Ground"
+        ],
+        "moves": [
+          "Gyro Ball",
+          "Dragon Breath",
+          "Sandstorm",
+          "Ice Fang"
+        ],
+        "item": null
+      },
+      {
+        "species": "Bastiodon",
+        "types": [
+          "Rock",
+          "Steel"
+        ],
+        "moves": [
+          "Flash Cannon",
+          "Iron Defense",
+          "Ancient Power",
+          "Rest"
+        ],
+        "item": "Chesto Berry"
+      }
+    ],
+    "location": "Canalave Gym"
+  },
+  {
+    "id": "candice",
+    "name": "Candice",
+    "team": [
+      {
+        "species": "Snover",
+        "types": [
+          "Grass",
+          "Ice"
+        ],
+        "moves": [
+          "Razor Leaf",
+          "Ingrain",
+          "Ice Shard",
+          "Leer"
+        ],
+        "item": null
+      },
+      {
+        "species": "Sneasel",
+        "types": [
+          "Dark",
+          "Ice"
+        ],
+        "moves": [
+          "Taunt",
+          "Feint Attack",
+          "Avalanche",
+          "Slash"
+        ],
+        "item": null
+      },
+      {
+        "species": "Medicham",
+        "types": [
+          "Fighting",
+          "Psychic"
+        ],
+        "moves": [
+          "Bulk Up",
+          "Detect",
+          "Force Palm",
+          "Ice Punch"
+        ],
+        "item": null
+      },
+      {
+        "species": "Abomasnow",
+        "types": [
+          "Grass",
+          "Ice"
+        ],
+        "moves": [
+          "Wood Hammer",
+          "Grass Whistle",
+          "Swagger",
+          "Avalanche"
+        ],
+        "item": "Sitrus Berry"
+      }
+    ],
+    "location": "Snowpoint Gym"
+  },
+  {
+    "id": "volkner",
+    "name": "Volkner",
+    "team": [
+      {
+        "species": "Raichu",
+        "types": [
+          "Electric"
+        ],
+        "moves": [
+          "Charge Beam",
+          "Thunder Wave",
+          "Light Screen",
+          "Brick Break"
+        ],
+        "item": null
+      },
+      {
+        "species": "Ambipom",
+        "types": [
+          "Normal"
+        ],
+        "moves": [
+          "Baton Pass",
+          "Nasty Plot",
+          "Agility",
+          "Shock Wave"
+        ],
+        "item": null
+      },
+      {
+        "species": "Octillery",
+        "types": [
+          "Water"
+        ],
+        "moves": [
+          "Octazooka",
+          "Charge Beam",
+          "Bullet Seed",
+          "Aurora Beam"
+        ],
+        "item": null
+      },
+      {
+        "species": "Luxray",
+        "types": [
+          "Electric"
+        ],
+        "moves": [
+          "Thunder Fang",
+          "Charge Beam",
+          "Thunder Wave",
+          "Crunch"
+        ],
+        "item": "Sitrus Berry"
+      }
+    ],
+    "location": "Sunyshore Gym"
+  },
+  {
+    "id": "aaron",
+    "name": "Aaron",
+    "team": [
+      {
+        "species": "Dustox",
+        "types": [
+          "Bug",
+          "Poison"
+        ],
+        "moves": [
+          "Bug Buzz",
+          "Toxic",
+          "Light Screen",
+          "Double Team"
+        ],
+        "item": null
+      },
+      {
+        "species": "Beautifly",
+        "types": [
+          "Bug",
+          "Flying"
+        ],
+        "moves": [
+          "Bug Buzz",
+          "Psychic",
+          "Energy Ball",
+          "Shadow Ball"
+        ],
+        "item": null
+      },
+      {
+        "species": "Heracross",
+        "types": [
+          "Bug",
+          "Fighting"
+        ],
+        "moves": [
+          "Megahorn",
+          "Close Combat",
+          "Stone Edge",
+          "Night Slash"
+        ],
+        "item": null
+      },
+      {
+        "species": "Vespiquen",
+        "types": [
+          "Bug",
+          "Flying"
+        ],
+        "moves": [
+          "Attack Order",
+          "Defend Order",
+          "Heal Order",
+          "Power Gem"
+        ],
+        "item": null
+      },
+      {
+        "species": "Drapion",
+        "types": [
+          "Poison",
+          "Dark"
+        ],
+        "moves": [
+          "Cross Poison",
+          "X Scissor",
+          "Aerial Ace",
+          "Ice Fang"
+        ],
+        "item": "Sitrus Berry"
+      }
+    ],
+    "location": "Elite Four"
+  },
+  {
+    "id": "bertha",
+    "name": "Bertha",
+    "team": [
+      {
+        "species": "Quagsire",
+        "types": [
+          "Water",
+          "Ground"
+        ],
+        "moves": [
+          "Protect",
+          "Sandstorm",
+          "Dig",
+          "Double Team"
+        ],
+        "item": null
+      },
+      {
+        "species": "Sudowoodo",
+        "types": [
+          "Rock"
+        ],
+        "moves": [
+          "Sucker Punch",
+          "Hammer Arm",
+          "Sandstorm",
+          "Earthquake"
+        ],
+        "item": null
+      },
+      {
+        "species": "Whiscash",
+        "types": [
+          "Water",
+          "Ground"
+        ],
+        "moves": [
+          "Rock Slide",
+          "Fissure",
+          "Zen Headbutt",
+          "Aqua Tail"
+        ],
+        "item": null
+      },
+      {
+        "species": "Golem",
+        "types": [
+          "Rock",
+          "Ground"
+        ],
+        "moves": [
+          "Gyro Ball",
+          "Brick Break",
+          "Earthquake",
+          "Sandstorm"
+        ],
+        "item": null
+      },
+      {
+        "species": "Hippowdon",
+        "types": [
+          "Ground"
+        ],
+        "moves": [
+          "Earthquake",
+          "Curse",
+          "Stone Edge",
+          "Crunch"
+        ],
+        "item": "Sitrus Berry"
+      }
+    ],
+    "location": "Elite Four"
+  },
+  {
+    "id": "flint",
+    "name": "Flint",
+    "team": [
+      {
+        "species": "Rapidash",
+        "types": [
+          "Fire"
+        ],
+        "moves": [
+          "Sunny Day",
+          "Flare Blitz",
+          "Solar Beam",
+          "Bounce"
+        ],
+        "item": null
+      },
+      {
+        "species": "Drifblim",
+        "types": [
+          "Ghost",
+          "Flying"
+        ],
+        "moves": [
+          "Double Team",
+          "Baton Pass",
+          "Ominous Wind",
+          "Will O Wisp"
+        ],
+        "item": null
+      },
+      {
+        "species": "Steelix",
+        "types": [
+          "Steel",
+          "Ground"
+        ],
+        "moves": [
+          "Sunny Day",
+          "Fire Fang",
+          "Rock Tomb",
+          "Screech"
+        ],
+        "item": null
+      },
+      {
+        "species": "Lopunny",
+        "types": [
+          "Normal"
+        ],
+        "moves": [
+          "Charm",
+          "Mirror Coat",
+          "Sunny Day",
+          "Fire Punch"
+        ],
+        "item": null
+      },
+      {
+        "species": "Infernape",
+        "types": [
+          "Fire",
+          "Fighting"
+        ],
+        "moves": [
+          "Flare Blitz",
+          "Thunder Punch",
+          "Earthquake",
+          "Mach Punch"
+        ],
+        "item": "Sitrus Berry"
+      }
+    ],
+    "location": "Elite Four"
+  },
+  {
+    "id": "lucian",
+    "name": "Lucian",
+    "team": [
+      {
+        "species": "Mr. Mime",
+        "types": [
+          "Psychic"
+        ],
+        "moves": [
+          "Psychic",
+          "Light Screen",
+          "Reflect",
+          "Thunderbolt"
+        ],
+        "item": null
+      },
+      {
+        "species": "Girafarig",
+        "types": [
+          "Normal",
+          "Psychic"
+        ],
+        "moves": [
+          "Psychic",
+          "Double Hit",
+          "Shadow Ball",
+          "Crunch"
+        ],
+        "item": null
+      },
+      {
+        "species": "Medicham",
+        "types": [
+          "Fighting",
+          "Psychic"
+        ],
+        "moves": [
+          "Drain Punch",
+          "Ice Punch",
+          "Fire Punch",
+          "Thunder Punch"
+        ],
+        "item": null
+      },
+      {
+        "species": "Alakazam",
+        "types": [
+          "Psychic"
+        ],
+        "moves": [
+          "Psychic",
+          "Focus Blast",
+          "Recover",
+          "Energy Ball"
+        ],
+        "item": null
+      },
+      {
+        "species": "Bronzong",
+        "types": [
+          "Steel",
+          "Psychic"
+        ],
+        "moves": [
+          "Psychic",
+          "Gyro Ball",
+          "Calm Mind",
+          "Earthquake"
+        ],
+        "item": "Sitrus Berry"
+      }
+    ],
+    "location": "Elite Four"
+  },
+  {
+    "id": "cynthia",
+    "name": "Cynthia",
+    "team": [
+      {
+        "species": "Spiritomb",
+        "types": [
+          "Ghost",
+          "Dark"
+        ],
+        "moves": [
+          "Embargo",
+          "Dark Pulse",
+          "Silver Wind",
+          "Psychic"
+        ],
+        "item": null
+      },
+      {
+        "species": "Roserade",
+        "types": [
+          "Grass",
+          "Poison"
+        ],
+        "moves": [
+          "Energy Ball",
+          "Sludge Bomb",
+          "Shadow Ball",
+          "Extrasensory"
+        ],
+        "item": null
+      },
+      {
+        "species": "Lucario",
+        "types": [
+          "Fighting",
+          "Steel"
+        ],
+        "moves": [
+          "Aura Sphere",
+          "Dragon Pulse",
+          "Psychic",
+          "Earthquake"
+        ],
+        "item": null
+      },
+      {
+        "species": "Gastrodon",
+        "types": [
+          "Water",
+          "Ground"
+        ],
+        "moves": [
+          "Muddy Water",
+          "Sludge Bomb",
+          "Stone Edge",
+          "Earthquake"
+        ],
+        "item": null
+      },
+      {
+        "species": "Milotic",
+        "types": [
+          "Water"
+        ],
+        "moves": [
+          "Aqua Ring",
+          "Surf",
+          "Mirror Coat",
+          "Ice Beam"
+        ],
+        "item": null
+      },
+      {
+        "species": "Garchomp",
+        "types": [
+          "Dragon",
+          "Ground"
+        ],
+        "moves": [
+          "Dragon Rush",
+          "Brick Break",
+          "Earthquake",
+          "Giga Impact"
+        ],
+        "item": "Sitrus Berry"
+      }
+    ],
+    "location": "Champion"
+  }
+]

@@ -1,10 +1,5 @@
 import type { ProgressionSegment } from "../../../types/game";
 
-/**
- * Route / boss ordering for Pokémon Emerald.
- * Maintained manually — add or reorder entries to match your run.
- * Route ids come from routes.json; boss ids come from bosses.json.
- */
 export const progression: ProgressionSegment[] = [
   { kind: "route", routeId: "starter" },
   { kind: "route", routeId: "littleroot-town" },
@@ -18,6 +13,7 @@ export const progression: ProgressionSegment[] = [
   { kind: "route", routeId: "rustboro-city" },
   { kind: "boss", bossId: "roxanne" },
   { kind: "boss", bossId: "r2" },
+  { kind: "route", routeId: "route-105" },
   { kind: "route", routeId: "route-116" },
   { kind: "route", routeId: "rusturf-tunnel" },
   { kind: "route", routeId: "dewford-town" },
@@ -25,24 +21,24 @@ export const progression: ProgressionSegment[] = [
   { kind: "route", routeId: "route-106" },
   { kind: "route", routeId: "granite-cave" },
   { kind: "route", routeId: "route-107" },
-  { kind: "route", routeId: "route-105" },
   { kind: "route", routeId: "slateport-city" },
   { kind: "route", routeId: "route-110" },
   { kind: "boss", bossId: "r3" },
-  { kind: "route", routeId: "route-117" },
+  { kind: "route", routeId: "altering-cave" },
   { kind: "boss", bossId: "w1" },
   { kind: "boss", bossId: "wattson" },
+  { kind: "route", routeId: "route-117" },
   { kind: "route", routeId: "route-112" },
   { kind: "boss", bossId: "mt1" },
   { kind: "route", routeId: "route-113" },
   { kind: "route", routeId: "route-114" },
+  { kind: "route", routeId: "desert-underpass" },
   { kind: "route", routeId: "meteor-falls" },
   { kind: "route", routeId: "route-115" },
   { kind: "route", routeId: "jagged-pass" },
   { kind: "route", routeId: "lavaridge-town" },
   { kind: "boss", bossId: "flannery" },
   { kind: "route", routeId: "fiery-path" },
-  { kind: "route", routeId: "desert-underpass" },
   { kind: "route", routeId: "route-111" },
   { kind: "route", routeId: "mirage-tower" },
   { kind: "boss", bossId: "norman" },
@@ -85,6 +81,10 @@ export const progression: ProgressionSegment[] = [
   { kind: "route", routeId: "route-131" },
   { kind: "route", routeId: "sky-pillar" },
   { kind: "route", routeId: "pacifidlog-town" },
+  { kind: "route", routeId: "mirage-island" },
+  { kind: "route", routeId: "route-108" },
+  { kind: "route", routeId: "abandoned-ship" },
+  { kind: "route", routeId: "route-109" },
   { kind: "route", routeId: "route-132" },
   { kind: "route", routeId: "route-133" },
   { kind: "route", routeId: "route-134" },
@@ -96,13 +96,8 @@ export const progression: ProgressionSegment[] = [
   { kind: "boss", bossId: "glacia" },
   { kind: "boss", bossId: "drake" },
   { kind: "boss", bossId: "wallace-champion" },
-  { kind: "route", routeId: "route-108" },
-  { kind: "route", routeId: "abandoned-ship" },
-  { kind: "route", routeId: "route-109" },
-  { kind: "route", routeId: "altering-cave" },
-  { kind: "route", routeId: "mirage-island" },
+  { kind: "boss", bossId: "steven-champion" },
   { kind: "route", routeId: "ss-tidal" },
   { kind: "route", routeId: "battle-frontier" },
   { kind: "route", routeId: "artisan-cave" },
-  { kind: "boss", bossId: "steven-champion" },
 ];
