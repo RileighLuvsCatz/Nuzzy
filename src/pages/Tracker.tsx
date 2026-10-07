@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { getGamePack } from "../data/games";
 import { loadActiveRun, saveRun } from "../run/storage";
+import { addEncounter, changeEncounterStatus, isTeamFull, TEAM_FULL_MESSAGE } from "../run/encounters";
 import type { BossDef, RouteDef } from "../types/game";
 import type { Encounter, Status } from "../types";
 import PokemonSprite from "../components/PokemonSprite";
@@ -23,11 +24,13 @@ function bossMap(bosses: BossDef[]): Map<string, BossDef> {
 function RouteSection({
   route,
   encounters,
+  teamFull,
   onAdd,
   onStatusChange,
 }: {
   route: RouteDef;
   encounters: Encounter[];
+  teamFull: boolean;
   onAdd: (routeId: string, pokemon: string, nickname: string, status: Status) => void;
   onStatusChange: (encounterId: string, newStatus: Status) => void;
 }) {
@@ -37,7 +40,7 @@ function RouteSection({
   const [status, setStatus] = useState<Status>("Team");
 
   function handleLog() {
-    if (!species || !nickname.trim()) return;
+    if (!species || !nickname.trim() || (status === "Team" && teamFull)) return;
     onAdd(route.id, species, nickname.trim(), status);
     setNickname("");
     setStatus("Team");
@@ -53,6 +56,11 @@ function RouteSection({
       </div>
 
       <div className="p-4 space-y-3">
+        {teamFull && (
+          <p className="text-yellow-400 text-sm">
+            {TEAM_FULL_MESSAGE} You can still log Boxed or Dead encounters.
+          </p>
+        )}
         {pool.length > 0 ? (
           <div className="flex flex-wrap items-end gap-2">
             {species && (
@@ -92,7 +100,7 @@ function RouteSection({
                 onChange={(e) => setStatus(e.target.value as Status)}
                 className="w-full px-2 py-1.5 bg-gray-800 border border-gray-700 rounded text-sm text-white focus:outline-none focus:border-red-500"
               >
-                <option value="Team">Team</option>
+                <option value="Team" disabled={teamFull}>Team</option>
                 <option value="Boxed">Boxed</option>
                 <option value="Dead">Dead</option>
               </select>
@@ -100,7 +108,7 @@ function RouteSection({
             <button
               type="button"
               onClick={handleLog}
-              disabled={!species || !nickname.trim()}
+              disabled={!species || !nickname.trim() || (status === "Team" && teamFull)}
               className="px-4 py-1.5 bg-red-500 hover:bg-red-400 disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed text-white text-sm font-semibold rounded transition-colors"
             >
               Log
@@ -136,7 +144,7 @@ function RouteSection({
               className={`bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm focus:outline-none shrink-0 ${STATUS_COLORS[encounter.status]}`}
               aria-label={`Status for ${encounter.nickname}`}
             >
-              <option value="Team">Team</option>
+              <option value="Team" disabled={teamFull && encounter.status !== "Team"}>Team</option>
               <option value="Boxed">Boxed</option>
               <option value="Dead">Dead</option>
             </select>
@@ -175,7 +183,6 @@ export default function Tracker() {
     nickname: string,
     status: Status,
   ) {
-    if (!run) return;
     const newEncounter: Encounter = {
       id: crypto.randomUUID(),
       routeId,
@@ -183,15 +190,13 @@ export default function Tracker() {
       nickname,
       status,
     };
-    setRun({ ...run, encounters: [...run.encounters, newEncounter] });
+    setRun((current) => current ? addEncounter(current, newEncounter) : current);
   }
 
   function handleStatusChange(encounterId: string, newStatus: Status) {
-    if (!run) return;
-    const updated = run.encounters.map((e) =>
-      e.id === encounterId ? { ...e, status: newStatus } : e,
+    setRun((current) =>
+      current ? changeEncounterStatus(current, encounterId, newStatus) : current,
     );
-    setRun({ ...run, encounters: updated });
   }
 
   if (!run) {
@@ -223,6 +228,7 @@ export default function Tracker() {
   }
 
   const displayTitle = run.gameTitle ?? run.gameId;
+  const teamFull = isTeamFull(run.encounters);
 
   return (
     <div className="space-y-8">
@@ -245,6 +251,7 @@ export default function Tracker() {
                 key={`route-${segment.routeId}-${index}`}
                 route={route}
                 encounters={forRoute}
+                teamFull={teamFull}
                 onAdd={handleAddEncounter}
                 onStatusChange={handleStatusChange}
               />

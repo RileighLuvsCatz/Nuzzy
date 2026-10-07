@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { getGamePack } from "../data/games";
 import { loadActiveRun, saveRun } from "../run/storage";
+import { changeEncounterStatus, TEAM_FULL_MESSAGE, TEAM_LIMIT } from "../run/encounters";
 import type { RouteDef } from "../types/game";
 import type { Encounter, Run, Status } from "../types";
 import PokemonSprite from "../components/PokemonSprite";
@@ -294,13 +295,11 @@ export default function Box() {
 
   const changeStatus = useCallback(
     (encounterId: string, newStatus: Status) => {
-      if (!run) return;
-      const updated = run.encounters.map((e) =>
-        e.id === encounterId ? { ...e, status: newStatus } : e,
+      setRun((current) =>
+        current ? changeEncounterStatus(current, encounterId, newStatus) : current,
       );
-      setRun({ ...run, encounters: updated });
     },
-    [run],
+    [],
   );
 
   const getRouteName = useCallback(
@@ -337,6 +336,7 @@ export default function Box() {
   }
 
   const displayTitle = run.gameTitle ?? run.gameId;
+  const teamFull = teamEncounters.length >= TEAM_LIMIT;
 
   return (
     <div className="space-y-8">
@@ -351,11 +351,16 @@ export default function Box() {
           <div>
             <h2 className="font-semibold text-white">Team</h2>
             <span className="text-gray-500 text-sm">
-              {teamEncounters.length} / 6
+              {teamEncounters.length} / {TEAM_LIMIT}
             </span>
           </div>
         </div>
         <div className="p-4 space-y-3">
+          {teamFull && (
+            <p id="team-full-message" className="text-yellow-400 text-sm">
+              {TEAM_FULL_MESSAGE}
+            </p>
+          )}
           {teamEncounters.length === 0 ? (
             <p className="text-gray-500 text-sm italic">
               No Pokémon on your Team yet. Move Pokémon from the Box below.
@@ -415,7 +420,9 @@ export default function Box() {
                   <button
                     type="button"
                     onClick={() => changeStatus(enc.id, "Team")}
-                    className="ml-2 px-2 py-1 text-xs bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded text-green-400 transition-colors"
+                    disabled={teamFull}
+                    aria-describedby={teamFull ? "team-full-message" : undefined}
+                    className="ml-2 px-2 py-1 text-xs bg-gray-800 hover:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed border border-gray-700 rounded text-green-400 transition-colors"
                   >
                     To Team
                   </button>
