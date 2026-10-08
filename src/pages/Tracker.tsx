@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { getGamePack } from "../data/games";
 import { loadActiveRun, saveRun } from "../run/storage";
-import { addEncounter, changeEncounterStatus, isTeamFull, TEAM_FULL_MESSAGE } from "../run/encounters";
+import { addEncounter, changeEncounterStatus, isTeamFull } from "../run/encounters";
 import type { BossDef, RouteDef } from "../types/game";
 import type { Encounter, Status } from "../types";
 import PokemonSprite from "../components/PokemonSprite";
@@ -38,10 +38,11 @@ function RouteSection({
   const [species, setSpecies] = useState(pool[0] ?? "");
   const [nickname, setNickname] = useState("");
   const [status, setStatus] = useState<Status>("Team");
+  const logStatus = teamFull && status === "Team" ? "Boxed" : status;
 
   function handleLog() {
-    if (!species || !nickname.trim() || (status === "Team" && teamFull)) return;
-    onAdd(route.id, species, nickname.trim(), status);
+    if (!species || !nickname.trim()) return;
+    onAdd(route.id, species, nickname.trim(), logStatus);
     setNickname("");
     setStatus("Team");
   }
@@ -56,11 +57,6 @@ function RouteSection({
       </div>
 
       <div className="p-4 space-y-3">
-        {teamFull && (
-          <p className="text-yellow-400 text-sm">
-            {TEAM_FULL_MESSAGE} You can still log Boxed or Dead encounters.
-          </p>
-        )}
         {pool.length > 0 ? (
           <div className="flex flex-wrap items-end gap-2">
             {species && (
@@ -96,11 +92,11 @@ function RouteSection({
             <div className="space-y-1 min-w-[90px]">
               <label className="block text-xs text-gray-400">Status</label>
               <select
-                value={status}
+                value={logStatus}
                 onChange={(e) => setStatus(e.target.value as Status)}
                 className="w-full px-2 py-1.5 bg-gray-800 border border-gray-700 rounded text-sm text-white focus:outline-none focus:border-red-500"
               >
-                <option value="Team" disabled={teamFull}>Team</option>
+                {!teamFull && <option value="Team">Team</option>}
                 <option value="Boxed">Boxed</option>
                 <option value="Dead">Dead</option>
               </select>
@@ -108,7 +104,7 @@ function RouteSection({
             <button
               type="button"
               onClick={handleLog}
-              disabled={!species || !nickname.trim() || (status === "Team" && teamFull)}
+              disabled={!species || !nickname.trim()}
               className="px-4 py-1.5 bg-red-500 hover:bg-red-400 disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed text-white text-sm font-semibold rounded transition-colors"
             >
               Log
@@ -144,7 +140,7 @@ function RouteSection({
               className={`bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm focus:outline-none shrink-0 ${STATUS_COLORS[encounter.status]}`}
               aria-label={`Status for ${encounter.nickname}`}
             >
-              <option value="Team" disabled={teamFull && encounter.status !== "Team"}>Team</option>
+              {encounter.status === "Team" && <option value="Team">Team</option>}
               <option value="Boxed">Boxed</option>
               <option value="Dead">Dead</option>
             </select>
