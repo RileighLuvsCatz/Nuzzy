@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { getGamePack } from "../data/games";
 import { loadActiveRun, saveRun } from "../run/storage";
+import { addEncounter, changeEncounterStatus, isTeamFull } from "../run/encounters";
 import type { BossDef, RouteDef } from "../types/game";
 import type { Encounter, Status } from "../types";
 import PokemonSprite from "../components/PokemonSprite";
@@ -23,11 +24,13 @@ function bossMap(bosses: BossDef[]): Map<string, BossDef> {
 function RouteSection({
   route,
   encounters,
+  teamFull,
   onAdd,
   onStatusChange,
 }: {
   route: RouteDef;
   encounters: Encounter[];
+  teamFull: boolean;
   onAdd: (routeId: string, pokemon: string, nickname: string, status: Status) => void;
   onStatusChange: (encounterId: string, newStatus: Status) => void;
 }) {
@@ -35,10 +38,11 @@ function RouteSection({
   const [species, setSpecies] = useState(pool[0] ?? "");
   const [nickname, setNickname] = useState("");
   const [status, setStatus] = useState<Status>("Team");
+  const logStatus = teamFull && status === "Team" ? "Boxed" : status;
 
   function handleLog() {
     if (!species || !nickname.trim()) return;
-    onAdd(route.id, species, nickname.trim(), status);
+    onAdd(route.id, species, nickname.trim(), logStatus);
     setNickname("");
     setStatus("Team");
   }
@@ -88,11 +92,11 @@ function RouteSection({
             <div className="space-y-1 min-w-[90px]">
               <label className="block text-xs text-gray-400">Status</label>
               <select
-                value={status}
+                value={logStatus}
                 onChange={(e) => setStatus(e.target.value as Status)}
                 className="w-full px-2 py-1.5 bg-gray-800 border border-gray-700 rounded text-sm text-white focus:outline-none focus:border-red-500"
               >
-                <option value="Team">Team</option>
+                {!teamFull && <option value="Team">Team</option>}
                 <option value="Boxed">Boxed</option>
                 <option value="Dead">Dead</option>
               </select>
@@ -136,7 +140,7 @@ function RouteSection({
               className={`bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm focus:outline-none shrink-0 ${STATUS_COLORS[encounter.status]}`}
               aria-label={`Status for ${encounter.nickname}`}
             >
-              <option value="Team">Team</option>
+              {encounter.status === "Team" && <option value="Team">Team</option>}
               <option value="Boxed">Boxed</option>
               <option value="Dead">Dead</option>
             </select>
@@ -175,7 +179,6 @@ export default function Tracker() {
     nickname: string,
     status: Status,
   ) {
-    if (!run) return;
     const newEncounter: Encounter = {
       id: crypto.randomUUID(),
       routeId,
@@ -183,15 +186,13 @@ export default function Tracker() {
       nickname,
       status,
     };
-    setRun({ ...run, encounters: [...run.encounters, newEncounter] });
+    setRun((current) => current ? addEncounter(current, newEncounter) : current);
   }
 
   function handleStatusChange(encounterId: string, newStatus: Status) {
-    if (!run) return;
-    const updated = run.encounters.map((e) =>
-      e.id === encounterId ? { ...e, status: newStatus } : e,
+    setRun((current) =>
+      current ? changeEncounterStatus(current, encounterId, newStatus) : current,
     );
-    setRun({ ...run, encounters: updated });
   }
 
   if (!run) {
@@ -223,6 +224,7 @@ export default function Tracker() {
   }
 
   const displayTitle = run.gameTitle ?? run.gameId;
+  const teamFull = isTeamFull(run.encounters);
 
   return (
     <div className="space-y-8">
@@ -245,6 +247,7 @@ export default function Tracker() {
                 key={`route-${segment.routeId}-${index}`}
                 route={route}
                 encounters={forRoute}
+                teamFull={teamFull}
                 onAdd={handleAddEncounter}
                 onStatusChange={handleStatusChange}
               />
