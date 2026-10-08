@@ -6,6 +6,7 @@ import { changeEncounterStatus, TEAM_FULL_MESSAGE, TEAM_LIMIT } from "../run/enc
 import type { RouteDef } from "../types/game";
 import type { Encounter, Run, Status } from "../types";
 import PokemonSprite from "../components/PokemonSprite";
+import RunHeader from "../components/RunHeader";
 import {
   getPokemonTypes,
   getCachedPokemonTypes,
@@ -335,15 +336,15 @@ export default function Box() {
     );
   }
 
-  const displayTitle = run.gameTitle ?? run.gameId;
   const teamFull = teamEncounters.length >= TEAM_LIMIT;
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold text-white">{run.name}</h1>
-        <p className="text-gray-400">{displayTitle}</p>
-      </div>
+      <RunHeader
+        run={run}
+        view="Team & box"
+        description="Your trusted teammates. Your next great lineup."
+      />
 
       {/* Team section */}
       <section className="border border-gray-800 rounded-xl overflow-hidden bg-gray-900/50">

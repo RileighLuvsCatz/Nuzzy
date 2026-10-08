@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useId, useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { getGamePack } from "../data/games";
 import { loadActiveRun, saveRun } from "../run/storage";
@@ -6,6 +6,7 @@ import { addEncounter, changeEncounterStatus, isTeamFull } from "../run/encounte
 import type { BossDef, RouteDef } from "../types/game";
 import type { Encounter, Status } from "../types";
 import PokemonSprite from "../components/PokemonSprite";
+import RunHeader from "../components/RunHeader";
 
 const STATUS_COLORS: Record<Status, string> = {
   Team: "text-green-400",
@@ -34,6 +35,7 @@ function RouteSection({
   onAdd: (routeId: string, pokemon: string, nickname: string, status: Status) => void;
   onStatusChange: (encounterId: string, newStatus: Status) => void;
 }) {
+  const fieldId = useId();
   const pool = route.catchPool ?? [];
   const [species, setSpecies] = useState(pool[0] ?? "");
   const [nickname, setNickname] = useState("");
@@ -48,8 +50,9 @@ function RouteSection({
   }
 
   return (
-    <section className="border border-gray-800 rounded-xl overflow-hidden bg-gray-900/50">
+    <section className="route-section border border-gray-800 rounded-xl overflow-hidden bg-gray-900/50">
       <div className="px-4 py-3 bg-gray-900 border-b border-gray-800">
+        <span className="route-kind">AREA</span>
         <span className="font-semibold text-white">{route.name}</span>
         <span className="text-gray-500 text-sm ml-2">
           {encounters.length} encounter{encounters.length !== 1 ? "s" : ""}
@@ -65,8 +68,9 @@ function RouteSection({
               </div>
             )}
             <div className="space-y-1 min-w-[140px] flex-1">
-              <label className="block text-xs text-gray-400">Pokémon</label>
+              <label htmlFor={`${fieldId}-species`} className="block text-xs text-gray-400">Pokémon</label>
               <select
+                id={`${fieldId}-species`}
                 value={species}
                 onChange={(e) => setSpecies(e.target.value)}
                 className="w-full px-2 py-1.5 bg-gray-800 border border-gray-700 rounded text-sm text-white focus:outline-none focus:border-red-500"
@@ -79,8 +83,9 @@ function RouteSection({
               </select>
             </div>
             <div className="space-y-1 min-w-[120px] flex-1">
-              <label className="block text-xs text-gray-400">Nickname</label>
+              <label htmlFor={`${fieldId}-nickname`} className="block text-xs text-gray-400">Nickname</label>
               <input
+                id={`${fieldId}-nickname`}
                 type="text"
                 value={nickname}
                 onChange={(e) => setNickname(e.target.value)}
@@ -90,8 +95,9 @@ function RouteSection({
               />
             </div>
             <div className="space-y-1 min-w-[90px]">
-              <label className="block text-xs text-gray-400">Status</label>
+              <label htmlFor={`${fieldId}-status`} className="block text-xs text-gray-400">Status</label>
               <select
+                id={`${fieldId}-status`}
                 value={logStatus}
                 onChange={(e) => setStatus(e.target.value as Status)}
                 className="w-full px-2 py-1.5 bg-gray-800 border border-gray-700 rounded text-sm text-white focus:outline-none focus:border-red-500"
@@ -223,18 +229,18 @@ export default function Tracker() {
     );
   }
 
-  const displayTitle = run.gameTitle ?? run.gameId;
   const teamFull = isTeamFull(run.encounters);
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold text-white">{run.name}</h1>
-        <p className="text-gray-400">{displayTitle}</p>
-      </div>
+      <RunHeader
+        run={run}
+        view="Journey"
+        description="One route at a time. Every encounter, all in one place."
+      />
 
       <div className="space-y-6">
-        <h2 className="text-lg font-semibold text-white">Progression</h2>
+        <div className="section-heading"><div><p className="eyebrow">THE ROAD AHEAD</p><h2>Your journey</h2></div><span className="muted small">Routes & boss reference</span></div>
         {pack.progression.map((segment, index) => {
           if (segment.kind === "route") {
             const route = routesById.get(segment.routeId);
@@ -244,7 +250,7 @@ export default function Tracker() {
             );
             return (
               <RouteSection
-                key={`route-${segment.routeId}-${index}`}
+                key={`${run.id}-route-${segment.routeId}-${index}`}
                 route={route}
                 encounters={forRoute}
                 teamFull={teamFull}
@@ -259,9 +265,10 @@ export default function Tracker() {
           return (
             <section
               key={`boss-${segment.bossId}-${index}`}
-              className="border border-gray-800 rounded-xl overflow-hidden bg-gray-900/50"
+              className="boss-section border border-gray-800 rounded-xl overflow-hidden bg-gray-900/50"
             >
               <div className="px-4 py-3 bg-gray-900 border-b border-gray-800">
+                <span className="route-kind">BOSS BATTLE</span>
                 <h3 className="font-semibold text-white">{boss.name}</h3>
                 {boss.location ? (
                   <p className="text-gray-400 text-sm">{boss.location}</p>

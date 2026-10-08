@@ -5,6 +5,7 @@ import { loadActiveRun } from "../run/storage";
 import type { RouteDef } from "../types/game";
 import type { Encounter } from "../types";
 import PokemonSprite from "../components/PokemonSprite";
+import RunHeader from "../components/RunHeader";
 
 function routeMap(routes: RouteDef[]): Map<string, RouteDef> {
   return new Map(routes.map((r) => [r.id, r]));
@@ -83,14 +84,13 @@ export default function Graveyard() {
     );
   }
 
-  const displayTitle = run.gameTitle ?? run.gameId;
-
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold text-white">{run.name}</h1>
-        <p className="text-gray-400">{displayTitle}</p>
-      </div>
+      <RunHeader
+        run={run}
+        view="Graveyard"
+        description="Every teammate leaves a little of their story with you."
+      />
 
       <section className="border border-gray-800 rounded-xl overflow-hidden bg-gray-900/50">
         <div className="px-4 py-3 bg-gray-900 border-b border-gray-800">

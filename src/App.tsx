@@ -1,21 +1,27 @@
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom"
-import Navbar from "./components/NavBar"
-import Landing from "./pages/Landing"
-import NewRun from "./pages/NewRun"
-import Tracker from "./pages/Tracker"
-import Box from "./pages/Box"
-import Graveyard from "./pages/Graveyard"
-
-const NAVBAR_ROUTES = new Set(["/tracker", "/box", "/graveyard"])
+import { useEffect } from "react";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import Navbar from "./components/NavBar";
+import Landing from "./pages/Landing";
+import NewRun from "./pages/NewRun";
+import Tracker from "./pages/Tracker";
+import Box from "./pages/Box";
+import Graveyard from "./pages/Graveyard";
 
 function AppShell() {
-  const { pathname } = useLocation()
-  const showNav = NAVBAR_ROUTES.has(pathname)
-
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [pathname]);
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
-      {showNav && <Navbar />}
-      <main className="max-w-4xl mx-auto px-4 py-8">
+    <div className="app-shell">
+      <a href="#main-content" className="skip-link">
+        Skip to content
+      </a>
+      <Navbar />
+      <main
+        id="main-content"
+        className={`main-content ${pathname === "/" ? "home-content" : ""}`}
+      >
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/new-run" element={<NewRun />} />
@@ -24,16 +30,17 @@ function AppShell() {
           <Route path="/graveyard" element={<Graveyard />} />
         </Routes>
       </main>
+      <footer className="site-footer">
+        <span>Made for the journey. And the friends along the way.</span>
+        <span>Nuzzy · A fan-made Pokémon companion</span>
+      </footer>
     </div>
-  )
+  );
 }
-
-function App() {
+export default function App() {
   return (
     <BrowserRouter>
       <AppShell />
     </BrowserRouter>
-  )
+  );
 }
-
-export default App
