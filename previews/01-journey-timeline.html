@@ -1,0 +1,2051 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#101714" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTYiIGZpbGw9IiMxMDE3MTQiLz48Y2lyY2xlIGN4PSIzMiIgY3k9IjMyIiByPSIyMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYjdkZjlkIiBzdHJva2Utd2lkdGg9IjQiLz48cGF0aCBkPSJNMTIgMzJoMTRtMTIgMGgxNCIgc3Ryb2tlPSIjYjdkZjlkIiBzdHJva2Utd2lkdGg9IjQiLz48Y2lyY2xlIGN4PSIzMiIgY3k9IjMyIiByPSI2IiBmaWxsPSIjMTAxNzE0IiBzdHJva2U9IiNiN2RmOWQiIHN0cm9rZS13aWR0aD0iNCIvPjwvc3ZnPg=="
+    />
+    <title>Nuzzy · Journey timeline preview</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #101714;
+        --panel: #19231d;
+        --raised: #202d24;
+        --line: #324135;
+        --text: #edf0e6;
+        --muted: #a3b2a6;
+        --accent: #b7df9d;
+        --gold: #dfc185;
+        --red: #e9a49e;
+        font-family:
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          sans-serif;
+        font-size: 14px;
+        background: var(--bg);
+        color: var(--text);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-width: 280px;
+      }
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+      button,
+      a,
+      input,
+      select {
+        transition:
+          background 0.15s,
+          border-color 0.15s,
+          color 0.15s;
+      }
+      button {
+        cursor: pointer;
+      }
+      button:disabled {
+        cursor: not-allowed;
+        opacity: 0.4;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      button:focus-visible,
+      a:focus-visible,
+      input:focus-visible,
+      select:focus-visible,
+      summary:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 4px;
+      }
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+      h1 {
+        font-size: 36px;
+        font-weight: 600;
+        letter-spacing: -1.4px;
+      }
+      h2 {
+        font-size: 22px;
+        letter-spacing: -0.6px;
+        font-weight: 600;
+      }
+      h3 {
+        font-size: 15px;
+        font-weight: 600;
+      }
+      small {
+        font-size: 11px;
+      }
+      button {
+        color: inherit;
+      }
+      svg {
+        flex-shrink: 0;
+      }
+      .topbar {
+        border-bottom: 1px solid var(--line);
+        padding: 17px 30px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        background: #101714f5;
+        position: sticky;
+        top: 0;
+        z-index: 15;
+      }
+      .brand {
+        font-size: 27px;
+        letter-spacing: -1.3px;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .brand b {
+        color: var(--accent);
+      }
+      .ball {
+        width: 23px;
+        height: 23px;
+        border: 2px solid var(--accent);
+        border-radius: 50%;
+        position: relative;
+        display: inline-block;
+      }
+      .ball:before {
+        content: "";
+        position: absolute;
+        top: 9px;
+        left: 0;
+        width: 100%;
+        border-top: 2px solid var(--accent);
+      }
+      .ball:after {
+        content: "";
+        position: absolute;
+        left: 6px;
+        top: 6px;
+        width: 7px;
+        height: 7px;
+        border: 2px solid var(--accent);
+        border-radius: 50%;
+        background: var(--bg);
+      }
+      .preview-pill {
+        color: var(--accent);
+        border: 1px solid #546948;
+        border-radius: 5px;
+        letter-spacing: 1.5px;
+        font-size: 9px;
+        padding: 5px 8px;
+      }
+      .top-left,
+      .top-right {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+      .top-right a {
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .button {
+        border: 1px solid var(--line);
+        background: var(--raised);
+        border-radius: 8px;
+        padding: 10px 15px;
+        font-size: 12px;
+        font-weight: 550;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+      .button:hover {
+        background: #2c3f30;
+        border-color: #718565;
+      }
+      .primary {
+        color: #152019;
+        background: var(--accent);
+        border-color: var(--accent);
+      }
+      .primary:hover {
+        background: #c9edb2;
+      }
+      .quiet {
+        background: transparent;
+        color: var(--muted);
+      }
+      .danger {
+        color: var(--red);
+      }
+      .small-btn {
+        padding: 7px 11px;
+        font-size: 11px;
+      }
+      .intro {
+        max-width: 1260px;
+        margin: auto;
+        padding: 33px 30px 26px;
+      }
+      .eyebrow {
+        font-size: 9px;
+        letter-spacing: 1.8px;
+        color: #a4bc96;
+        text-transform: uppercase;
+        font-weight: 650;
+      }
+      .intro h1 {
+        margin: 10px 0;
+      }
+      .muted {
+        color: var(--muted);
+      }
+      .intro-copy {
+        font-size: 12px;
+        line-height: 1.8;
+        max-width: 650px;
+      }
+      .concept-note {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 24px;
+        padding: 12px 16px;
+        border: 1px dashed #4c6244;
+        border-radius: 8px;
+        color: #b4c5ab;
+        font-size: 11px;
+        line-height: 1.7;
+      }
+      .concept-note strong {
+        color: var(--accent);
+      }
+      .run-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+      .run-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 10px;
+        color: #a4bc96;
+      }
+      .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--accent);
+        display: inline-block;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        margin-top: 24px;
+        border: 1px solid var(--line);
+        border-radius: 11px;
+        overflow: hidden;
+        background: var(--panel);
+      }
+      .stat {
+        padding: 17px 24px;
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        border-right: 1px solid var(--line);
+      }
+      .stat:last-child {
+        border: 0;
+      }
+      .stat strong {
+        font-size: 23px;
+        font-weight: 550;
+      }
+      .stat span {
+        font-size: 10px;
+        color: var(--muted);
+      }
+      .workspace {
+        max-width: 1260px;
+        margin: auto;
+        padding: 0 30px 55px;
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 9px;
+        letter-spacing: 0.3px;
+        padding: 5px 8px;
+        border-radius: 5px;
+        background: #2a3c2e;
+        color: var(--accent);
+        white-space: nowrap;
+      }
+      .badge.pending {
+        background: #263029;
+        color: #a3b2a6;
+      }
+      .badge.dead {
+        background: #48332e;
+        color: var(--red);
+      }
+      .badge.boxed,
+      .badge.boss {
+        background: #443e29;
+        color: var(--gold);
+      }
+      .badge.skip {
+        background: #2c3235;
+        color: #b5c1c7;
+      }
+      .count {
+        font-family: monospace;
+        font-size: 10px;
+        color: #8da282;
+      }
+      .sprite {
+        width: 43px;
+        height: 43px;
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+        border-radius: 12px;
+        font-weight: 700;
+        letter-spacing: -1px;
+        color: #bbd69d;
+        background:
+          radial-gradient(circle at 70% 25%, #70875955, transparent 65%),
+          #30412c;
+        border: 1px solid #54694366;
+      }
+      .sprite.water {
+        color: #b0d0de;
+        background: #2b455055;
+        border-color: #4b7c8355;
+      }
+      .sprite.dead {
+        filter: grayscale(1);
+        opacity: 0.65;
+      }
+      .encounter-line {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+      }
+      .encounter-line p {
+        font-size: 12px;
+        margin-bottom: 5px;
+      }
+      .encounter-line small {
+        color: var(--muted);
+        font-size: 10px;
+      }
+      .encounter-line .badge {
+        margin-left: auto;
+      }
+      .section-label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 17px;
+      }
+      .section-label small {
+        color: var(--muted);
+      }
+      .chapter-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 28px 0 17px;
+      }
+      .chapter-label .line {
+        height: 1px;
+        background: var(--line);
+        flex: 1;
+      }
+      .form {
+        display: grid;
+        gap: 16px;
+      }
+      .form-fields {
+        display: grid;
+        grid-template-columns: 1.2fr 1.2fr 0.85fr;
+        gap: 12px;
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+        font-size: 11px;
+        color: var(--muted);
+      }
+      input,
+      select {
+        width: 100%;
+        background: #101a14;
+        border: 1px solid #46593f;
+        color: var(--text);
+        padding: 12px;
+        border-radius: 7px;
+        font-size: 12px;
+        min-height: 41px;
+      }
+      .form-actions {
+        display: flex;
+        gap: 9px;
+        align-items: center;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+      }
+      .form-help {
+        font-size: 10px;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+      .battle-team {
+        display: grid;
+        gap: 10px;
+      }
+      .battle-member {
+        padding: 13px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #151e18;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+      .battle-member p {
+        font-size: 12px;
+      }
+      .battle-member small {
+        font-size: 10px;
+        color: var(--muted);
+        line-height: 1.7;
+        display: block;
+      }
+      .battle-member .badge {
+        margin-left: auto;
+      }
+      .editor-top {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        padding-bottom: 18px;
+        border-bottom: 1px solid var(--line);
+        margin-bottom: 20px;
+      }
+      .editor-top h2 {
+        margin: 5px 0;
+      }
+      .editor-top > .badge {
+        margin-left: auto;
+      }
+      .log-summary {
+        border: 1px solid var(--line);
+        background: #25332966;
+        border-radius: 9px;
+        padding: 14px;
+        margin-bottom: 18px;
+      }
+      .toolbar {
+        display: flex;
+        gap: 9px;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: 22px;
+      }
+      .search {
+        max-width: 250px;
+        padding: 9px 12px;
+        min-height: 35px;
+      }
+      .filter {
+        border: 1px solid var(--line);
+        background: transparent;
+        color: var(--muted);
+        padding: 9px 13px;
+        border-radius: 6px;
+        font-size: 11px;
+      }
+      .filter.active {
+        background: #b7df9d16;
+        color: var(--accent);
+        border-color: #6d895d;
+      }
+      .empty {
+        padding: 45px;
+        text-align: center;
+        color: var(--muted);
+        font-size: 12px;
+        border: 1px dashed var(--line);
+        border-radius: 10px;
+      }
+      .footer {
+        border-top: 1px solid var(--line);
+        padding: 20px 30px;
+        max-width: 1260px;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        font-size: 10px;
+        color: #8c9e8d;
+        line-height: 1.7;
+      }
+      .toast {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 60;
+        background: #dce9ce;
+        color: #213020;
+        border-radius: 8px;
+        padding: 12px 18px;
+        font-size: 12px;
+        box-shadow: 0 8px 40px #0005;
+        max-width: 90vw;
+        display: none;
+      }
+      .toast.show {
+        display: block;
+      }
+      .team-panel {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: var(--panel);
+        padding: 20px;
+      }
+      .team-panel h3 {
+        margin: 8px 0 18px;
+      }
+      .team-panel .encounter-line {
+        padding: 12px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .team-panel .encounter-line:last-of-type {
+        border: 0;
+      }
+      .team-panel .sprite {
+        width: 35px;
+        height: 35px;
+        font-size: 12px;
+      }
+      .team-panel .encounter-line p {
+        font-size: 11px;
+      }
+      .team-panel .encounter-line small {
+        font-size: 9px;
+      }
+      .team-tip {
+        font-size: 11px;
+        line-height: 1.8;
+        color: var(--muted);
+        border-top: 1px solid var(--line);
+        padding-top: 16px;
+        margin-top: 13px;
+      }
+      .team-empty {
+        font-size: 12px;
+        color: var(--muted);
+        padding: 12px 0;
+      }
+      dialog {
+        color: var(--text);
+        background: var(--panel);
+        border: 1px solid var(--line);
+        padding: 0;
+      }
+      dialog::backdrop {
+        background: #050c09aa;
+        backdrop-filter: blur(3px);
+      }
+      .close {
+        width: 33px;
+        height: 33px;
+        padding: 0;
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        background: #253329;
+        font-size: 20px;
+      }
+      .close:hover {
+        background: #3a4d3c;
+      }
+      .dialog-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 21px 24px;
+        border-bottom: 1px solid var(--line);
+      }
+      .dialog-body {
+        padding: 24px;
+      }
+      .progress-track {
+        height: 4px;
+        border-radius: 4px;
+        background: var(--line);
+        overflow: hidden;
+      }
+      .progress-track span {
+        display: block;
+        height: 100%;
+        background: var(--accent);
+      }
+      /* 01 — inline, collapsible timeline */
+      .timeline-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 268px;
+        gap: 30px;
+      }
+      .timeline-side {
+        position: sticky;
+        top: 99px;
+        align-self: start;
+      }
+      .chapter-nav {
+        display: flex;
+        gap: 7px;
+        flex-wrap: wrap;
+        margin-bottom: 23px;
+      }
+      .chapter-nav a {
+        font-size: 11px;
+        padding: 9px 12px;
+        border-radius: 6px;
+        border: 1px solid var(--line);
+        color: var(--muted);
+      }
+      .chapter-nav a:hover {
+        background: var(--raised);
+        color: var(--accent);
+      }
+      .timeline {
+        border-left: 1px solid #435a38;
+        padding-left: 25px;
+        margin-left: 5px;
+      }
+      .timeline-row {
+        position: relative;
+        margin-bottom: 12px;
+        border: 1px solid var(--line);
+        border-radius: 11px;
+        background: var(--panel);
+        scroll-margin-top: 95px;
+      }
+      .timeline-row:before {
+        position: absolute;
+        content: "";
+        width: 9px;
+        height: 9px;
+        border: 2px solid #88a975;
+        background: var(--bg);
+        border-radius: 50%;
+        left: -31px;
+        top: 27px;
+      }
+      .timeline-row.boss-card {
+        border-color: #74613e;
+      }
+      .timeline-row.boss-card:before {
+        border-color: var(--gold);
+      }
+      .timeline-row[open] {
+        border-color: #8ba877;
+        background: #1c2a20;
+      }
+      .timeline-row summary {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        padding: 17px 18px;
+        cursor: pointer;
+      }
+      .timeline-row summary::-webkit-details-marker {
+        display: none;
+      }
+      .timeline-row summary h3 {
+        margin: 3px 0;
+      }
+      .timeline-row summary .badge {
+        margin-left: auto;
+      }
+      .timeline-row summary .chevron {
+        font-size: 13px;
+        color: #92a285;
+        transition: transform 0.2s;
+      }
+      .timeline-row[open] summary .chevron {
+        transform: rotate(180deg);
+      }
+      .summary-text {
+        flex: 1;
+        min-width: 0;
+      }
+      .summary-catch {
+        display: block;
+        font-size: 10px;
+        color: var(--muted);
+        margin-top: 5px;
+      }
+      .timeline-editor {
+        padding: 22px;
+        border-top: 1px solid var(--line);
+      }
+      .timeline-editor .editor-top {
+        display: none;
+      }
+      .timeline-progress {
+        margin-bottom: 25px;
+        padding: 15px 0;
+      }
+      .timeline-progress p {
+        font-size: 11px;
+        color: var(--muted);
+        margin-bottom: 10px;
+      }
+      .timeline-completed {
+        color: var(--muted);
+        font-size: 11px;
+        line-height: 1.8;
+      }
+      /* 02 — grid of glanceable cards + drawer */
+      .board-toolbar {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        align-items: center;
+      }
+      .board-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+      }
+      .board-card {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: var(--panel);
+        padding: 19px;
+        text-align: left;
+        min-height: 207px;
+        display: flex;
+        flex-direction: column;
+        gap: 17px;
+        position: relative;
+      }
+      .board-card:hover {
+        border-color: #9cbd83;
+        background: #203024;
+        transform: translateY(-2px);
+      }
+      .board-card.boss-card {
+        border-color: #665638;
+        background:
+          linear-gradient(150deg, #51412522, transparent), var(--panel);
+      }
+      .board-card.current {
+        border-color: #90ad7d;
+      }
+      .board-card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 6px;
+      }
+      .board-card h3 {
+        font-size: 17px;
+        letter-spacing: -0.4px;
+        margin-bottom: 5px;
+      }
+      .board-card .card-body {
+        flex: 1;
+      }
+      .board-card .encounter-line p {
+        font-size: 11px;
+      }
+      .board-card .encounter-line small {
+        font-size: 9px;
+      }
+      .board-card .sprite {
+        width: 37px;
+        height: 37px;
+        font-size: 12px;
+      }
+      .card-bottom {
+        border-top: 1px solid var(--line);
+        padding-top: 12px;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        font-size: 10px;
+        color: var(--muted);
+      }
+      .card-bottom span:last-child {
+        color: #a6c58f;
+      }
+      .pending-art {
+        height: 40px;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        margin-top: 12px;
+      }
+      .pending-art span {
+        border: 1px dashed #4e6347;
+        border-radius: 50%;
+        width: 28px;
+        height: 28px;
+        display: grid;
+        place-items: center;
+        color: #778c6d;
+        font-size: 10px;
+      }
+      .drawer {
+        margin: 0 0 0 auto;
+        height: 100dvh;
+        max-height: 100dvh;
+        width: 480px;
+        max-width: 100vw;
+        border-radius: 16px 0 0 16px;
+        border-right: 0;
+      }
+      .drawer .dialog-head {
+        position: sticky;
+        top: 0;
+        background: var(--panel);
+        z-index: 1;
+      }
+      .drawer .form-fields {
+        grid-template-columns: 1fr;
+      }
+      .drawer .editor-top h2 {
+        display: none;
+      }
+      .board-legend {
+        font-size: 10px;
+        color: var(--muted);
+        padding: 18px 0;
+      }
+      .board-card .boss-count {
+        color: var(--gold);
+        font-size: 10px;
+        margin-top: 12px;
+      }
+      /* 03 — route navigator + single active workspace */
+      .focus-layout {
+        display: grid;
+        grid-template-columns: 245px minmax(0, 1fr);
+        gap: 0;
+        border: 1px solid var(--line);
+        border-radius: 13px;
+        overflow: hidden;
+        background: var(--panel);
+        min-height: 620px;
+      }
+      .route-rail {
+        border-right: 1px solid var(--line);
+        background: #151e18;
+        padding: 20px 12px;
+        max-height: 760px;
+        overflow-y: auto;
+      }
+      .rail-title {
+        padding: 0 8px 16px;
+      }
+      .rail-title h3 {
+        margin-top: 9px;
+      }
+      .route-rail .search {
+        padding: 9px;
+        margin-bottom: 17px;
+        font-size: 11px;
+      }
+      .rail-group {
+        font-size: 8px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: #8eaa7c;
+        padding: 14px 8px 9px;
+      }
+      .rail-item {
+        border: 1px solid transparent;
+        background: transparent;
+        padding: 12px 10px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        width: 100%;
+        border-radius: 7px;
+        text-align: left;
+        color: var(--muted);
+      }
+      .rail-item:hover {
+        background: #25382a;
+      }
+      .rail-item.active {
+        border-color: #58754a;
+        background: #b7df9d10;
+        color: var(--text);
+      }
+      .rail-item strong {
+        font-size: 11px;
+        display: block;
+        font-weight: 550;
+      }
+      .rail-item small {
+        font-size: 9px;
+        display: block;
+        margin-top: 4px;
+      }
+      .rail-symbol {
+        width: 20px;
+        height: 20px;
+        border: 1px solid #46583e;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-size: 9px;
+        color: #9ebc88;
+        flex-shrink: 0;
+      }
+      .rail-symbol.boss {
+        border-color: #a18755;
+        color: var(--gold);
+      }
+      .rail-symbol.done {
+        background: #a3c68b;
+        color: #1b2a1c;
+        border-color: transparent;
+      }
+      .focus-stage {
+        padding: 27px 33px;
+      }
+      .focus-breadcrumb {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 28px;
+        gap: 12px;
+      }
+      .focus-title h2 {
+        font-size: 31px;
+        letter-spacing: -1px;
+        margin: 10px 0 8px;
+      }
+      .focus-title p {
+        font-size: 12px;
+        line-height: 1.8;
+        color: var(--muted);
+      }
+      .focus-route-art {
+        height: 120px;
+        position: relative;
+        border: 1px solid #58774a55;
+        border-radius: 10px;
+        background:
+          linear-gradient(25deg, #46653338, transparent),
+          repeating-linear-gradient(
+            90deg,
+            transparent 0 39px,
+            #586f4209 39px 40px
+          ),
+          #233524;
+        overflow: hidden;
+        margin: 25px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+      }
+      .focus-route-art:before {
+        content: "";
+        width: 120%;
+        height: 3px;
+        background: #859d6960;
+        position: absolute;
+        transform: rotate(-12deg);
+      }
+      .focus-route-art .sprite {
+        width: 58px;
+        height: 58px;
+        font-size: 20px;
+        z-index: 1;
+        background: #283e2d;
+        box-shadow: 0 5px 20px #0004;
+      }
+      .focus-stage .editor-top {
+        display: none;
+      }
+      .focus-stage .form-fields {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .focus-stage .form-fields .field:last-child {
+        grid-column: 1/-1;
+      }
+      .focus-stage .form-actions {
+        margin-top: 10px;
+        padding-top: 17px;
+        border-top: 1px solid var(--line);
+      }
+      .focus-bottom-nav {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        margin-top: 28px;
+      }
+      .focus-team {
+        border-top: 1px solid var(--line);
+        padding-top: 23px;
+        margin-top: 30px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .focus-team .sprite {
+        width: 31px;
+        height: 31px;
+        font-size: 10px;
+        border-radius: 8px;
+      }
+      .focus-team small {
+        margin-right: auto;
+        color: var(--muted);
+      }
+      @media (max-width: 1050px) {
+        .board-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .timeline-layout {
+          grid-template-columns: minmax(0, 1fr) 230px;
+        }
+        .stat {
+          padding: 15px;
+        }
+        .form-fields {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .form-fields .field:last-child {
+          grid-column: 1/-1;
+        }
+        .focus-layout {
+          grid-template-columns: 210px minmax(0, 1fr);
+        }
+        .focus-stage {
+          padding: 25px;
+        }
+        .concept-note {
+          align-items: flex-start;
+        }
+      }
+      @media (max-width: 760px) {
+        .topbar {
+          padding: 14px 20px;
+        }
+        .top-left,
+        .top-right {
+          gap: 10px;
+        }
+        .preview-pill {
+          display: none;
+        }
+        .top-right a {
+          font-size: 10px;
+        }
+        .top-right .button {
+          font-size: 10px;
+          padding: 8px 10px;
+        }
+        .intro {
+          padding: 25px 20px;
+        }
+        .workspace {
+          padding: 0 20px 35px;
+        }
+        .intro h1 {
+          font-size: 29px;
+        }
+        .run-meta {
+          display: none;
+        }
+        .stats {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .stat:nth-child(2) {
+          border-right: 0;
+        }
+        .stat:nth-child(-n + 2) {
+          border-bottom: 1px solid var(--line);
+        }
+        .stat strong {
+          font-size: 21px;
+        }
+        .stat span {
+          font-size: 9px;
+        }
+        .concept-note {
+          display: block;
+        }
+        .concept-note span:last-child {
+          display: block;
+          margin-top: 4px;
+        }
+        .timeline-layout {
+          grid-template-columns: 1fr;
+        }
+        .timeline-side {
+          position: static;
+          order: -1;
+        }
+        .timeline-side .team-panel {
+          display: none;
+        }
+        .timeline-progress {
+          margin: 0;
+          padding-top: 0;
+        }
+        .board-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .board-toolbar {
+          display: block;
+        }
+        .search {
+          max-width: none;
+        }
+        .board-card {
+          padding: 15px;
+          min-height: 195px;
+        }
+        .board-card h3 {
+          font-size: 15px;
+        }
+        .board-card .badge {
+          font-size: 8px;
+          padding: 4px 5px;
+        }
+        .board-card .encounter-line {
+          gap: 7px;
+        }
+        .board-card .sprite {
+          width: 29px;
+          height: 29px;
+          font-size: 10px;
+        }
+        .board-card-top {
+          gap: 4px;
+        }
+        .board-card .count {
+          font-size: 8px;
+        }
+        .focus-layout {
+          grid-template-columns: 1fr;
+        }
+        .route-rail {
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+          max-height: 225px;
+          padding: 15px;
+          display: flex;
+          gap: 8px;
+          flex-wrap: wrap;
+        }
+        .rail-title {
+          display: none;
+        }
+        .route-rail .search {
+          width: 100%;
+          max-width: none;
+          margin: 0 0 4px;
+        }
+        .rail-group {
+          width: 100%;
+          padding: 8px 0 0;
+        }
+        .rail-item {
+          width: auto;
+          padding: 8px;
+          flex: 1;
+          min-width: 140px;
+        }
+        .focus-stage {
+          padding: 22px 18px;
+        }
+        .focus-title h2 {
+          font-size: 27px;
+        }
+        .focus-route-art {
+          height: 95px;
+        }
+        .focus-breadcrumb .eyebrow {
+          font-size: 8px;
+          letter-spacing: 0.8px;
+        }
+        .form-fields {
+          grid-template-columns: 1fr;
+        }
+        .form-fields .field:last-child {
+          grid-column: auto;
+        }
+        .focus-stage .form-fields {
+          grid-template-columns: 1fr;
+        }
+        .footer {
+          padding: 20px;
+          flex-direction: column;
+          gap: 4px;
+        }
+        .editor-top h2 {
+          font-size: 21px;
+        }
+        .timeline-row summary {
+          padding: 15px 12px;
+          gap: 9px;
+        }
+        .timeline-editor {
+          padding: 17px;
+        }
+        .timeline-row summary .sprite {
+          width: 30px;
+          height: 30px;
+          font-size: 10px;
+        }
+        .timeline-row summary .badge {
+          font-size: 8px;
+        }
+        .chapter-nav a {
+          font-size: 10px;
+          padding: 8px;
+        }
+        .timeline {
+          padding-left: 17px;
+        }
+        .timeline-row:before {
+          left: -23px;
+        }
+        .drawer {
+          border-radius: 0;
+          width: 100%;
+        }
+        .dialog-body {
+          padding: 21px;
+        }
+        .board-card .encounter-line small {
+          font-size: 8px;
+        }
+        .toolbar {
+          gap: 6px;
+        }
+        .filter {
+          padding: 8px 10px;
+          font-size: 10px;
+        }
+      }
+      @media (max-width: 380px) {
+        .board-grid {
+          grid-template-columns: 1fr;
+        }
+        .top-right a {
+          display: none;
+        }
+        .concept-note {
+          font-size: 10px;
+        }
+        .timeline-row summary .sprite {
+          display: none;
+        }
+        .form-actions .button {
+          flex: 1;
+        }
+        .stat {
+          gap: 7px;
+        }
+        .stats .stat span {
+          font-size: 8px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *:before,
+        *:after {
+          transition: none !important;
+          scroll-behavior: auto !important;
+        }
+      }
+    </style>
+  </head>
+  <body data-concept="timeline">
+    <header class="topbar">
+      <div class="top-left">
+        <a class="brand" href="index.html" aria-label="Nuzzy layout previews"
+          ><span class="ball" aria-hidden="true"></span
+          ><span>nuzzy<b>.</b></span></a
+        ><span class="preview-pill">CONCEPT 01</span>
+      </div>
+      <div class="top-right">
+        <a href="index.html">← All three concepts</a
+        ><button class="button quiet small-btn" id="reset">Reset demo</button>
+      </div>
+    </header>
+    <main>
+      <div class="intro">
+        <div class="concept-note">
+          <span
+            ><strong>Journey timeline</strong> · Keep the journey in order. Keep
+            the busywork folded away.</span
+          ><span>Interactive sample · your real runs stay untouched</span>
+        </div>
+        <div class="run-heading">
+          <div>
+            <p class="eyebrow">POKÉMON EMERALD / HOENN FIELD JOURNAL</p>
+            <h1>The little Hoenn adventure</h1>
+            <p class="intro-copy muted">
+              Completed stops become compact summaries. One open card handles
+              logging inline, then the next stop opens automatically.
+            </p>
+          </div>
+          <span class="run-meta"><span class="dot"></span>LOCAL PROTOTYPE</span>
+        </div>
+        <div class="stats" id="stats" aria-label="Run statistics"></div>
+      </div>
+      <div class="workspace" id="workspace"></div>
+    </main>
+    <footer class="footer">
+      <span>Concept 01 / Journey timeline · Standalone layout exploration</span
+      ><span
+        >Sample data only. Preview edits are saved separately in this browser.
+        No network or app connection.</span
+      >
+    </footer>
+    <dialog class="drawer" id="drawer" aria-labelledby="drawer-title">
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow">FIELD JOURNAL</p>
+          <h2 id="drawer-title"></h2>
+        </div>
+        <button
+          class="close"
+          id="close-drawer"
+          aria-label="Close encounter drawer"
+        >
+          ×
+        </button>
+      </div>
+      <div class="dialog-body" id="drawer-editor"></div>
+    </dialog>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script>
+      const DATA = [
+        {
+          id: "starter",
+          name: "Starter",
+          kind: "route",
+          pool: ["Treecko", "Mudkip", "Torchic"],
+          team: [],
+          location: "",
+          chapter: 0,
+        },
+        {
+          id: "route-101",
+          name: "Route 101",
+          kind: "route",
+          pool: ["Poochyena", "Zigzagoon", "Wurmple"],
+          team: [],
+          location: "",
+          chapter: 0,
+        },
+        {
+          id: "route-103",
+          name: "Route 103",
+          kind: "route",
+          pool: [
+            "Tentacool",
+            "Magikarp",
+            "Poochyena",
+            "Zigzagoon",
+            "Wingull",
+            "Pelipper",
+            "Sharpedo",
+            "Wailmer",
+          ],
+          team: [],
+          location: "",
+          chapter: 0,
+        },
+        {
+          id: "route-102",
+          name: "Route 102",
+          kind: "route",
+          pool: [
+            "Goldeen",
+            "Magikarp",
+            "Marill",
+            "Poochyena",
+            "Zigzagoon",
+            "Wurmple",
+            "Lotad",
+            "Seedot",
+            "Ralts",
+            "Corphish",
+          ],
+          team: [],
+          location: "",
+          chapter: 0,
+        },
+        {
+          id: "petalburg-city",
+          name: "Petalburg City",
+          kind: "route",
+          pool: ["Goldeen", "Magikarp", "Marill", "Corphish"],
+          team: [],
+          location: "",
+          chapter: 0,
+        },
+        {
+          id: "route-104",
+          name: "Route 104",
+          kind: "route",
+          pool: [
+            "Magikarp",
+            "Marill",
+            "Poochyena",
+            "Wurmple",
+            "Taillow",
+            "Wingull",
+            "Pelipper",
+          ],
+          team: [],
+          location: "",
+          chapter: 0,
+        },
+        {
+          id: "petalburg-woods",
+          name: "Petalburg Woods",
+          kind: "route",
+          pool: [
+            "Poochyena",
+            "Wurmple",
+            "Silcoon",
+            "Cascoon",
+            "Taillow",
+            "Shroomish",
+            "Slakoth",
+          ],
+          team: [],
+          location: "",
+          chapter: 0,
+        },
+        {
+          id: "rustboro-city",
+          name: "Rustboro City",
+          kind: "route",
+          pool: ["Seedot", "Lileep", "Anorith"],
+          team: [],
+          location: "",
+          chapter: 0,
+        },
+        {
+          id: "roxanne",
+          name: "Roxanne",
+          kind: "boss",
+          pool: [],
+          team: [
+            {
+              species: "Geodude",
+              types: ["Rock", "Ground"],
+              moves: ["Tackle", "Defense Curl", "Rock Throw", "Rock Tomb"],
+              item: null,
+            },
+            {
+              species: "Geodude",
+              types: ["Rock", "Ground"],
+              moves: ["Tackle", "Defense Curl", "Rock Throw", "Rock Tomb"],
+              item: null,
+            },
+            {
+              species: "Nosepass",
+              types: ["Rock"],
+              moves: ["Block", "Harden", "Tackle", "Rock Tomb"],
+              item: null,
+            },
+          ],
+          location: "Rustboro Gym",
+          chapter: 0,
+        },
+        {
+          id: "route-116",
+          name: "Route 116",
+          kind: "route",
+          pool: [
+            "Abra",
+            "Poochyena",
+            "Taillow",
+            "Nincada",
+            "Whismur",
+            "Skitty",
+          ],
+          team: [],
+          location: "",
+          chapter: 1,
+        },
+        {
+          id: "rusturf-tunnel",
+          name: "Rusturf Tunnel",
+          kind: "route",
+          pool: ["Whismur"],
+          team: [],
+          location: "",
+          chapter: 1,
+        },
+        {
+          id: "dewford-town",
+          name: "Dewford Town",
+          kind: "route",
+          pool: ["Tentacool", "Magikarp", "Wailmer"],
+          team: [],
+          location: "",
+          chapter: 1,
+        },
+        {
+          id: "brawly",
+          name: "Brawly",
+          kind: "boss",
+          pool: [],
+          team: [
+            {
+              species: "Machop",
+              types: ["Fighting"],
+              moves: ["Karate Chop", "Low Kick", "Seismic Toss", "Bulk Up"],
+              item: null,
+            },
+            {
+              species: "Meditite",
+              types: ["Fighting", "Psychic"],
+              moves: ["Focus Punch", "Light Screen", "Reflect", "Bulk Up"],
+              item: null,
+            },
+            {
+              species: "Makuhita",
+              types: ["Fighting"],
+              moves: ["Arm Thrust", "Vital Throw", "Reversal", "Bulk Up"],
+              item: "Sitrus Berry",
+            },
+          ],
+          location: "Dewford Gym",
+          chapter: 1,
+        },
+        {
+          id: "route-110",
+          name: "Route 110",
+          kind: "route",
+          pool: [
+            "Oddish",
+            "Tentacool",
+            "Magikarp",
+            "Poochyena",
+            "Wingull",
+            "Pelipper",
+            "Electrike",
+            "Plusle",
+            "Minun",
+            "Gulpin",
+            "Wailmer",
+          ],
+          team: [],
+          location: "",
+          chapter: 2,
+        },
+        {
+          id: "wattson",
+          name: "Wattson",
+          kind: "boss",
+          pool: [],
+          team: [
+            {
+              species: "Voltorb",
+              types: ["Electric"],
+              moves: ["Rollout", "Spark", "Self Destruct", "Shock Wave"],
+              item: null,
+            },
+            {
+              species: "Electrike",
+              types: ["Electric"],
+              moves: ["Shock Wave", "Leer", "Quick Attack", "Howl"],
+              item: null,
+            },
+            {
+              species: "Magneton",
+              types: ["Electric", "Steel"],
+              moves: ["Supersonic", "Thunder Wave", "Shock Wave", "Sonic Boom"],
+              item: null,
+            },
+            {
+              species: "Manectric",
+              types: ["Electric"],
+              moves: ["Quick Attack", "Shock Wave", "Thunder Wave", "Howl"],
+              item: "Sitrus Berry",
+            },
+          ],
+          location: "Mauville City Gym",
+          chapter: 2,
+        },
+      ];
+
+      const concept = document.body.dataset.concept;
+      const storageKey = "nuzzy-layout-preview-v1-" + concept;
+      const chapters = [
+        "The road to Rustboro",
+        "Across the sea",
+        "Onward to Mauville",
+      ];
+      const seed = {
+        starter: { pokemon: "Treecko", nickname: "Clover", status: "Team" },
+        "route-101": {
+          pokemon: "Poochyena",
+          nickname: "Pepper",
+          status: "Team",
+        },
+        "route-103": { pokemon: "Wingull", nickname: "Skye", status: "Dead" },
+        "route-102": { pokemon: "Lotad", nickname: "Dewdrop", status: "Boxed" },
+        "petalburg-city": { skip: true },
+        "route-104": { pokemon: "Taillow", nickname: "Scout", status: "Team" },
+      };
+      let state = structuredClone(seed);
+      try {
+        const saved = JSON.parse(localStorage.getItem(storageKey));
+        if (saved && typeof saved === "object") state = saved;
+      } catch {}
+      let selected = "petalburg-woods",
+        filter = "all",
+        query = "";
+      const esc = (value) =>
+        String(value ?? "").replace(
+          /[&<>"']/g,
+          (ch) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            })[ch],
+        );
+      const getItem = (id) => DATA.find((item) => item.id === id);
+      const isDone = (item) =>
+        item.kind === "boss" ? !!state[item.id]?.cleared : !!state[item.id];
+      const teamSize = () =>
+        Object.values(state).filter((e) => e.status === "Team").length;
+      const initial = (name) => name.slice(0, 2).toUpperCase();
+      const sprite = (name, dead = false) =>
+        `<span class="sprite ${["Wingull", "Lotad", "Tentacool", "Mudkip"].includes(name) ? "water" : ""} ${dead ? "dead" : ""}" aria-hidden="true">${esc(initial(name))}</span>`;
+      function badge(item) {
+        const s = state[item.id];
+        let label = "Unvisited",
+          cls = "pending";
+        if (item.kind === "boss") {
+          label = s?.cleared ? "Cleared" : "Boss battle";
+          cls = s?.cleared ? "" : "boss";
+        } else if (s?.skip) {
+          label = "Skipped";
+          cls = "skip";
+        } else if (s) {
+          label = s.status;
+          cls = s.status.toLowerCase();
+        }
+        return `<span class="badge ${cls}">${esc(label)}</span>`;
+      }
+      function catchLine(item, withBadge = false) {
+        const s = state[item.id];
+        if (!s || s.skip || item.kind === "boss") return "";
+        return `<div class="encounter-line">${sprite(s.pokemon, s.status === "Dead")}<div><p>${esc(s.nickname)}</p><small>${esc(s.pokemon)}</small></div>${withBadge ? badge(item) : ""}</div>`;
+      }
+      function save() {
+        try {
+          localStorage.setItem(storageKey, JSON.stringify(state));
+        } catch {}
+        updateStats();
+      }
+      let toastTimer;
+      function toast(message) {
+        const el = document.getElementById("toast");
+        el.textContent = message;
+        el.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => el.classList.remove("show"), 2600);
+      }
+      function updateStats() {
+        const catches = Object.values(state).filter((e) => e.pokemon).length;
+        const bosses = DATA.filter(
+          (e) => e.kind === "boss" && isDone(e),
+        ).length;
+        document.getElementById("stats").innerHTML =
+          `<div class="stat"><strong>${catches}</strong><span>encounters logged</span></div><div class="stat"><strong>${teamSize()} / 6</strong><span>on your team</span></div><div class="stat"><strong>${Object.values(state).filter((e) => e.status === "Dead").length}</strong><span>remembered</span></div><div class="stat"><strong>${bosses} / 3</strong><span>bosses cleared</span></div>`;
+      }
+      function teamPanel() {
+        const members = DATA.filter((i) => state[i.id]?.status === "Team");
+        return `<aside class="team-panel"><p class="eyebrow">YOUR TRAVELING COMPANIONS</p><h3>Current team <span class="muted">${members.length} / 6</span></h3>${members.length ? members.map((i) => catchLine(i)).join("") : '<p class="team-empty">No teammates yet.</p>'}<p class="team-tip">Caught something new? Give it a nickname and a place on the team. Boxed and fallen Pokémon stay attached to their routes.</p></aside>`;
+      }
+      function editor(item) {
+        const s = state[item.id];
+        const header = `<div class="editor-top"><div><p class="eyebrow">${item.kind === "boss" ? "BOSS REFERENCE" : "ENCOUNTER LOG"}</p><h2>${esc(item.name)}</h2></div>${badge(item)}</div>`;
+        if (item.kind === "boss")
+          return (
+            header +
+            `<p class="form-help" style="margin-bottom:18px">${esc(item.location)} · Check the opposing team before you take the fight.</p><div class="battle-team">${item.team.map((m) => `<div class="battle-member">${sprite(m.species)}<div><p>${esc(m.species)}</p><small>${esc(m.moves.join(" · "))}</small><small>Held item: ${esc(m.item || "None")}</small></div><span class="badge boss">${esc(m.types.join(" / "))}</span></div>`).join("")}</div><div class="form-actions" style="margin-top:24px"><button class="button ${s?.cleared ? "quiet" : "primary"}" data-clear="${item.id}">${s?.cleared ? "Reopen this battle" : "Mark battle cleared" + (concept === "focus" ? " & next →" : "")}</button></div>`
+          );
+        const teamFull = teamSize() >= 6 && s?.status !== "Team";
+        const pool = [
+          ...new Set([
+            ...(item.pool || []),
+            ...(s?.pokemon ? [s.pokemon] : []),
+          ]),
+        ];
+        return (
+          header +
+          (s?.pokemon
+            ? `<div class="log-summary">${catchLine(item, true)}</div>`
+            : s?.skip
+              ? '<p class="form-help" style="margin-bottom:18px">This encounter is marked as skipped. Log a catch below to change that.</p>'
+              : "") +
+          `<form class="form" data-route="${item.id}"><div class="form-fields"><label class="field">Pokémon<select name="pokemon" required>${pool.map((p) => `<option ${s?.pokemon === p ? "selected" : ""}>${esc(p)}</option>`).join("")}</select></label><label class="field">Nickname<input name="nickname" value="${esc(s?.nickname || "")}" placeholder="Give your new friend a name" required maxlength="40"></label><label class="field">Where do they belong?<select name="status"><option value="Team" ${teamFull ? "disabled" : ""} ${s?.status === "Team" ? "selected" : ""}>Team${teamFull ? " (full)" : ""}</option><option value="Boxed" ${s?.status === "Boxed" || teamFull ? "selected" : ""}>Boxed</option><option value="Dead" ${s?.status === "Dead" ? "selected" : ""}>Dead</option></select></label></div><p class="form-help">${teamFull ? "Your team is full. This catch can go into the box." : "One catch per route in this prototype. Saving an existing card updates it."}</p><div class="form-actions">${s ? `<button type="button" class="button quiet danger" data-unlog="${item.id}">Clear record</button>` : ""}<button type="button" class="button quiet" data-skip="${item.id}">Skip encounter</button><button class="button primary" type="submit">${concept === "focus" ? "Save & next →" : s?.pokemon ? "Save changes" : "Log encounter"}${concept === "timeline" ? " ✓" : ""}</button></div></form>`
+        );
+      }
+      function matches(item) {
+        if (
+          query &&
+          !(
+            item.name +
+            " " +
+            (state[item.id]?.nickname || "") +
+            " " +
+            (state[item.id]?.pokemon || "")
+          )
+            .toLowerCase()
+            .includes(query.toLowerCase())
+        )
+          return false;
+        if (filter === "pending") return !isDone(item);
+        if (filter === "logged") return isDone(item);
+        if (filter === "bosses") return item.kind === "boss";
+        return true;
+      }
+      function nextId(id) {
+        const idx = DATA.findIndex((i) => i.id === id);
+        return (
+          DATA.slice(idx + 1).find((i) => !isDone(i))?.id ||
+          DATA.slice(idx + 1)[0]?.id ||
+          DATA.find((i) => !isDone(i))?.id ||
+          id
+        );
+      }
+      function focusNext(id) {
+        selected = nextId(id);
+      }
+      function renderTimeline() {
+        const done = DATA.filter(isDone).length;
+        document.getElementById("workspace").innerHTML =
+          `<div class="timeline-layout"><div><nav class="chapter-nav" aria-label="Jump to chapter">${chapters.map((c, i) => `<a href="#chapter-${i}">${i + 1}. ${c}</a>`).join("")}</nav><div class="timeline">${chapters
+            .map(
+              (chapter, n) =>
+                `<div class="chapter-label" id="chapter-${n}" style="scroll-margin-top:100px"><p class="eyebrow">0${n + 1} / ${chapter}</p><span class="line"></span></div>${DATA.filter(
+                  (i) => i.chapter === n,
+                )
+                  .map(
+                    (item) =>
+                      `<details class="timeline-row ${item.kind === "boss" ? "boss-card" : ""}" data-id="${item.id}" ${selected === item.id ? "open" : ""}><summary><span class="count">${String(DATA.indexOf(item) + 1).padStart(2, "0")}</span>${state[item.id]?.pokemon ? sprite(state[item.id].pokemon, state[item.id].status === "Dead") : ""}<span class="summary-text"><span class="eyebrow">${item.kind === "boss" ? "BOSS BATTLE" : "ROUTE & AREA"}</span><h3>${esc(item.name)}</h3>${state[item.id]?.pokemon ? `<span class="summary-catch">${esc(state[item.id].nickname)} · ${esc(state[item.id].pokemon)}</span>` : ""}</span>${badge(item)}<span class="chevron" aria-hidden="true">⌄</span></summary><div class="timeline-editor">${editor(item)}</div></details>`,
+                  )
+                  .join("")}`,
+            )
+            .join(
+              "",
+            )}</div></div><div class="timeline-side"><div class="timeline-progress"><p>${done} of ${DATA.length} stops recorded</p><div class="progress-track"><span style="width:${(done / DATA.length) * 100}%"></span></div></div>${teamPanel()}<p class="timeline-completed" style="margin-top:18px">Open a card to log or edit. The rest of the journey stays neatly folded away.</p></div></div>`;
+        document.querySelectorAll("details").forEach((el) =>
+          el.addEventListener("toggle", () => {
+            if (el.open) {
+              selected = el.dataset.id;
+              document.querySelectorAll("details[open]").forEach((other) => {
+                if (other !== el) other.open = false;
+              });
+            }
+          }),
+        );
+      }
+      function boardCards() {
+        const items = DATA.filter(matches);
+        document.getElementById("board-cards").innerHTML = items.length
+          ? items
+              .map(
+                (item) =>
+                  `<button class="board-card ${item.kind === "boss" ? "boss-card" : ""} ${item.id === selected ? "current" : ""}" data-open="${item.id}" aria-label="Open ${esc(item.name)}"><span class="board-card-top"><span class="count">${String(DATA.indexOf(item) + 1).padStart(2, "0")} / ${item.kind === "boss" ? "BOSS" : "AREA"}</span>${badge(item)}</span><div class="card-body"><h3>${esc(item.name)}</h3>${
+                    item.kind === "boss"
+                      ? `<span class="muted" style="font-size:10px">${esc(item.location)}</span><p class="boss-count">${item.team.length} opposing Pokémon</p>`
+                      : state[item.id]?.pokemon
+                        ? catchLine(item)
+                        : `<div class="pending-art" aria-hidden="true">${item.pool
+                            .slice(0, 3)
+                            .map((p) => `<span>${esc(initial(p))}</span>`)
+                            .join("")}</div>`
+                  }</div><span class="card-bottom"><span>${item.kind === "boss" ? "View battle reference" : state[item.id]?.pokemon ? "Edit encounter" : state[item.id]?.skip ? "Change record" : "Choose your encounter"}</span><span>↗</span></span></button>`,
+              )
+              .join("")
+          : '<p class="empty" style="grid-column:1/-1">No matching cards. Try another search or filter.</p>';
+        document.querySelectorAll("[data-filter]").forEach((b) => {
+          b.classList.toggle("active", b.dataset.filter === filter);
+          b.setAttribute("aria-pressed", b.dataset.filter === filter);
+        });
+      }
+      function renderBoard() {
+        document.getElementById("workspace").innerHTML =
+          `<div class="section-label"><div><p class="eyebrow" style="margin-bottom:8px">THE WHOLE JOURNEY AT A GLANCE</p><h2>Your encounter board</h2></div><small>${DATA.length} stops</small></div><div class="board-toolbar"><div class="toolbar">${[
+            ["all", "All stops"],
+            ["pending", "Unvisited"],
+            ["logged", "Recorded"],
+            ["bosses", "Bosses"],
+          ]
+            .map(
+              ([v, l]) =>
+                `<button class="filter" data-filter="${v}" aria-pressed="${filter === v}">${l}</button>`,
+            )
+            .join(
+              "",
+            )}</div><div class="toolbar"><input class="search" id="board-search" aria-label="Search cards" placeholder="Search routes, names, species…" value="${esc(query)}"></div></div><div class="board-grid" id="board-cards"></div><p class="board-legend">Cards stay compact. Open any route to log a catch in the drawer; your board remains in view.</p>`;
+        boardCards();
+        document
+          .getElementById("board-search")
+          .addEventListener("input", (e) => {
+            query = e.target.value;
+            boardCards();
+          });
+      }
+      function openDrawer(id) {
+        selected = id;
+        const item = getItem(id);
+        document.getElementById("drawer-title").textContent = item.name;
+        document.getElementById("drawer-editor").innerHTML = editor(item);
+        const dialog = document.getElementById("drawer");
+        dialog.showModal();
+      }
+      function railItems() {
+        const items = DATA.filter(
+          (i) => !query || i.name.toLowerCase().includes(query.toLowerCase()),
+        );
+        document.getElementById("rail-items").innerHTML = items.length
+          ? chapters
+              .map(
+                (c, n) =>
+                  `${items.some((i) => i.chapter === n) ? `<p class="rail-group">0${n + 1} · ${c}</p>` : ""}${items
+                    .filter((i) => i.chapter === n)
+                    .map(
+                      (i) =>
+                        `<button class="rail-item ${i.id === selected ? "active" : ""}" data-select="${i.id}" aria-current="${i.id === selected ? "step" : "false"}"><span class="rail-symbol ${isDone(i) ? "done" : i.kind === "boss" ? "boss" : ""}">${isDone(i) ? "✓" : i.kind === "boss" ? "✦" : String(DATA.indexOf(i) + 1).padStart(2, "0")}</span><span><strong>${esc(i.name)}</strong><small>${i.kind === "boss" ? "Boss battle" : state[i.id]?.pokemon ? esc(state[i.id].nickname) + " · " + esc(state[i.id].status) : state[i.id]?.skip ? "Skipped" : "Unvisited"}</small></span></button>`,
+                    )
+                    .join("")}`,
+              )
+              .join("")
+          : '<p class="team-empty">No matching stops.</p>';
+      }
+      function renderFocus() {
+        const item = getItem(selected),
+          index = DATA.indexOf(item);
+        document.getElementById("workspace").innerHTML =
+          `<div class="focus-layout"><nav class="route-rail" aria-label="Route navigator"><div class="rail-title"><p class="eyebrow">YOUR ROUTE BOOK</p><h3>Journey navigator</h3></div><input class="search" id="rail-search" aria-label="Find a route" placeholder="Find a route…" value="${esc(query)}"><div id="rail-items" style="display:contents"></div></nav><section class="focus-stage" aria-label="Active tracker card"><div class="focus-breadcrumb"><span class="eyebrow">${chapters[item.chapter]}</span><span class="count">${index + 1} / ${DATA.length}</span></div><div class="focus-title"><p class="eyebrow">${item.kind === "boss" ? "NEXT BIG CHALLENGE" : "ONE ENCOUNTER AT A TIME"}</p><h2>${esc(item.name)}</h2><p>${item.kind === "boss" ? "Take a breath. Check the team. Make a plan." : "A fresh page in your journey. Who did you meet here?"}</p></div>${item.kind === "route" ? `<div class="focus-route-art" aria-hidden="true">${(state[item.id]?.pokemon ? [state[item.id].pokemon] : item.pool.slice(0, 4)).map((p) => sprite(p)).join("")}</div>` : '<div style="height:25px"></div>'}<div id="focus-editor">${editor(item)}</div><div class="focus-bottom-nav"><button class="button quiet small-btn" data-step="-1" ${index === 0 ? "disabled" : ""}>← Previous stop</button><button class="button quiet small-btn" data-step="1" ${index === DATA.length - 1 ? "disabled" : ""}>Next stop →</button></div><div class="focus-team"><small>ON YOUR TEAM · ${teamSize()} / 6</small>${DATA.filter(
+            (i) => state[i.id]?.status === "Team",
+          )
+            .map(
+              (i) =>
+                `<span title="${esc(state[i.id].nickname)} · ${esc(state[i.id].pokemon)}">${sprite(state[i.id].pokemon)}</span>`,
+            )
+            .join("")}</div></section></div>`;
+        railItems();
+        document
+          .getElementById("rail-search")
+          .addEventListener("input", (e) => {
+            query = e.target.value;
+            railItems();
+          });
+      }
+      function render() {
+        updateStats();
+        if (concept === "timeline") renderTimeline();
+        if (concept === "board") renderBoard();
+        if (concept === "focus") renderFocus();
+      }
+      function afterChange(id, message) {
+        save();
+        if (concept === "focus") focusNext(id);
+        if (concept === "timeline") focusNext(id);
+        const drawer = document.getElementById("drawer");
+        if (drawer.open) drawer.close();
+        render();
+        if (concept === "board")
+          document
+            .querySelector(`[data-open="${id}"]`)
+            ?.focus({ preventScroll: true });
+        toast(message);
+        if (concept === "timeline") {
+          const next = document.querySelector(`details[data-id="${selected}"]`);
+          next?.scrollIntoView({
+            behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
+              ? "instant"
+              : "smooth",
+            block: "nearest",
+          });
+          next?.querySelector("summary").focus({ preventScroll: true });
+        }
+        if (concept === "focus") {
+          document
+            .querySelector(".focus-stage")
+            .scrollIntoView({ block: "nearest", behavior: "instant" });
+        }
+      }
+      document.addEventListener("submit", (e) => {
+        if (!e.target.matches(".form")) return;
+        e.preventDefault();
+        const form = e.target;
+        const values = new FormData(form);
+        const id = form.dataset.route;
+        const nickname = String(values.get("nickname") || "").trim();
+        if (!nickname) {
+          form.elements.nickname.setCustomValidity("Please enter a nickname.");
+          form.elements.nickname.reportValidity();
+          return;
+        }
+        const status = String(values.get("status"));
+        if (
+          status === "Team" &&
+          teamSize() >= 6 &&
+          state[id]?.status !== "Team"
+        ) {
+          toast("Your team is full. Choose Boxed.");
+          return;
+        }
+        state[id] = {
+          pokemon: String(values.get("pokemon")),
+          nickname,
+          status,
+        };
+        afterChange(id, nickname + " added to your journal.");
+      });
+      document.addEventListener("input", (e) => {
+        if (e.target.name === "nickname") e.target.setCustomValidity("");
+      });
+      document.addEventListener("click", (e) => {
+        const b = e.target.closest("button");
+        if (!b) return;
+        if (b.dataset.open) {
+          openDrawer(b.dataset.open);
+          return;
+        }
+        if (b.dataset.select) {
+          selected = b.dataset.select;
+          renderFocus();
+          return;
+        }
+        if (b.dataset.step) {
+          const n =
+            DATA.findIndex((i) => i.id === selected) + Number(b.dataset.step);
+          if (DATA[n]) {
+            selected = DATA[n].id;
+            renderFocus();
+          }
+          return;
+        }
+        if (b.dataset.filter) {
+          filter = b.dataset.filter;
+          boardCards();
+          return;
+        }
+        if (b.dataset.skip) {
+          state[b.dataset.skip] = { skip: true };
+          afterChange(b.dataset.skip, "Encounter marked as skipped.");
+          return;
+        }
+        if (b.dataset.unlog) {
+          const id = b.dataset.unlog;
+          delete state[id];
+          save();
+          if (concept === "board") {
+            document.getElementById("drawer-editor").innerHTML = editor(
+              getItem(id),
+            );
+            boardCards();
+          } else render();
+          toast("Record cleared. This route is unvisited again.");
+          return;
+        }
+        if (b.dataset.clear) {
+          const id = b.dataset.clear;
+          const wasCleared = state[id]?.cleared;
+          if (wasCleared) {
+            delete state[id];
+            save();
+            render();
+            if (concept === "board")
+              document.getElementById("drawer-editor").innerHTML = editor(
+                getItem(id),
+              );
+            toast("Battle reopened.");
+          } else {
+            state[id] = { cleared: true };
+            afterChange(id, "Battle cleared. On to the next chapter.");
+          }
+          return;
+        }
+        if (b.id === "close-drawer") {
+          document.getElementById("drawer").close();
+          return;
+        }
+        if (b.id === "reset") {
+          state = structuredClone(seed);
+          selected = "petalburg-woods";
+          filter = "all";
+          query = "";
+          document.getElementById("drawer").close();
+          save();
+          render();
+          toast("Sample journey restored.");
+        }
+      });
+      document.getElementById("drawer").addEventListener("click", (e) => {
+        if (e.target === e.currentTarget) {
+          const r = e.currentTarget.getBoundingClientRect();
+          if (
+            e.clientX < r.left ||
+            e.clientX > r.right ||
+            e.clientY < r.top ||
+            e.clientY > r.bottom
+          )
+            e.currentTarget.close();
+        }
+      });
+      render();
+    </script>
+  </body>
+</html>
