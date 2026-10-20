@@ -11,6 +11,11 @@ export interface BossPokemon {
   types: string[];
   moves: string[];
   item: string | null;
+  level?: string;
+  ability?: string;
+  abilities?: string[];
+  /** Condition from the source pack; validated by content checks. */
+  starter?: string;
 }
 
 export interface BossDef {
@@ -18,12 +23,16 @@ export interface BossDef {
   name: string;
   location?: string;
   rematch?: boolean;
+  specialty?: string;
+  doubleBattle?: boolean;
+  effect?: string;
+  notes?: string;
+  category?: string;
   team: BossPokemon[];
 }
 
 export type ProgressionSegment =
-  | { kind: "route"; routeId: string }
-  | { kind: "boss"; bossId: string };
+  { kind: "route"; routeId: string } | { kind: "boss"; bossId: string };
 
 export interface GamePack {
   routes: RouteDef[];

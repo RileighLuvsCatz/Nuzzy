@@ -1,31 +1,39 @@
 import type { Run } from "../types";
 import Icon from "./Icon";
-import { TEAM_LIMIT } from "../run/encounters";
+import { isCaught, TEAM_LIMIT } from "../run/encounters";
 
 export default function RunHeader({
   run,
   view,
   description,
+  savePending = false,
 }: {
   run: Run;
   view: string;
   description: string;
+  savePending?: boolean;
 }) {
   const stats = [
-    { label: "Encounters", value: run.encounters.length, icon: "route" },
+    {
+      label: "Encounters",
+      value: run.encounters.filter(isCaught).length,
+      icon: "route",
+    },
     {
       label: "On your team",
-      value: `${run.encounters.filter((e) => e.status === "Team").length} / ${TEAM_LIMIT}`,
+      value: `${run.encounters.filter((e) => isCaught(e) && e.status === "Team").length} / ${TEAM_LIMIT}`,
       icon: "ball",
     },
     {
       label: "In the box",
-      value: run.encounters.filter((e) => e.status === "Boxed").length,
+      value: run.encounters.filter((e) => isCaught(e) && e.status === "Boxed")
+        .length,
       icon: "box",
     },
     {
       label: "Remembered",
-      value: run.encounters.filter((e) => e.status === "Dead").length,
+      value: run.encounters.filter((e) => isCaught(e) && e.status === "Dead")
+        .length,
       icon: "heart",
     },
   ] as const;
@@ -42,7 +50,7 @@ export default function RunHeader({
         </div>
         <span className="save-indicator">
           <Icon name="shield" size={14} />
-          Saved locally
+          {savePending ? "Save needs attention" : "Saved locally"}
         </span>
       </div>
       <div className="run-stats">

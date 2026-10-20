@@ -1,3 +1,4 @@
+import { isCaught } from "../run/encounters";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { getGamePack } from "../data/games";
@@ -280,11 +281,11 @@ export default function Box() {
   }, [run]);
 
   const teamEncounters = useMemo(
-    () => (run?.encounters ?? []).filter((e) => e.status === "Team"),
+    () => (run?.encounters ?? []).filter((e) => isCaught(e) && e.status === "Team"),
     [run],
   );
   const boxedEncounters = useMemo(
-    () => (run?.encounters ?? []).filter((e) => e.status === "Boxed"),
+    () => (run?.encounters ?? []).filter((e) => isCaught(e) && e.status === "Boxed"),
     [run],
   );
 

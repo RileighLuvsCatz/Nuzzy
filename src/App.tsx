@@ -8,7 +8,7 @@ import Box from "./pages/Box";
 import Graveyard from "./pages/Graveyard";
 
 function AppShell() {
-  const { pathname } = useLocation();
+  const { pathname, key } = useLocation();
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, [pathname]);
@@ -25,7 +25,7 @@ function AppShell() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/new-run" element={<NewRun />} />
-          <Route path="/tracker" element={<Tracker />} />
+          <Route path="/tracker" element={<Tracker key={key} />} />
           <Route path="/box" element={<Box />} />
           <Route path="/graveyard" element={<Graveyard />} />
         </Routes>

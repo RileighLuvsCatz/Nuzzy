@@ -1,11 +1,16 @@
 export type Status = "Team" | "Boxed" | "Dead";
 
+export type EncounterOutcome = "planned" | "caught" | "missed";
+export type StarterType = "grass" | "fire" | "water";
+
 export interface Encounter {
   id: string;
   routeId: string;
   pokemon: string;
   nickname: string;
   status: Status;
+  outcome?: EncounterOutcome;
+  caughtAs?: string;
 }
 
 export interface Run {
@@ -18,6 +23,8 @@ export interface Run {
   createdAt: string;
   encounters: Encounter[];
   schemaVersion: number;
+  starterType?: StarterType;
+  defeatedBosses?: Record<string, string>;
 }
 
 export * from "./game";

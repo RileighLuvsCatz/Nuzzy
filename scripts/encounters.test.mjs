@@ -3,14 +3,25 @@ import test from "node:test";
 import { addEncounter, changeEncounterStatus } from "../src/run/encounters.ts";
 
 function encounter(id, status = "Team") {
-  return { id, routeId: "route-101", pokemon: "Poochyena", nickname: id, status };
+  return {
+    id,
+    routeId: "route-101",
+    pokemon: "Poochyena",
+    nickname: id,
+    status,
+  };
 }
 
 function runWithTeam(size) {
   return {
-    id: "run", name: "Test", gameId: "emerald", schemaVersion: 1,
+    id: "run",
+    name: "Test",
+    gameId: "emerald",
+    schemaVersion: 1,
     createdAt: "2026-10-07T00:00:00Z",
-    encounters: Array.from({ length: size }, (_, index) => encounter(`team-${index}`)),
+    encounters: Array.from({ length: size }, (_, index) =>
+      encounter(`team-${index}`),
+    ),
   };
 }
 
@@ -53,7 +64,10 @@ test("moving or marking a Team member Dead frees a slot", () => {
     const run = addEncounter(runWithTeam(6), encounter("reserve", "Boxed"));
     const freed = changeEncounterStatus(run, "team-0", status);
     const updated = changeEncounterStatus(freed, "reserve", "Team");
-    assert.equal(updated.encounters.find((item) => item.id === "team-0").status, status);
+    assert.equal(
+      updated.encounters.find((item) => item.id === "team-0").status,
+      status,
+    );
     assert.equal(updated.encounters.at(-1).status, "Team");
   }
 });
@@ -67,5 +81,53 @@ test("oversized saves retain every member and can be corrected", () => {
   assert.strictEqual(changeEncounterStatus(run, "team-0", "Team"), run);
   run = changeEncounterStatus(run, "team-2", "Boxed");
   run = changeEncounterStatus(run, "team-0", "Team");
-  assert.equal(run.encounters.filter((item) => item.status === "Team").length, 6);
+  assert.equal(
+    run.encounters.filter((item) => item.status === "Team").length,
+    6,
+  );
+});
+
+test("plans and missed encounters never occupy a party slot", async () => {
+  const { upsertEncounter, isCaught } =
+    await import("../src/run/encounters.ts");
+  const plan = upsertEncounter(runWithTeam(6), {
+    ...encounter("plan"),
+    outcome: "planned",
+  });
+  assert.equal(plan.encounters.at(-1).status, "Boxed");
+  assert.equal(isCaught(plan.encounters.at(-1)), false);
+  const caught = upsertEncounter(plan, {
+    ...plan.encounters.at(-1),
+    outcome: "caught",
+    status: "Team",
+  });
+  assert.equal(caught.encounters.length, 7);
+  assert.equal(caught.encounters.at(-1).status, "Boxed");
+  const missed = upsertEncounter(caught, {
+    ...caught.encounters[0],
+    outcome: "missed",
+  });
+  assert.equal(
+    missed.encounters.filter((e) => isCaught(e) && e.status === "Team").length,
+    5,
+  );
+});
+
+test("evolution preserves identity, nickname, route, and original species", async () => {
+  const { evolveEncounter } = await import("../src/run/encounters.ts");
+  const run = {
+    ...runWithTeam(0),
+    encounters: [
+      { ...encounter("starter"), pokemon: "Treecko", nickname: "Clover" },
+    ],
+  };
+  const evolved = evolveEncounter(run, "starter", "Grovyle");
+  assert.deepEqual(evolved.encounters[0], {
+    ...run.encounters[0],
+    pokemon: "Grovyle",
+    caughtAs: "Treecko",
+  });
+  const again = evolveEncounter(evolved, "starter", "Sceptile");
+  assert.equal(again.encounters[0].caughtAs, "Treecko");
+  assert.equal(run.encounters[0].pokemon, "Treecko");
 });

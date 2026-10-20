@@ -1,59 +1,45 @@
 import { useEffect, useState } from "react";
 import { getSpriteUrl } from "../lib/pokemonSprites";
-
+import { speciesReference } from "../lib/gameReference";
 interface Props {
   species: string;
   size?: number;
   className?: string;
 }
-
-export default function PokemonSprite({
-  species,
-  size = 40,
-  className = "",
-}: Props) {
-  const [url, setUrl] = useState<string | null>(null);
+export default function PokemonSprite(props: Props) {
+  return <Sprite key={props.species} {...props} />;
+}
+function Sprite({ species, size = 40, className = "" }: Props) {
+  const known = speciesReference(species);
+  const [url, setUrl] = useState<string | null>(
+    known
+      ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${known.id}.png`
+      : null,
+  );
   const [failed, setFailed] = useState(false);
-
   useEffect(() => {
+    if (known || !species) return;
     let cancelled = false;
-    setUrl(null);
-    setFailed(false);
-
     getSpriteUrl(species).then((resolved) => {
-      if (cancelled) return;
-      if (resolved) setUrl(resolved);
-      else setFailed(true);
+      if (!cancelled) {
+        setUrl(resolved);
+        setFailed(!resolved);
+      }
     });
-
     return () => {
       cancelled = true;
     };
-  }, [species]);
-
-  const box = `shrink-0 flex items-center justify-center ${className}`;
-
-  if (!url && !failed) {
+  }, [known, species]);
+  if (!url || failed)
     return (
       <span
-        className={`${box} animate-pulse rounded bg-gray-800`}
+        className={`sprite-placeholder ${className}`}
         style={{ width: size, height: size }}
-      />
-    );
-  }
-
-  if (failed || !url) {
-    return (
-      <span
-        className={`${box} rounded bg-gray-800 text-gray-600 text-xs select-none`}
-        style={{ width: size, height: size }}
-        title={species}
+        aria-hidden="true"
       >
-        ?
+        {failed ? "?" : "·"}
       </span>
     );
-  }
-
   return (
     <img
       src={url}
@@ -62,7 +48,7 @@ export default function PokemonSprite({
       height={size}
       loading="lazy"
       decoding="async"
-      className={`${box} [image-rendering:pixelated]`}
+      className={`shrink-0 [image-rendering:pixelated] ${className}`}
       onError={() => setFailed(true)}
     />
   );

@@ -328,7 +328,7 @@ function parseRoutesFile(filePath) {
     if (trimmed.startsWith("--")) {
       const parts = trimmed.slice(2).split("|");
       if (parts.length >= 2) {
-        bossLocations.set(parts[1], parts[0]);
+        bossLocations.set(parts[1], { location: parts[0], category: parts[2] });
       }
       continue;
     }
@@ -360,7 +360,17 @@ function parseBossFile(filePath, bossIdRemap, bossLocations) {
 
   for (const line of text.split("\n")) {
     const trimmed = line.trim();
-    if (!trimmed || trimmed.startsWith("#") || trimmed.startsWith("==")) continue;
+    if (!trimmed || trimmed.startsWith("#")) continue;
+    if (trimmed.startsWith("==")) {
+      if (currentBoss) {
+        if (/double:true/.test(trimmed)) currentBoss.doubleBattle = true;
+        const effect = /effect[=:]([^,]+)/.exec(trimmed)?.[1];
+        if (effect) currentBoss.effect = effect.trim();
+        const info = /info[=:](.*)/.exec(trimmed)?.[1];
+        if (info) currentBoss.notes = info.replace(/<[^>]*>/g, "").trim();
+      }
+      continue;
+    }
 
     if (trimmed.startsWith("--")) {
       if (currentBoss) bosses.push(currentBoss);
@@ -369,10 +379,13 @@ function parseBossFile(filePath, bossIdRemap, bossLocations) {
       const rawId = parts[0];
       const id = bossIdRemap[rawId] || rawId;
       const name = parts[1] || rawId;
-      const location = bossLocations.get(rawId);
+      const metadata = bossLocations.get(rawId);
+      const location = metadata?.location;
 
       currentBoss = { id, name, team: [] };
       if (location) currentBoss.location = location;
+      if (metadata?.category) currentBoss.category = metadata.category;
+      if (parts[2]) currentBoss.specialty = titleCase(parts[2]);
       continue;
     }
 
@@ -388,7 +401,11 @@ function parseBossFile(filePath, bossIdRemap, bossLocations) {
     const item = itemRaw ? titleCase(itemRaw) : null;
     const types = SPECIES_TYPES[speciesSlug] || [];
 
-    currentBoss.team.push({ species, types, moves, item });
+    currentBoss.team.push({ species, types, moves, item,
+      ...(parts[1] ? { level: parts[1].split("@")[0] } : {}),
+      ...(parts[3] ? { ability: titleCase(parts[3]) } : {}),
+      ...(["grass", "fire", "water"].includes(parts[5]?.trim()) ? { starter: parts[5].trim() } : {}),
+    });
   }
 
   if (currentBoss) bosses.push(currentBoss);

@@ -14,7 +14,12 @@
           "Leech Life",
           "Toxic"
         ],
-        "item": null
+        "item": null,
+        "level": "15",
+        "ability": "Inner Focus",
+        "abilities": [
+          "Inner Focus"
+        ]
       },
       {
         "species": "Purugly",
@@ -26,10 +31,16 @@
           "Scratch",
           "Feint Attack"
         ],
-        "item": "Oran Berry"
+        "item": "Oran Berry",
+        "level": "17",
+        "ability": "Thick Fat",
+        "abilities": [
+          "Thick Fat"
+        ]
       }
     ],
-    "location": "Valley Windoworks"
+    "location": "Valley Windoworks",
+    "category": "evil-team"
   },
   {
     "id": "jup1",
@@ -46,7 +57,12 @@
           "Giga Drain",
           "Bite"
         ],
-        "item": null
+        "item": null,
+        "level": "21",
+        "ability": "Inner Focus",
+        "abilities": [
+          "Inner Focus"
+        ]
       },
       {
         "species": "Skuntank",
@@ -60,10 +76,16 @@
           "Smokescreen",
           "Screech"
         ],
-        "item": "Sitrus Berry"
+        "item": "Sitrus Berry",
+        "level": "23",
+        "ability": "Stench",
+        "abilities": [
+          "Stench"
+        ]
       }
     ],
-    "location": "Eterna Building"
+    "location": "Eterna Building",
+    "category": "evil-team"
   },
   {
     "id": "cyr1",
@@ -81,7 +103,12 @@
           "Quick Attack",
           "Screech"
         ],
-        "item": null
+        "item": null,
+        "level": "34",
+        "ability": "Inner Focus",
+        "abilities": [
+          "Inner Focus"
+        ]
       },
       {
         "species": "Golbat",
@@ -95,7 +122,12 @@
           "Supersonic",
           "Bite"
         ],
-        "item": null
+        "item": null,
+        "level": "34",
+        "ability": "Inner Focus",
+        "abilities": [
+          "Inner Focus"
+        ]
       },
       {
         "species": "Murkrow",
@@ -109,10 +141,16 @@
           "Feint Attack",
           "Drill Peck"
         ],
-        "item": "Sitrus Berry"
+        "item": "Sitrus Berry",
+        "level": "36",
+        "ability": "Insomnia",
+        "abilities": [
+          "Insomnia"
+        ]
       }
     ],
-    "location": "Celestic Town"
+    "location": "Celestic Town",
+    "category": "evil-team"
   },
   {
     "id": "cyr2",
@@ -130,7 +168,12 @@
           "Quick Attack",
           "Screech"
         ],
-        "item": null
+        "item": null,
+        "level": "44",
+        "ability": "Inner Focus",
+        "abilities": [
+          "Inner Focus"
+        ]
       },
       {
         "species": "Crobat",
@@ -144,7 +187,12 @@
           "Supersonic",
           "Bite"
         ],
-        "item": null
+        "item": null,
+        "level": "44",
+        "ability": "Inner Focus",
+        "abilities": [
+          "Inner Focus"
+        ]
       },
       {
         "species": "Honchkrow",
@@ -158,10 +206,16 @@
           "Feint Attack",
           "Drill Peck"
         ],
-        "item": "Sitrus Berry"
+        "item": "Sitrus Berry",
+        "level": "46",
+        "ability": "Insomnia",
+        "abilities": [
+          "Insomnia"
+        ]
       }
     ],
-    "location": "Galactic HQ"
+    "location": "Galactic HQ",
+    "category": "evil-team"
   },
   {
     "id": "cyr3",
@@ -179,7 +233,12 @@
           "Dark Pulse",
           "Thunder Fang"
         ],
-        "item": null
+        "item": null,
+        "level": "45",
+        "ability": "Flash Fire",
+        "abilities": [
+          "Flash Fire"
+        ]
       },
       {
         "species": "Honchkrow",
@@ -193,7 +252,12 @@
           "Heat Wave",
           "Psychic"
         ],
-        "item": null
+        "item": null,
+        "level": "47",
+        "ability": "Insomnia",
+        "abilities": [
+          "Insomnia"
+        ]
       },
       {
         "species": "Crobat",
@@ -207,7 +271,12 @@
           "Air Slash",
           "Confuse Ray"
         ],
-        "item": null
+        "item": null,
+        "level": "46",
+        "ability": "Inner Focus",
+        "abilities": [
+          "Inner Focus"
+        ]
       },
       {
         "species": "Gyarados",
@@ -221,7 +290,12 @@
           "Earthquake",
           "Giga Impact"
         ],
-        "item": null
+        "item": null,
+        "level": "46",
+        "ability": "Intimidate",
+        "abilities": [
+          "Intimidate"
+        ]
       },
       {
         "species": "Weavile",
@@ -235,10 +309,16 @@
           "X Scissor",
           "Fake Out"
         ],
-        "item": "Sitrus Berry"
+        "item": "Sitrus Berry",
+        "level": "48",
+        "ability": "Pressure",
+        "abilities": [
+          "Pressure"
+        ]
       }
     ],
-    "location": "Distortion World"
+    "location": "Distortion World",
+    "category": "evil-team"
   },
   {
     "id": "sat1",
@@ -256,7 +336,12 @@
           "Bite",
           "Supersonic"
         ],
-        "item": null
+        "item": null,
+        "level": "38",
+        "ability": "Inner Focus",
+        "abilities": [
+          "Inner Focus"
+        ]
       },
       {
         "species": "Bronzor",
@@ -270,7 +355,12 @@
           "Rock Tomb",
           "Shadow Ball"
         ],
-        "item": null
+        "item": null,
+        "level": "38",
+        "ability": "Levitate",
+        "abilities": [
+          "Levitate"
+        ]
       },
       {
         "species": "Toxicroak",
@@ -284,10 +374,16 @@
           "Mud Bomb",
           "Poison Jab"
         ],
-        "item": "Sitrus Berry"
+        "item": "Sitrus Berry",
+        "level": "40",
+        "ability": "Anticipation",
+        "abilities": [
+          "Anticipation"
+        ]
       }
     ],
-    "location": "Valor Cavern"
+    "location": "Valor Cavern",
+    "category": "evil-team"
   },
   {
     "id": "mars2",
@@ -305,7 +401,12 @@
           "Bite",
           "Supersonic"
         ],
-        "item": null
+        "item": null,
+        "level": "38",
+        "ability": "Inner Focus",
+        "abilities": [
+          "Inner Focus"
+        ]
       },
       {
         "species": "Bronzor",
@@ -319,7 +420,12 @@
           "Confuse Ray",
           "Extrasensory"
         ],
-        "item": null
+        "item": null,
+        "level": "38",
+        "ability": "Levitate",
+        "abilities": [
+          "Levitate"
+        ]
       },
       {
         "species": "Purugly",
@@ -332,10 +438,16 @@
           "Feint Attack",
           "Hypnosis"
         ],
-        "item": "Sitrus Berry"
+        "item": "Sitrus Berry",
+        "level": "40",
+        "ability": "Thick Fat",
+        "abilities": [
+          "Thick Fat"
+        ]
       }
     ],
-    "location": "Lake Verity"
+    "location": "Lake Verity",
+    "category": "evil-team"
   },
   {
     "id": "sat2",
@@ -353,7 +465,12 @@
           "Poison Fang",
           "Confuse Ray"
         ],
-        "item": null
+        "item": null,
+        "level": "42",
+        "ability": "Inner Focus",
+        "abilities": [
+          "Inner Focus"
+        ]
       },
       {
         "species": "Toxicroak",
@@ -367,7 +484,12 @@
           "X Scissor",
           "Poison Jab"
         ],
-        "item": "Sitrus Berry"
+        "item": "Sitrus Berry",
+        "level": "44",
+        "ability": "Anticipation",
+        "abilities": [
+          "Anticipation"
+        ]
       },
       {
         "species": "Bronzor",
@@ -381,10 +503,16 @@
           "Confuse Ray",
           "Shadow Ball"
         ],
-        "item": null
+        "item": null,
+        "level": "42",
+        "ability": "Levitate",
+        "abilities": [
+          "Levitate"
+        ]
       }
     ],
-    "location": "Galactic HQ"
+    "location": "Galactic HQ",
+    "category": "evil-team"
   },
   {
     "id": "mnj",
@@ -402,7 +530,12 @@
           "Extrasensory",
           "Light Screen"
         ],
-        "item": null
+        "item": null,
+        "level": "44",
+        "ability": "Levitate",
+        "abilities": [
+          "Levitate"
+        ]
       },
       {
         "species": "Golbat",
@@ -416,7 +549,12 @@
           "Bite",
           "Poison Fang"
         ],
-        "item": null
+        "item": null,
+        "level": "44",
+        "ability": "Inner Focus",
+        "abilities": [
+          "Inner Focus"
+        ]
       },
       {
         "species": "Purugly",
@@ -429,7 +567,12 @@
           "Aerial Ace",
           "Hypnosis"
         ],
-        "item": "Sitrus Berry"
+        "item": "Sitrus Berry",
+        "level": "46",
+        "ability": "Thick Fat",
+        "abilities": [
+          "Thick Fat"
+        ]
       },
       {
         "species": "Bronzor",
@@ -443,7 +586,12 @@
           "Reflect",
           "Extrasensory"
         ],
-        "item": null
+        "item": null,
+        "level": "44",
+        "ability": "Levitate",
+        "abilities": [
+          "Levitate"
+        ]
       },
       {
         "species": "Golbat",
@@ -457,7 +605,12 @@
           "Giga Drain",
           "Mean Look"
         ],
-        "item": null
+        "item": null,
+        "level": "44",
+        "ability": "Inner Focus",
+        "abilities": [
+          "Inner Focus"
+        ]
       },
       {
         "species": "Skuntank",
@@ -471,10 +624,16 @@
           "Flamethrower",
           "Smokescreen"
         ],
-        "item": "Sitrus Berry"
+        "item": "Sitrus Berry",
+        "level": "46",
+        "ability": "Stench",
+        "abilities": [
+          "Stench"
+        ]
       }
     ],
-    "location": "Spear Pillar"
+    "location": "Spear Pillar",
+    "category": "evil-team"
   },
   {
     "id": "b1",
@@ -489,7 +648,13 @@
           "Scratch",
           "Leer"
         ],
-        "item": null
+        "item": null,
+        "level": "5",
+        "starter": "grass",
+        "ability": "Blaze",
+        "abilities": [
+          "Blaze"
+        ]
       },
       {
         "species": "Piplup",
@@ -500,7 +665,13 @@
           "Pound",
           "Growl"
         ],
-        "item": null
+        "item": null,
+        "level": "5",
+        "starter": "fire",
+        "ability": "Torrent",
+        "abilities": [
+          "Torrent"
+        ]
       },
       {
         "species": "Turtwig",
@@ -511,10 +682,17 @@
           "Tackle",
           "Withdraw"
         ],
-        "item": null
+        "item": null,
+        "level": "5",
+        "starter": "water",
+        "ability": "Overgrow",
+        "abilities": [
+          "Overgrow"
+        ]
       }
     ],
-    "location": "Route 201"
+    "location": "Route 201",
+    "category": "rival"
   },
   {
     "id": "b2",
@@ -530,7 +708,12 @@
           "Quick Attack",
           "Growl"
         ],
-        "item": null
+        "item": null,
+        "level": "7",
+        "ability": "Keen Eye",
+        "abilities": [
+          "Keen Eye"
+        ]
       },
       {
         "species": "Chimchar",
@@ -541,7 +724,13 @@
           "Scratch",
           "Leer"
         ],
-        "item": null
+        "item": null,
+        "level": "9",
+        "starter": "grass",
+        "ability": "Blaze",
+        "abilities": [
+          "Blaze"
+        ]
       },
       {
         "species": "Piplup",
@@ -552,7 +741,13 @@
           "Pound",
           "Growl"
         ],
-        "item": null
+        "item": null,
+        "level": "9",
+        "starter": "fire",
+        "ability": "Torrent",
+        "abilities": [
+          "Torrent"
+        ]
       },
       {
         "species": "Turtwig",
@@ -563,10 +758,17 @@
           "Tackle",
           "Withdraw"
         ],
-        "item": null
+        "item": null,
+        "level": "9",
+        "starter": "water",
+        "ability": "Overgrow",
+        "abilities": [
+          "Overgrow"
+        ]
       }
     ],
-    "location": "Route 203"
+    "location": "Route 203",
+    "category": "rival"
   },
   {
     "id": "b3",
@@ -584,7 +786,12 @@
           "Wing Attack",
           "Quick Attack"
         ],
-        "item": null
+        "item": null,
+        "level": "25",
+        "ability": "Intimidate",
+        "abilities": [
+          "Intimidate"
+        ]
       },
       {
         "species": "Roselia",
@@ -598,7 +805,13 @@
           "Mega Drain",
           "Leech Seed"
         ],
-        "item": null
+        "item": null,
+        "level": "23",
+        "starter": "fire",
+        "ability": "Natural Cure",
+        "abilities": [
+          "Natural Cure"
+        ]
       },
       {
         "species": "Roselia",
@@ -612,7 +825,13 @@
           "Mega Drain",
           "Leech Seed"
         ],
-        "item": null
+        "item": null,
+        "level": "23",
+        "starter": "grass",
+        "ability": "Natural Cure",
+        "abilities": [
+          "Natural Cure"
+        ]
       },
       {
         "species": "Buizel",
@@ -625,7 +844,13 @@
           "Water Gun",
           "Quick Attack"
         ],
-        "item": null
+        "item": null,
+        "level": "23",
+        "starter": "grass",
+        "ability": "Swift Swim",
+        "abilities": [
+          "Swift Swim"
+        ]
       },
       {
         "species": "Buizel",
@@ -638,7 +863,13 @@
           "Water Gun",
           "Quick Attack"
         ],
-        "item": null
+        "item": null,
+        "level": "23",
+        "starter": "water",
+        "ability": "Swift Swim",
+        "abilities": [
+          "Swift Swim"
+        ]
       },
       {
         "species": "Ponyta",
@@ -651,7 +882,13 @@
           "Growl",
           "Ember"
         ],
-        "item": null
+        "item": null,
+        "level": "23",
+        "starter": "fire",
+        "ability": "Run Away",
+        "abilities": [
+          "Run Away"
+        ]
       },
       {
         "species": "Ponyta",
@@ -664,7 +901,13 @@
           "Growl",
           "Ember"
         ],
-        "item": null
+        "item": null,
+        "level": "23",
+        "starter": "water",
+        "ability": "Run Away",
+        "abilities": [
+          "Run Away"
+        ]
       },
       {
         "species": "Monferno",
@@ -678,7 +921,13 @@
           "Mach Punch",
           "Flame Wheel"
         ],
-        "item": null
+        "item": null,
+        "level": "27",
+        "starter": "grass",
+        "ability": "Blaze",
+        "abilities": [
+          "Blaze"
+        ]
       },
       {
         "species": "Prinplup",
@@ -691,7 +940,13 @@
           "Bubble",
           "Growl"
         ],
-        "item": null
+        "item": null,
+        "level": "27",
+        "starter": "fire",
+        "ability": "Torrent",
+        "abilities": [
+          "Torrent"
+        ]
       },
       {
         "species": "Grotle",
@@ -704,10 +959,17 @@
           "Razor Leaf",
           "Absorb"
         ],
-        "item": null
+        "item": null,
+        "level": "27",
+        "starter": "water",
+        "ability": "Overgrow",
+        "abilities": [
+          "Overgrow"
+        ]
       }
     ],
-    "location": "Route 209"
+    "location": "Route 209",
+    "category": "rival"
   },
   {
     "id": "b4",
@@ -725,7 +987,12 @@
           "Wing Attack",
           "Quick Attack"
         ],
-        "item": null
+        "item": null,
+        "level": "34",
+        "ability": "Intimidate",
+        "abilities": [
+          "Intimidate"
+        ]
       },
       {
         "species": "Roselia",
@@ -739,7 +1006,13 @@
           "Mega Drain",
           "Magical Leaf"
         ],
-        "item": null
+        "item": null,
+        "level": "32",
+        "starter": "fire",
+        "ability": "Natural Cure",
+        "abilities": [
+          "Natural Cure"
+        ]
       },
       {
         "species": "Roselia",
@@ -753,7 +1026,13 @@
           "Mega Drain",
           "Magical Leaf"
         ],
-        "item": null
+        "item": null,
+        "level": "32",
+        "starter": "grass",
+        "ability": "Natural Cure",
+        "abilities": [
+          "Natural Cure"
+        ]
       },
       {
         "species": "Buizel",
@@ -766,7 +1045,13 @@
           "Quick Attack",
           "Growl"
         ],
-        "item": null
+        "item": null,
+        "level": "32",
+        "starter": "grass",
+        "ability": "Swift Swim",
+        "abilities": [
+          "Swift Swim"
+        ]
       },
       {
         "species": "Buizel",
@@ -779,7 +1064,13 @@
           "Quick Attack",
           "Growl"
         ],
-        "item": null
+        "item": null,
+        "level": "32",
+        "starter": "water",
+        "ability": "Swift Swim",
+        "abilities": [
+          "Swift Swim"
+        ]
       },
       {
         "species": "Ponyta",
@@ -792,7 +1083,13 @@
           "Growl",
           "Ember"
         ],
-        "item": null
+        "item": null,
+        "level": "32",
+        "starter": "fire",
+        "ability": "Run Away",
+        "abilities": [
+          "Run Away"
+        ]
       },
       {
         "species": "Ponyta",
@@ -805,7 +1102,13 @@
           "Growl",
           "Ember"
         ],
-        "item": null
+        "item": null,
+        "level": "32",
+        "starter": "water",
+        "ability": "Run Away",
+        "abilities": [
+          "Run Away"
+        ]
       },
       {
         "species": "Monferno",
@@ -819,7 +1122,13 @@
           "Mach Punch",
           "Flame Wheel"
         ],
-        "item": null
+        "item": null,
+        "level": "36",
+        "starter": "grass",
+        "ability": "Blaze",
+        "abilities": [
+          "Blaze"
+        ]
       },
       {
         "species": "Prinplup",
@@ -832,7 +1141,13 @@
           "Bubble Beam",
           "Growl"
         ],
-        "item": null
+        "item": null,
+        "level": "36",
+        "starter": "fire",
+        "ability": "Torrent",
+        "abilities": [
+          "Torrent"
+        ]
       },
       {
         "species": "Grotle",
@@ -845,10 +1160,17 @@
           "Razor Leaf",
           "Mega Drain"
         ],
-        "item": null
+        "item": null,
+        "level": "36",
+        "starter": "water",
+        "ability": "Overgrow",
+        "abilities": [
+          "Overgrow"
+        ]
       }
     ],
-    "location": "Pastoria City"
+    "location": "Pastoria City",
+    "category": "rival"
   },
   {
     "id": "b5",
@@ -866,7 +1188,12 @@
           "Take Down",
           "Quick Attack"
         ],
-        "item": null
+        "item": null,
+        "level": "36",
+        "ability": "Keen Eye",
+        "abilities": [
+          "Keen Eye"
+        ]
       },
       {
         "species": "Heracross",
@@ -880,7 +1207,12 @@
           "Aerial Ace",
           "Brick Break"
         ],
-        "item": null
+        "item": null,
+        "level": "37",
+        "ability": "Swarm",
+        "abilities": [
+          "Swarm"
+        ]
       },
       {
         "species": "Roserade",
@@ -894,7 +1226,13 @@
           "Leech Seed",
           "Toxic Spikes"
         ],
-        "item": null
+        "item": null,
+        "level": "35",
+        "starter": "fire",
+        "ability": "Natural Cure",
+        "abilities": [
+          "Natural Cure"
+        ]
       },
       {
         "species": "Roserade",
@@ -908,7 +1246,13 @@
           "Leech Seed",
           "Toxic Spikes"
         ],
-        "item": null
+        "item": null,
+        "level": "35",
+        "starter": "grass",
+        "ability": "Natural Cure",
+        "abilities": [
+          "Natural Cure"
+        ]
       },
       {
         "species": "Floatzel",
@@ -921,7 +1265,13 @@
           "Quick Attack",
           "Swift"
         ],
-        "item": null
+        "item": null,
+        "level": "35",
+        "starter": "grass",
+        "ability": "Swift Swim",
+        "abilities": [
+          "Swift Swim"
+        ]
       },
       {
         "species": "Floatzel",
@@ -934,7 +1284,13 @@
           "Quick Attack",
           "Swift"
         ],
-        "item": null
+        "item": null,
+        "level": "35",
+        "starter": "water",
+        "ability": "Swift Swim",
+        "abilities": [
+          "Swift Swim"
+        ]
       },
       {
         "species": "Rapidash",
@@ -947,7 +1303,13 @@
           "Tail Whip",
           "Fire Spin"
         ],
-        "item": null
+        "item": null,
+        "level": "35",
+        "starter": "fire",
+        "ability": "Run Away",
+        "abilities": [
+          "Run Away"
+        ]
       },
       {
         "species": "Rapidash",
@@ -960,7 +1322,13 @@
           "Tail Whip",
           "Fire Spin"
         ],
-        "item": null
+        "item": null,
+        "level": "35",
+        "starter": "water",
+        "ability": "Run Away",
+        "abilities": [
+          "Run Away"
+        ]
       },
       {
         "species": "Infernape",
@@ -974,7 +1342,13 @@
           "Mach Punch",
           "Brick Break"
         ],
-        "item": null
+        "item": null,
+        "level": "38",
+        "starter": "grass",
+        "ability": "Blaze",
+        "abilities": [
+          "Blaze"
+        ]
       },
       {
         "species": "Empoleon",
@@ -988,7 +1362,13 @@
           "Metal Claw",
           "Aerial Ace"
         ],
-        "item": null
+        "item": null,
+        "level": "38",
+        "starter": "fire",
+        "ability": "Torrent",
+        "abilities": [
+          "Torrent"
+        ]
       },
       {
         "species": "Torterra",
@@ -1002,10 +1382,17 @@
           "Bite",
           "Mega Drain"
         ],
-        "item": null
+        "item": null,
+        "level": "38",
+        "starter": "water",
+        "ability": "Overgrow",
+        "abilities": [
+          "Overgrow"
+        ]
       }
     ],
-    "location": "Canalave City"
+    "location": "Canalave City",
+    "category": "rival"
   },
   {
     "id": "b6",
@@ -1023,7 +1410,12 @@
           "Steel Wing",
           "U Turn"
         ],
-        "item": null
+        "item": null,
+        "level": "48",
+        "ability": "Keen Eye",
+        "abilities": [
+          "Keen Eye"
+        ]
       },
       {
         "species": "Heracross",
@@ -1037,7 +1429,12 @@
           "Night Slash",
           "Aerial Ace"
         ],
-        "item": null
+        "item": null,
+        "level": "48",
+        "ability": "Swarm",
+        "abilities": [
+          "Swarm"
+        ]
       },
       {
         "species": "Snorlax",
@@ -1050,7 +1447,12 @@
           "Earthquake",
           "Body Slam"
         ],
-        "item": null
+        "item": null,
+        "level": "49",
+        "ability": "Immunity",
+        "abilities": [
+          "Immunity"
+        ]
       },
       {
         "species": "Roserade",
@@ -1064,7 +1466,13 @@
           "Poison Jab",
           "Shadow Ball"
         ],
-        "item": null
+        "item": null,
+        "level": "47",
+        "starter": "fire",
+        "ability": "Natural Cure",
+        "abilities": [
+          "Natural Cure"
+        ]
       },
       {
         "species": "Roserade",
@@ -1078,7 +1486,13 @@
           "Poison Jab",
           "Shadow Ball"
         ],
-        "item": null
+        "item": null,
+        "level": "47",
+        "starter": "grass",
+        "ability": "Natural Cure",
+        "abilities": [
+          "Natural Cure"
+        ]
       },
       {
         "species": "Floatzel",
@@ -1091,7 +1505,13 @@
           "Crunch",
           "Brick Break"
         ],
-        "item": null
+        "item": null,
+        "level": "47",
+        "starter": "grass",
+        "ability": "Swift Swim",
+        "abilities": [
+          "Swift Swim"
+        ]
       },
       {
         "species": "Floatzel",
@@ -1104,7 +1524,13 @@
           "Crunch",
           "Brick Break"
         ],
-        "item": null
+        "item": null,
+        "level": "47",
+        "starter": "water",
+        "ability": "Swift Swim",
+        "abilities": [
+          "Swift Swim"
+        ]
       },
       {
         "species": "Rapidash",
@@ -1117,7 +1543,13 @@
           "Fire Blast",
           "Bounce"
         ],
-        "item": null
+        "item": null,
+        "level": "47",
+        "starter": "fire",
+        "ability": "Run Away",
+        "abilities": [
+          "Run Away"
+        ]
       },
       {
         "species": "Rapidash",
@@ -1130,7 +1562,13 @@
           "Fire Blast",
           "Bounce"
         ],
-        "item": null
+        "item": null,
+        "level": "47",
+        "starter": "water",
+        "ability": "Run Away",
+        "abilities": [
+          "Run Away"
+        ]
       },
       {
         "species": "Infernape",
@@ -1144,7 +1582,13 @@
           "Aerial Ace",
           "Shadow Claw"
         ],
-        "item": null
+        "item": null,
+        "level": "51",
+        "starter": "grass",
+        "ability": "Blaze",
+        "abilities": [
+          "Blaze"
+        ]
       },
       {
         "species": "Empoleon",
@@ -1158,7 +1602,13 @@
           "Aerial Ace",
           "Shadow Claw"
         ],
-        "item": null
+        "item": null,
+        "level": "51",
+        "starter": "fire",
+        "ability": "Torrent",
+        "abilities": [
+          "Torrent"
+        ]
       },
       {
         "species": "Torterra",
@@ -1172,10 +1622,17 @@
           "Earthquake",
           "Crunch"
         ],
-        "item": null
+        "item": null,
+        "level": "51",
+        "starter": "water",
+        "ability": "Overgrow",
+        "abilities": [
+          "Overgrow"
+        ]
       }
     ],
-    "location": "Pokémon League"
+    "location": "Pokémon League",
+    "category": "rival"
   },
   {
     "id": "roark",
@@ -1191,7 +1648,12 @@
           "Rock Throw",
           "Stealth Rock"
         ],
-        "item": null
+        "item": null,
+        "level": "12",
+        "ability": "Rock Head",
+        "abilities": [
+          "Rock Head"
+        ]
       },
       {
         "species": "Onix",
@@ -1204,7 +1666,12 @@
           "Screech",
           "Stealth Rock"
         ],
-        "item": null
+        "item": null,
+        "level": "12",
+        "ability": "Rock Head",
+        "abilities": [
+          "Rock Head"
+        ]
       },
       {
         "species": "Cranidos",
@@ -1216,10 +1683,17 @@
           "Leer",
           "Pursuit"
         ],
-        "item": null
+        "item": null,
+        "level": "14",
+        "ability": "Mold Breaker",
+        "abilities": [
+          "Mold Breaker"
+        ]
       }
     ],
-    "location": "Oreburgh Gym"
+    "location": "Oreburgh Gym",
+    "specialty": "Rock",
+    "category": "gym-leader"
   },
   {
     "id": "gardenia",
@@ -1236,7 +1710,12 @@
           "Sunny Day",
           "Reflect"
         ],
-        "item": null
+        "item": null,
+        "level": "20",
+        "ability": "Overgrow",
+        "abilities": [
+          "Overgrow"
+        ]
       },
       {
         "species": "Cherubi",
@@ -1249,7 +1728,12 @@
           "Magical Leaf",
           "Safeguard"
         ],
-        "item": null
+        "item": null,
+        "level": "20",
+        "ability": "Flower Gift",
+        "abilities": [
+          "Flower Gift"
+        ]
       },
       {
         "species": "Roserade",
@@ -1263,10 +1747,17 @@
           "Stun Spore",
           "Poison Sting"
         ],
-        "item": "Sitrus Berry"
+        "item": "Sitrus Berry",
+        "level": "22",
+        "ability": "Natural Cure",
+        "abilities": [
+          "Natural Cure"
+        ]
       }
     ],
-    "location": "Eterna Gym"
+    "location": "Eterna Gym",
+    "specialty": "Grass",
+    "category": "gym-leader"
   },
   {
     "id": "fantina",
@@ -1283,7 +1774,12 @@
           "Future Sight",
           "Pursuit"
         ],
-        "item": null
+        "item": null,
+        "level": "24",
+        "ability": "Levitate",
+        "abilities": [
+          "Levitate"
+        ]
       },
       {
         "species": "Haunter",
@@ -1297,7 +1793,12 @@
           "Hypnosis",
           "Sucker Punch"
         ],
-        "item": null
+        "item": null,
+        "level": "24",
+        "ability": "Levitate",
+        "abilities": [
+          "Levitate"
+        ]
       },
       {
         "species": "Mismagius",
@@ -1310,10 +1811,17 @@
           "Psybeam",
           "Magical Leaf"
         ],
-        "item": "Sitrus Berry"
+        "item": "Sitrus Berry",
+        "level": "26",
+        "ability": "Levitate",
+        "abilities": [
+          "Levitate"
+        ]
       }
     ],
-    "location": "Hearthome Gym"
+    "location": "Hearthome Gym",
+    "specialty": "Ghost",
+    "category": "gym-leader"
   },
   {
     "id": "maylene",
@@ -1331,7 +1839,12 @@
           "Confusion",
           "Drain Punch"
         ],
-        "item": null
+        "item": null,
+        "level": "28",
+        "ability": "Pure Power",
+        "abilities": [
+          "Pure Power"
+        ]
       },
       {
         "species": "Machoke",
@@ -1344,7 +1857,12 @@
           "Rock Tomb",
           "Focus Energy"
         ],
-        "item": null
+        "item": null,
+        "level": "29",
+        "ability": "Guts",
+        "abilities": [
+          "Guts"
+        ]
       },
       {
         "species": "Lucario",
@@ -1358,10 +1876,17 @@
           "Metal Claw",
           "Bone Rush"
         ],
-        "item": "Sitrus Berry"
+        "item": "Sitrus Berry",
+        "level": "32",
+        "ability": "Steadfast",
+        "abilities": [
+          "Steadfast"
+        ]
       }
     ],
-    "location": "Veilstone Gym"
+    "location": "Veilstone Gym",
+    "specialty": "Fighting",
+    "category": "gym-leader"
   },
   {
     "id": "crasher-wake",
@@ -1379,7 +1904,12 @@
           "Twister",
           "Bite"
         ],
-        "item": null
+        "item": null,
+        "level": "33",
+        "ability": "Intimidate",
+        "abilities": [
+          "Intimidate"
+        ]
       },
       {
         "species": "Quagsire",
@@ -1393,7 +1923,12 @@
           "Mud Shot",
           "Yawn"
         ],
-        "item": null
+        "item": null,
+        "level": "34",
+        "ability": "Damp",
+        "abilities": [
+          "Damp"
+        ]
       },
       {
         "species": "Floatzel",
@@ -1406,10 +1941,17 @@
           "Crunch",
           "Aqua Jet"
         ],
-        "item": "Sitrus Berry"
+        "item": "Sitrus Berry",
+        "level": "37",
+        "ability": "Swift Swim",
+        "abilities": [
+          "Swift Swim"
+        ]
       }
     ],
-    "location": "Pastoria Gym"
+    "location": "Pastoria Gym",
+    "specialty": "Water",
+    "category": "gym-leader"
   },
   {
     "id": "byron",
@@ -1427,7 +1969,12 @@
           "Thunderbolt",
           "Tri Attack"
         ],
-        "item": null
+        "item": null,
+        "level": "37",
+        "ability": "Magnet Pull",
+        "abilities": [
+          "Magnet Pull"
+        ]
       },
       {
         "species": "Steelix",
@@ -1441,7 +1988,12 @@
           "Sandstorm",
           "Ice Fang"
         ],
-        "item": null
+        "item": null,
+        "level": "38",
+        "ability": "Rock Head",
+        "abilities": [
+          "Rock Head"
+        ]
       },
       {
         "species": "Bastiodon",
@@ -1455,10 +2007,17 @@
           "Stone Edge",
           "Taunt"
         ],
-        "item": "Sitrus Berry"
+        "item": "Sitrus Berry",
+        "level": "41",
+        "ability": "Sturdy",
+        "abilities": [
+          "Sturdy"
+        ]
       }
     ],
-    "location": "Canalave Gym"
+    "location": "Canalave Gym",
+    "specialty": "Steel",
+    "category": "gym-leader"
   },
   {
     "id": "candice",
@@ -1476,7 +2035,12 @@
           "Avalanche",
           "Hail"
         ],
-        "item": null
+        "item": null,
+        "level": "38",
+        "ability": "Oblivious",
+        "abilities": [
+          "Oblivious"
+        ]
       },
       {
         "species": "Sneasel",
@@ -1490,7 +2054,12 @@
           "Ice Shard",
           "Slash"
         ],
-        "item": null
+        "item": null,
+        "level": "40",
+        "ability": "Inner Focus",
+        "abilities": [
+          "Inner Focus"
+        ]
       },
       {
         "species": "Abomasnow",
@@ -1504,7 +2073,12 @@
           "Avalanche",
           "Water Pulse"
         ],
-        "item": null
+        "item": null,
+        "level": "42",
+        "ability": "Snow Warning",
+        "abilities": [
+          "Snow Warning"
+        ]
       },
       {
         "species": "Froslass",
@@ -1518,10 +2092,17 @@
           "Shadow Ball",
           "Psychic"
         ],
-        "item": "Sitrus Berry"
+        "item": "Sitrus Berry",
+        "level": "44",
+        "ability": "Snow Cloak",
+        "abilities": [
+          "Snow Cloak"
+        ]
       }
     ],
-    "location": "Snowpoint Gym"
+    "location": "Snowpoint Gym",
+    "specialty": "Ice",
+    "category": "gym-leader"
   },
   {
     "id": "volkner",
@@ -1538,7 +2119,12 @@
           "Iron Tail",
           "Quick Attack"
         ],
-        "item": null
+        "item": null,
+        "level": "46",
+        "ability": "Volt Absorb",
+        "abilities": [
+          "Volt Absorb"
+        ]
       },
       {
         "species": "Raichu",
@@ -1551,7 +2137,12 @@
           "Quick Attack",
           "Focus Blast"
         ],
-        "item": null
+        "item": null,
+        "level": "46",
+        "ability": "Static",
+        "abilities": [
+          "Static"
+        ]
       },
       {
         "species": "Luxray",
@@ -1564,7 +2155,12 @@
           "Ice Fang",
           "Crunch"
         ],
-        "item": null
+        "item": null,
+        "level": "48",
+        "ability": "Rivalry",
+        "abilities": [
+          "Rivalry"
+        ]
       },
       {
         "species": "Electivire",
@@ -1577,10 +2173,17 @@
           "Giga Impact",
           "Quick Attack"
         ],
-        "item": "Sitrus Berry"
+        "item": "Sitrus Berry",
+        "level": "50",
+        "ability": "Motor Drive",
+        "abilities": [
+          "Motor Drive"
+        ]
       }
     ],
-    "location": "Sunyshore Gym"
+    "location": "Sunyshore Gym",
+    "specialty": "Electric",
+    "category": "gym-leader"
   },
   {
     "id": "aaron",
@@ -1598,7 +2201,12 @@
           "Air Slash",
           "Double Team"
         ],
-        "item": null
+        "item": null,
+        "level": "49",
+        "ability": "Speed Boost",
+        "abilities": [
+          "Speed Boost"
+        ]
       },
       {
         "species": "Scizor",
@@ -1612,7 +2220,12 @@
           "Night Slash",
           "Quick Attack"
         ],
-        "item": null
+        "item": null,
+        "level": "49",
+        "ability": "Swarm",
+        "abilities": [
+          "Swarm"
+        ]
       },
       {
         "species": "Heracross",
@@ -1626,7 +2239,12 @@
           "Stone Edge",
           "Night Slash"
         ],
-        "item": null
+        "item": null,
+        "level": "51",
+        "ability": "Swarm",
+        "abilities": [
+          "Swarm"
+        ]
       },
       {
         "species": "Vespiquen",
@@ -1640,7 +2258,12 @@
           "Heal Order",
           "Power Gem"
         ],
-        "item": null
+        "item": null,
+        "level": "50",
+        "ability": "Pressure",
+        "abilities": [
+          "Pressure"
+        ]
       },
       {
         "species": "Drapion",
@@ -1654,10 +2277,17 @@
           "Aerial Ace",
           "Ice Fang"
         ],
-        "item": "Sitrus Berry"
+        "item": "Sitrus Berry",
+        "level": "53",
+        "ability": "Battle Armor",
+        "abilities": [
+          "Battle Armor"
+        ]
       }
     ],
-    "location": "Elite Four"
+    "location": "Elite Four",
+    "specialty": "Bug",
+    "category": "elite-four"
   },
   {
     "id": "bertha",
@@ -1675,7 +2305,12 @@
           "Zen Headbutt",
           "Aqua Tail"
         ],
-        "item": null
+        "item": null,
+        "level": "50",
+        "ability": "Oblivious",
+        "abilities": [
+          "Oblivious"
+        ]
       },
       {
         "species": "Gliscor",
@@ -1689,7 +2324,12 @@
           "Ice Fang",
           "Thunder Fang"
         ],
-        "item": null
+        "item": null,
+        "level": "53",
+        "ability": "Hyper Cutter",
+        "abilities": [
+          "Hyper Cutter"
+        ]
       },
       {
         "species": "Golem",
@@ -1703,7 +2343,12 @@
           "Earthquake",
           "Sandstorm"
         ],
-        "item": null
+        "item": null,
+        "level": "52",
+        "ability": "Rock Head",
+        "abilities": [
+          "Rock Head"
+        ]
       },
       {
         "species": "Hippowdon",
@@ -1716,7 +2361,12 @@
           "Crunch",
           "Yawn"
         ],
-        "item": null
+        "item": null,
+        "level": "52",
+        "ability": "Sand Stream",
+        "abilities": [
+          "Sand Stream"
+        ]
       },
       {
         "species": "Rhyperior",
@@ -1730,10 +2380,17 @@
           "Earthquake",
           "Rock Wrecker"
         ],
-        "item": "Sitrus Berry"
+        "item": "Sitrus Berry",
+        "level": "55",
+        "ability": "Lightning Rod",
+        "abilities": [
+          "Lightning Rod"
+        ]
       }
     ],
-    "location": "Elite Four"
+    "location": "Elite Four",
+    "specialty": "Ground",
+    "category": "elite-four"
   },
   {
     "id": "flint",
@@ -1751,7 +2408,12 @@
           "Sludge Bomb",
           "Dark Pulse"
         ],
-        "item": null
+        "item": null,
+        "level": "52",
+        "ability": "Early Bird",
+        "abilities": [
+          "Early Bird"
+        ]
       },
       {
         "species": "Flareon",
@@ -1764,7 +2426,12 @@
           "Giga Impact",
           "Quick Attack"
         ],
-        "item": null
+        "item": null,
+        "level": "55",
+        "ability": "Flash Fire",
+        "abilities": [
+          "Flash Fire"
+        ]
       },
       {
         "species": "Rapidash",
@@ -1777,7 +2444,12 @@
           "Solar Beam",
           "Bounce"
         ],
-        "item": null
+        "item": null,
+        "level": "53",
+        "ability": "Run Away",
+        "abilities": [
+          "Run Away"
+        ]
       },
       {
         "species": "Infernape",
@@ -1791,7 +2463,12 @@
           "Earthquake",
           "Mach Punch"
         ],
-        "item": null
+        "item": null,
+        "level": "55",
+        "ability": "Blaze",
+        "abilities": [
+          "Blaze"
+        ]
       },
       {
         "species": "Magmortar",
@@ -1804,10 +2481,17 @@
           "Solar Beam",
           "Hyper Beam"
         ],
-        "item": "Sitrus Berry"
+        "item": "Sitrus Berry",
+        "level": "57",
+        "ability": "Flame Body",
+        "abilities": [
+          "Flame Body"
+        ]
       }
     ],
-    "location": "Elite Four"
+    "location": "Elite Four",
+    "specialty": "Fire",
+    "category": "elite-four"
   },
   {
     "id": "lucian",
@@ -1824,7 +2508,12 @@
           "Reflect",
           "Thunderbolt"
         ],
-        "item": null
+        "item": null,
+        "level": "53",
+        "ability": "Soundproof",
+        "abilities": [
+          "Soundproof"
+        ]
       },
       {
         "species": "Espeon",
@@ -1837,7 +2526,12 @@
           "Signal Beam",
           "Shadow Ball"
         ],
-        "item": null
+        "item": null,
+        "level": "55",
+        "ability": "Synchronize",
+        "abilities": [
+          "Synchronize"
+        ]
       },
       {
         "species": "Bronzong",
@@ -1851,7 +2545,12 @@
           "Calm Mind",
           "Earthquake"
         ],
-        "item": null
+        "item": null,
+        "level": "54",
+        "ability": "Levitate",
+        "abilities": [
+          "Levitate"
+        ]
       },
       {
         "species": "Alakazam",
@@ -1864,7 +2563,12 @@
           "Recover",
           "Energy Ball"
         ],
-        "item": null
+        "item": null,
+        "level": "56",
+        "ability": "Synchronize",
+        "abilities": [
+          "Synchronize"
+        ]
       },
       {
         "species": "Gallade",
@@ -1878,10 +2582,17 @@
           "Leaf Blade",
           "Stone Edge"
         ],
-        "item": "Sitrus Berry"
+        "item": "Sitrus Berry",
+        "level": "59",
+        "ability": "Steadfast",
+        "abilities": [
+          "Steadfast"
+        ]
       }
     ],
-    "location": "Elite Four"
+    "location": "Elite Four",
+    "specialty": "Psychic",
+    "category": "elite-four"
   },
   {
     "id": "cynthia",
@@ -1899,7 +2610,12 @@
           "Shadow Ball",
           "Psychic"
         ],
-        "item": null
+        "item": null,
+        "level": "58",
+        "ability": "Pressure",
+        "abilities": [
+          "Pressure"
+        ]
       },
       {
         "species": "Roserade",
@@ -1913,7 +2629,12 @@
           "Sludge Bomb",
           "Toxic"
         ],
-        "item": null
+        "item": null,
+        "level": "58",
+        "ability": "Natural Cure",
+        "abilities": [
+          "Natural Cure"
+        ]
       },
       {
         "species": "Lucario",
@@ -1927,7 +2648,12 @@
           "Stone Edge",
           "Extreme Speed"
         ],
-        "item": null
+        "item": null,
+        "level": "60",
+        "ability": "Steadfast",
+        "abilities": [
+          "Steadfast"
+        ]
       },
       {
         "species": "Togekiss",
@@ -1941,7 +2667,12 @@
           "Water Pulse",
           "Shock Wave"
         ],
-        "item": null
+        "item": null,
+        "level": "60",
+        "ability": "Hustle",
+        "abilities": [
+          "Hustle"
+        ]
       },
       {
         "species": "Milotic",
@@ -1954,7 +2685,12 @@
           "Mirror Coat",
           "Ice Beam"
         ],
-        "item": null
+        "item": null,
+        "level": "58",
+        "ability": "Marvel Scale",
+        "abilities": [
+          "Marvel Scale"
+        ]
       },
       {
         "species": "Garchomp",
@@ -1968,9 +2704,15 @@
           "Earthquake",
           "Giga Impact"
         ],
-        "item": "Sitrus Berry"
+        "item": "Sitrus Berry",
+        "level": "62",
+        "ability": "Sand Veil",
+        "abilities": [
+          "Sand Veil"
+        ]
       }
     ],
-    "location": "Champion"
+    "location": "Champion",
+    "category": "elite-four"
   }
 ]

@@ -1,3 +1,4 @@
+import { isCaught } from "../run/encounters";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { getGamePack } from "../data/games";
@@ -52,7 +53,7 @@ export default function Graveyard() {
   );
 
   const deadEncounters = useMemo(
-    () => (run?.encounters ?? []).filter((e) => e.status === "Dead"),
+    () => (run?.encounters ?? []).filter((e) => isCaught(e) && e.status === "Dead"),
     [run],
   );
 

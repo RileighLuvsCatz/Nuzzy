@@ -34,12 +34,16 @@ function normalizeEncounter(
   const obj = e as Record<string, unknown>;
   const id = typeof obj.id === "string" ? obj.id : crypto.randomUUID();
   const pokemon = typeof obj.pokemon === "string" ? obj.pokemon : "";
-  if (!pokemon) return null;
+  const outcome =
+    obj.outcome === "planned" || obj.outcome === "missed"
+      ? obj.outcome
+      : "caught";
+  if (!pokemon && outcome === "caught") return null;
   const nickname =
     typeof obj.nickname === "string" && obj.nickname.trim()
       ? obj.nickname.trim()
       : pokemon;
-  const status = migrateStatus(obj.status);
+  const status = outcome === "caught" ? migrateStatus(obj.status) : "Boxed";
   let routeId = typeof obj.routeId === "string" ? obj.routeId : "";
   if (!routeId && typeof obj.location === "string") {
     routeId = nameToId.get(obj.location) ?? "";
@@ -48,7 +52,15 @@ function normalizeEncounter(
     routeId = nameToId.get(obj.route) ?? "";
   }
   if (!routeId) return null;
-  return { id, routeId, pokemon, nickname, status };
+  return {
+    id,
+    routeId,
+    pokemon,
+    nickname,
+    status,
+    outcome,
+    ...(typeof obj.caughtAs === "string" ? { caughtAs: obj.caughtAs } : {}),
+  };
 }
 
 function parseRunRecord(data: Record<string, unknown>): Run | null {
@@ -70,7 +82,10 @@ function parseRunRecord(data: Record<string, unknown>): Run | null {
       ? data.createdAt
       : new Date().toISOString();
 
-  if (schemaVersion >= 1 && (!data.id || !data.name || !data.gameId || !data.createdAt)) {
+  if (
+    schemaVersion >= 1 &&
+    (!data.id || !data.name || !data.gameId || !data.createdAt)
+  ) {
     return null;
   }
 
@@ -84,7 +99,30 @@ function parseRunRecord(data: Record<string, unknown>): Run | null {
     }
   }
 
-  return { id, name, gameId, gameTitle, createdAt, encounters, schemaVersion: 1 };
+  return {
+    id,
+    name,
+    gameId,
+    gameTitle,
+    createdAt,
+    encounters,
+    schemaVersion: 1,
+    ...(data.starterType === "grass" ||
+    data.starterType === "fire" ||
+    data.starterType === "water"
+      ? { starterType: data.starterType }
+      : {}),
+    defeatedBosses:
+      data.defeatedBosses &&
+      typeof data.defeatedBosses === "object" &&
+      !Array.isArray(data.defeatedBosses)
+        ? (Object.fromEntries(
+            Object.entries(data.defeatedBosses).filter(
+              ([, value]) => typeof value === "string",
+            ),
+          ) as Record<string, string>)
+        : {},
+  };
 }
 
 function loadLibraryRaw(): RunLibrary | null {
@@ -134,11 +172,18 @@ function migrateLegacy(): RunLibrary | null {
 }
 
 function persistLibrary(lib: RunLibrary): void {
+  const previous = localStorage.getItem(LIBRARY_KEY);
+  const backupKey = "nuzzy_run_library_before_tracker_focus";
+  if (previous && !localStorage.getItem(backupKey))
+    localStorage.setItem(backupKey, previous);
   localStorage.setItem(LIBRARY_KEY, JSON.stringify(lib));
 }
 
 function getLibrary(): RunLibrary {
-  return loadLibraryRaw() ?? migrateLegacy() ?? { schemaVersion: 2, runs: [], activeRunId: null };
+  return (
+    loadLibraryRaw() ??
+    migrateLegacy() ?? { schemaVersion: 2, runs: [], activeRunId: null }
+  );
 }
 
 // ---- Public API ----

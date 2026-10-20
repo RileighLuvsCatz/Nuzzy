@@ -1,325 +1,395 @@
-import { useEffect, useId, useMemo, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useMemo, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { getGamePack } from "../data/games";
 import { loadActiveRun, saveRun } from "../run/storage";
-import { addEncounter, changeEncounterStatus, isTeamFull } from "../run/encounters";
+import {
+  isCaught,
+  upsertEncounter,
+  evolveEncounter,
+} from "../run/encounters";
+import { bossLevelCap, bossTeam } from "../lib/bossReference";
 import type { BossDef, RouteDef } from "../types/game";
-import type { Encounter, Status } from "../types";
+import type { Encounter, Run, StarterType } from "../types";
 import PokemonSprite from "../components/PokemonSprite";
 import RunHeader from "../components/RunHeader";
+import FocusDialog from "../components/FocusDialog";
+import Icon from "../components/Icon";
+import RouteDetails from "../components/tracker/RouteDetails";
+import BossDetails from "../components/tracker/BossDetails";
+import EncounterBadge from "../components/tracker/EncounterBadge";
 
-const STATUS_COLORS: Record<Status, string> = {
-  Team: "text-green-400",
-  Dead: "text-red-400",
-  Boxed: "text-yellow-400",
+type Stop =
+  | { key: string; route: RouteDef; boss?: never }
+  | { key: string; boss: BossDef; route?: never };
+const STARTERS: Record<string, StarterType> = {
+  Treecko: "grass",
+  Turtwig: "grass",
+  Chikorita: "grass",
+  Torchic: "fire",
+  Chimchar: "fire",
+  Cyndaquil: "fire",
+  Mudkip: "water",
+  Piplup: "water",
+  Totodile: "water",
 };
-
-function routeMap(routes: RouteDef[]): Map<string, RouteDef> {
-  return new Map(routes.map((r) => [r.id, r]));
-}
-
-function bossMap(bosses: BossDef[]): Map<string, BossDef> {
-  return new Map(bosses.map((b) => [b.id, b]));
-}
-
-function RouteSection({
-  route,
-  encounters,
-  teamFull,
-  onAdd,
-  onStatusChange,
-}: {
-  route: RouteDef;
-  encounters: Encounter[];
-  teamFull: boolean;
-  onAdd: (routeId: string, pokemon: string, nickname: string, status: Status) => void;
-  onStatusChange: (encounterId: string, newStatus: Status) => void;
-}) {
-  const fieldId = useId();
-  const pool = route.catchPool ?? [];
-  const [species, setSpecies] = useState(pool[0] ?? "");
-  const [nickname, setNickname] = useState("");
-  const [status, setStatus] = useState<Status>("Team");
-  const logStatus = teamFull && status === "Team" ? "Boxed" : status;
-
-  function handleLog() {
-    if (!species || !nickname.trim()) return;
-    onAdd(route.id, species, nickname.trim(), logStatus);
-    setNickname("");
-    setStatus("Team");
-  }
-
-  return (
-    <section className="route-section border border-gray-800 rounded-xl overflow-hidden bg-gray-900/50">
-      <div className="px-4 py-3 bg-gray-900 border-b border-gray-800">
-        <span className="route-kind">AREA</span>
-        <span className="font-semibold text-white">{route.name}</span>
-        <span className="text-gray-500 text-sm ml-2">
-          {encounters.length} encounter{encounters.length !== 1 ? "s" : ""}
-        </span>
-      </div>
-
-      <div className="p-4 space-y-3">
-        {pool.length > 0 ? (
-          <div className="flex flex-wrap items-end gap-2">
-            {species && (
-              <div className="shrink-0 self-center w-10 h-10 rounded-md bg-gray-800 flex items-center justify-center overflow-hidden">
-                <PokemonSprite species={species} size={36} />
-              </div>
-            )}
-            <div className="space-y-1 min-w-[140px] flex-1">
-              <label htmlFor={`${fieldId}-species`} className="block text-xs text-gray-400">Pokémon</label>
-              <select
-                id={`${fieldId}-species`}
-                value={species}
-                onChange={(e) => setSpecies(e.target.value)}
-                className="w-full px-2 py-1.5 bg-gray-800 border border-gray-700 rounded text-sm text-white focus:outline-none focus:border-red-500"
-              >
-                {pool.map((s) => (
-                  <option key={s} value={s}>
-                    {s}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="space-y-1 min-w-[120px] flex-1">
-              <label htmlFor={`${fieldId}-nickname`} className="block text-xs text-gray-400">Nickname</label>
-              <input
-                id={`${fieldId}-nickname`}
-                type="text"
-                value={nickname}
-                onChange={(e) => setNickname(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleLog()}
-                placeholder="Nickname"
-                className="w-full px-2 py-1.5 bg-gray-800 border border-gray-700 rounded text-sm text-white placeholder-gray-500 focus:outline-none focus:border-red-500"
-              />
-            </div>
-            <div className="space-y-1 min-w-[90px]">
-              <label htmlFor={`${fieldId}-status`} className="block text-xs text-gray-400">Status</label>
-              <select
-                id={`${fieldId}-status`}
-                value={logStatus}
-                onChange={(e) => setStatus(e.target.value as Status)}
-                className="w-full px-2 py-1.5 bg-gray-800 border border-gray-700 rounded text-sm text-white focus:outline-none focus:border-red-500"
-              >
-                {!teamFull && <option value="Team">Team</option>}
-                <option value="Boxed">Boxed</option>
-                <option value="Dead">Dead</option>
-              </select>
-            </div>
-            <button
-              type="button"
-              onClick={handleLog}
-              disabled={!species || !nickname.trim()}
-              className="px-4 py-1.5 bg-red-500 hover:bg-red-400 disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed text-white text-sm font-semibold rounded transition-colors"
-            >
-              Log
-            </button>
-          </div>
-        ) : (
-          <p className="text-gray-600 text-sm italic">
-            No encounter data for this area.
-          </p>
-        )}
-
-        {encounters.map((encounter) => (
-          <div
-            key={encounter.id}
-            className="flex items-center bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 gap-3"
-          >
-            <div className="shrink-0 w-10 h-10 rounded-md bg-gray-800 flex items-center justify-center overflow-hidden">
-              <PokemonSprite species={encounter.pokemon} size={36} />
-            </div>
-            <div className="flex-1 min-w-0">
-              <span className="font-medium text-white">
-                {encounter.nickname}
-              </span>
-              <span className="text-gray-500 text-sm ml-1.5">
-                {encounter.pokemon}
-              </span>
-            </div>
-            <select
-              value={encounter.status}
-              onChange={(e) =>
-                onStatusChange(encounter.id, e.target.value as Status)
-              }
-              className={`bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm focus:outline-none shrink-0 ${STATUS_COLORS[encounter.status]}`}
-              aria-label={`Status for ${encounter.nickname}`}
-            >
-              {encounter.status === "Team" && <option value="Team">Team</option>}
-              <option value="Boxed">Boxed</option>
-              <option value="Dead">Dead</option>
-            </select>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 export default function Tracker() {
-  const location = useLocation();
-  const [run, setRun] = useState(() => loadActiveRun());
-
-  useEffect(() => {
-    setRun(loadActiveRun());
-  }, [location.state]);
-
+  const [run, setRun] = useState<Run | null>(() => loadActiveRun());
+  const runRef = useRef(run);
+  const [saveError, setSaveError] = useState(false);
+  const [selected, setSelected] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("all");
   const pack = run ? getGamePack(run.gameId) : undefined;
-  const routesById = useMemo(
-    () => (pack ? routeMap(pack.routes) : new Map<string, RouteDef>()),
-    [pack],
-  );
-  const bossesById = useMemo(
-    () => (pack ? bossMap(pack.bosses) : new Map<string, BossDef>()),
-    [pack],
-  );
-
-  useEffect(() => {
-    if (run) saveRun(run);
-  }, [run]);
-
-  function handleAddEncounter(
-    routeId: string,
-    pokemon: string,
-    nickname: string,
-    status: Status,
-  ) {
-    const newEncounter: Encounter = {
-      id: crypto.randomUUID(),
-      routeId,
-      pokemon,
-      nickname,
-      status,
-    };
-    setRun((current) => current ? addEncounter(current, newEncounter) : current);
+  const stops = useMemo<Stop[]>(() => {
+    if (!pack) return [];
+    const occurrences = new Map<string, number>();
+    return pack.progression.flatMap((segment) => {
+      const id = segment.kind === "route" ? segment.routeId : segment.bossId;
+      const identity = `${segment.kind}-${id}`;
+      const occurrence = (occurrences.get(identity) ?? 0) + 1;
+      occurrences.set(identity, occurrence);
+      const key = `${identity}-${occurrence}`;
+      if (segment.kind === "route") {
+        const route = pack.routes.find((item) => item.id === id);
+        return route ? [{ key, route } as Stop] : [];
+      }
+      const boss = pack.bosses.find((item) => item.id === id);
+      return boss ? [{ key, boss } as Stop] : [];
+    });
+  }, [pack]);
+  function commit(update: (current: Run) => Run) {
+    if (!runRef.current) return;
+    const next = update(runRef.current);
+    try {
+      saveRun(next);
+      setSaveError(false);
+    } catch {
+      setSaveError(true);
+    }
+    runRef.current = next;
+    setRun(next);
   }
-
-  function handleStatusChange(encounterId: string, newStatus: Status) {
-    setRun((current) =>
-      current ? changeEncounterStatus(current, encounterId, newStatus) : current,
-    );
+  function updateEncounter(encounter: Encounter) {
+    commit((current) => {
+      const next = upsertEncounter(current, encounter);
+      if (
+        !next.starterType &&
+        encounter.routeId === "starter" &&
+        isCaught(encounter)
+      )
+        next.starterType = STARTERS[encounter.caughtAs ?? encounter.pokemon];
+      return next;
+    });
   }
-
-  if (!run) {
+  const setStarter = (starterType?: StarterType) =>
+    commit((current) => ({ ...current, starterType }));
+  if (!run || !pack)
     return (
-      <div className="text-center py-16 text-gray-400">
-        <p>No active run found.</p>
-        <Link
-          to="/new-run"
-          className="text-red-400 hover:underline mt-2 inline-block"
-        >
+      <div className="tracker-empty">
+        <Icon name="route" size={35} />
+        <h1>
+          {run
+            ? "This game pack is unavailable"
+            : "Your next journey is waiting"}
+        </h1>
+        <Link to="/new-run" className="button button-primary">
           Start a new run
         </Link>
       </div>
     );
+  const done = (stop: Stop) =>
+    stop.boss
+      ? !!run.defeatedBosses?.[stop.key]
+      : run.encounters.some(
+          (encounter) =>
+            encounter.routeId === stop.route.id &&
+            (isCaught(encounter) || encounter.outcome === "missed"),
+        );
+  const active = stops.find((stop) => stop.key === selected);
+  const remaining = stops.filter((stop) => !done(stop));
+  const visible = stops.filter((stop) => {
+    if (
+      (filter === "routes" && !stop.route) ||
+      (filter === "bosses" && !stop.boss) ||
+      (filter === "remaining" && done(stop))
+    )
+      return false;
+    const records = stop.route
+      ? run.encounters.filter(
+          (encounter) => encounter.routeId === stop.route.id,
+        )
+      : [];
+    const text = [
+      stop.route?.name,
+      stop.boss?.name,
+      stop.boss?.location,
+      ...records.flatMap((e) => [e.nickname, e.pokemon]),
+      ...(stop.boss?.team.map((p) => p.species) ?? []),
+    ]
+      .join(" ")
+      .toLowerCase();
+    return text.includes(search.trim().toLowerCase());
+  });
+  const toggleVictory = (stop: Stop) =>
+    commit((current) => {
+      const defeatedBosses = { ...current.defeatedBosses };
+      if (defeatedBosses[stop.key]) delete defeatedBosses[stop.key];
+      else defeatedBosses[stop.key] = new Date().toISOString();
+      return { ...current, defeatedBosses };
+    });
+  function closeFocus() {
+    (document.activeElement as HTMLElement | null)?.blur();
+    setSelected(null);
   }
-
-  if (!pack) {
-    return (
-      <div className="text-center py-16 text-gray-400 space-y-2">
-        <p>
-          Unknown game pack{" "}
-          <span className="text-white font-mono">{run.gameId}</span>.
-        </p>
-        <Link to="/new-run" className="text-red-400 hover:underline">
-          Start a new run
-        </Link>
-      </div>
-    );
-  }
-
-  const teamFull = isTeamFull(run.encounters);
-
+  const saveMessage = saveError ? (
+    <div className="save-error" role="alert">
+      Changes could not be saved to this browser. Keep this page open.
+      <button
+        type="button"
+        className="button quiet small-btn"
+        onClick={() => commit((current) => current)}
+      >
+        Retry save
+      </button>
+    </div>
+  ) : (
+    <p className="auto-save-note" role="status">
+      <Icon name="check" size={13} />
+      Autosave on · changes save in this browser
+    </p>
+  );
   return (
-    <div className="space-y-8">
+    <div className="tracker-page">
       <RunHeader
         run={run}
+        savePending={saveError}
         view="Journey"
-        description="One route at a time. Every encounter, all in one place."
+        description="A place for every encounter. A little space for the big battles."
       />
-
-      <div className="space-y-6">
-        <div className="section-heading"><div><p className="eyebrow">THE ROAD AHEAD</p><h2>Your journey</h2></div><span className="muted small">Routes & boss reference</span></div>
-        {pack.progression.map((segment, index) => {
-          if (segment.kind === "route") {
-            const route = routesById.get(segment.routeId);
-            if (!route) return null;
-            const forRoute = run.encounters.filter(
-              (e) => e.routeId === segment.routeId,
+      <div className="journey-toolbar">
+        <div className="journey-filters" aria-label="Filter journey">
+          {[
+            ["all", "All stops"],
+            ["remaining", "Remaining"],
+            ["routes", "Routes"],
+            ["bosses", "Bosses"],
+          ].map(([value, label]) => (
+            <button
+              key={value}
+              type="button"
+              aria-pressed={filter === value}
+              className={filter === value ? "selected" : ""}
+              onClick={() => setFilter(value)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+        <label className="journey-search">
+          <span className="sr-only">Search journey</span>
+          <input
+            type="search"
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            placeholder="Find a route, Pokémon, or boss…"
+          />
+        </label>
+      </div>
+      <div className="journey-context">
+        <span>
+          {visible.length} of {stops.length} stops
+          {remaining.length
+            ? ` · ${remaining.length} remaining`
+            : " · Journey recorded"}
+        </span>
+        {remaining[0] && (
+          <button type="button" onClick={() => setSelected(remaining[0].key)}>
+            Continue at {remaining[0].route?.name ?? remaining[0].boss?.name} →
+          </button>
+        )}
+      </div>
+      <div className="compact-journey">
+        {visible.map((stop) => {
+          if (stop.route) {
+            const records = run.encounters.filter(
+              (encounter) => encounter.routeId === stop.route.id,
             );
             return (
-              <RouteSection
-                key={`${run.id}-route-${segment.routeId}-${index}`}
-                route={route}
-                encounters={forRoute}
-                teamFull={teamFull}
-                onAdd={handleAddEncounter}
-                onStatusChange={handleStatusChange}
-              />
+              <button
+                key={stop.key}
+                type="button"
+                className={`journey-route ${records.length ? "has-record" : ""}`}
+                onClick={() => setSelected(stop.key)}
+                aria-label={`Open ${stop.route.name}`}
+              >
+                <span className="stop-marker">
+                  <Icon name="route" size={16} />
+                </span>
+                <span className="route-title">
+                  <strong>{stop.route.name}</strong>
+                  <small>
+                    {records.length
+                      ? `${records.length} record${records.length === 1 ? "" : "s"}`
+                      : "Not recorded"}
+                  </small>
+                </span>
+                <span className="route-records">
+                  {records.length ? (
+                    records.slice(0, 2).map((record) => (
+                      <span className="route-record" key={record.id}>
+                        {record.pokemon && (
+                          <PokemonSprite species={record.pokemon} size={36} />
+                        )}
+                        <span>
+                          <strong>
+                            {record.nickname ||
+                              record.pokemon ||
+                              "Missed encounter"}
+                          </strong>
+                          <small>{record.nickname ? record.pokemon : ""}</small>
+                        </span>
+                        <EncounterBadge encounter={record} />
+                      </span>
+                    ))
+                  ) : (
+                    <span className="unrecorded-label">
+                      Record an encounter
+                    </span>
+                  )}
+                  {records.length > 2 && (
+                    <span className="muted small">+{records.length - 2}</span>
+                  )}
+                </span>
+                <span className="stop-arrow" aria-hidden="true">
+                  ↗
+                </span>
+              </button>
             );
           }
-
-          const boss = bossesById.get(segment.bossId);
-          if (!boss) return null;
+          const boss = stop.boss;
+          const conditional = boss.team.some((member) => member.starter);
+          const team = bossTeam(boss, run.starterType);
+          const unresolved = conditional && !run.starterType;
+          const cap = unresolved ? undefined : bossLevelCap(team);
           return (
-            <section
-              key={`boss-${segment.bossId}-${index}`}
-              className="boss-section border border-gray-800 rounded-xl overflow-hidden bg-gray-900/50"
+            <button
+              key={stop.key}
+              type="button"
+              className={`journey-boss ${done(stop) ? "defeated" : ""}`}
+              aria-label={`Open ${boss.name} at ${boss.location ?? "boss battle"}`}
+              onClick={() => setSelected(stop.key)}
             >
-              <div className="px-4 py-3 bg-gray-900 border-b border-gray-800">
-                <span className="route-kind">BOSS BATTLE</span>
-                <h3 className="font-semibold text-white">{boss.name}</h3>
-                {boss.location ? (
-                  <p className="text-gray-400 text-sm">{boss.location}</p>
-                ) : null}
+              <div className="boss-stop-title">
+                <span className="boss-marker">
+                  <Icon name="shield" size={23} />
+                </span>
+                <span>
+                  <span className="eyebrow">
+                    {done(stop)
+                      ? "BATTLE RECORDED"
+                      : boss.category?.replaceAll("-", " ") || "BOSS BATTLE"}
+                  </span>
+                  <h2>{boss.name}</h2>
+                  <span className="muted small">
+                    {boss.location || "Boss reference"}
+                    {boss.specialty ? ` · ${boss.specialty}` : ""}
+                  </span>
+                </span>
+                <span className="tracker-badge">
+                  {done(stop)
+                    ? "Defeated ✓"
+                    : unresolved
+                      ? "Starter variants"
+                      : cap
+                        ? `Highest Lv. ${cap}`
+                        : "View details"}
+                </span>
               </div>
-              <div className="p-4 overflow-x-auto">
-                <table className="w-full text-sm text-left">
-                  <thead>
-                    <tr className="text-gray-400 border-b border-gray-800">
-                      <th className="py-2 pr-4 font-medium">Pokémon</th>
-                      <th className="py-2 pr-4 font-medium">Types</th>
-                      <th className="py-2 pr-4 font-medium">Moves</th>
-                      <th className="py-2 font-medium">Item</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {boss.team.map((member, i) => (
-                      <tr
-                        key={`${boss.id}-${member.species}-${i}`}
-                        className="border-b border-gray-800/80 last:border-0"
-                      >
-                        <td className="py-2 pr-4 text-white">
-                          <span className="inline-flex items-center gap-1.5">
-                            <PokemonSprite species={member.species} size={28} />
-                            {member.species}
-                          </span>
-                        </td>
-                        <td className="py-2 pr-4 text-gray-300">
-                          {member.types.join(" / ")}
-                        </td>
-                        <td className="py-2 pr-4 text-gray-300">
-                          {member.moves.join(", ")}
-                        </td>
-                        <td className="py-2 text-gray-300">
-                          {member.item ?? "—"}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+              <div className="boss-stop-preview">
+                {unresolved ? (
+                  <p>
+                    Choose your starter to see the applicable opposing team.
+                  </p>
+                ) : (
+                  <>
+                    <span className="boss-preview-sprites">
+                      {team.slice(0, 6).map((member, index) => (
+                        <PokemonSprite
+                          key={`${member.species}-${index}`}
+                          species={member.species}
+                          size={44}
+                        />
+                      ))}
+                    </span>
+                    <span>
+                      {team.length} Pokémon · Open full reference{" "}
+                      <span aria-hidden="true">↗</span>
+                    </span>
+                  </>
+                )}
               </div>
-            </section>
+            </button>
           );
         })}
       </div>
-
-      {run.encounters.length === 0 ? (
-        <p className="text-gray-500 text-center py-4">
-          No encounters logged yet. Your journey begins.
-        </p>
-      ) : null}
+      {!visible.length && (
+        <div className="tracker-empty">
+          <h2>No matching stops</h2>
+          <button
+            type="button"
+            className="button quiet"
+            onClick={() => {
+              setSearch("");
+              setFilter("all");
+            }}
+          >
+            Clear search & filters
+          </button>
+        </div>
+      )}
+      {saveMessage}
+      {active && (
+        <FocusDialog
+          key={active.key}
+          title={active.route?.name ?? active.boss!.name}
+          subtitle={active.route ? "ENCOUNTER DETAILS" : "BOSS REFERENCE"}
+          onClose={closeFocus}
+        >
+          {saveMessage}
+          {active.route ? (
+            <RouteDetails
+              route={active.route}
+              run={run}
+              onChange={updateEncounter}
+              onEvolve={(id, species) =>
+                commit((current) => evolveEncounter(current, id, species))
+              }
+            />
+          ) : (
+            <>
+              <BossDetails
+                boss={active.boss!}
+                starter={run.starterType}
+                onStarter={setStarter}
+              />
+              <div className="boss-result-actions">
+                <span className="muted small">
+                  {done(active)
+                    ? "Victory recorded for this stop."
+                    : "Record the result when you finish this battle."}
+                </span>
+                <button
+                  type="button"
+                  className="button button-primary"
+                  onClick={() => toggleVictory(active)}
+                >
+                  {done(active) ? "Undo defeated state" : "Mark defeated"}
+                </button>
+              </div>
+            </>
+          )}
+        </FocusDialog>
+      )}
     </div>
   );
 }
