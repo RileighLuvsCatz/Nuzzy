@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { getGamePack } from "../data/games";
 import { loadActiveRun, saveRun } from "../run/storage";
@@ -38,13 +38,22 @@ function RouteSection({
   const [species, setSpecies] = useState(pool[0] ?? "");
   const [nickname, setNickname] = useState("");
   const [status, setStatus] = useState<Status>("Team");
+  const [showDuplicateWarning, setShowDuplicateWarning] = useState(false);
+  const logButtonRef = useRef<HTMLButtonElement>(null);
+  const nicknameRef = useRef<HTMLInputElement>(null);
   const logStatus = teamFull && status === "Team" ? "Boxed" : status;
 
-  function handleLog() {
+  function handleLog(confirmed = false) {
     if (!species || !nickname.trim()) return;
+    if (encounters.length > 0 && !confirmed) {
+      setShowDuplicateWarning(true);
+      return;
+    }
     onAdd(route.id, species, nickname.trim(), logStatus);
+    setShowDuplicateWarning(false);
     setNickname("");
     setStatus("Team");
+    nicknameRef.current?.focus();
   }
 
   return (
@@ -81,6 +90,7 @@ function RouteSection({
             <div className="space-y-1 min-w-[120px] flex-1">
               <label className="block text-xs text-gray-400">Nickname</label>
               <input
+                ref={nicknameRef}
                 type="text"
                 value={nickname}
                 onChange={(e) => setNickname(e.target.value)}
@@ -103,7 +113,8 @@ function RouteSection({
             </div>
             <button
               type="button"
-              onClick={handleLog}
+              ref={logButtonRef}
+              onClick={() => handleLog()}
               disabled={!species || !nickname.trim()}
               className="px-4 py-1.5 bg-red-500 hover:bg-red-400 disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed text-white text-sm font-semibold rounded transition-colors"
             >
@@ -114,6 +125,36 @@ function RouteSection({
           <p className="text-gray-600 text-sm italic">
             No encounter data for this area.
           </p>
+        )}
+
+        {showDuplicateWarning && (
+          <div className="rounded-lg border border-amber-700 bg-amber-950/40 p-3 space-y-3">
+            <p role="alert" className="text-sm text-amber-200">
+              {route.name} already has {encounters.length} logged encounter{encounters.length !== 1 ? "s" : ""}.
+              {" "}Standard Nuzlocke rules allow only one encounter per area.
+              Log another only if your rules allow it. Existing encounters will be kept.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => handleLog(true)}
+                disabled={!species || !nickname.trim()}
+                className="px-3 py-1.5 bg-amber-700 hover:bg-amber-600 disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed text-white text-sm font-semibold rounded transition-colors"
+              >
+                Log anyway
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setShowDuplicateWarning(false);
+                  logButtonRef.current?.focus();
+                }}
+                className="px-3 py-1.5 bg-gray-800 hover:bg-gray-700 text-white text-sm rounded transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
         )}
 
         {encounters.map((encounter) => (
@@ -244,7 +285,7 @@ export default function Tracker() {
             );
             return (
               <RouteSection
-                key={`route-${segment.routeId}-${index}`}
+                key={`${run.id}-route-${segment.routeId}-${index}`}
                 route={route}
                 encounters={forRoute}
                 teamFull={teamFull}
