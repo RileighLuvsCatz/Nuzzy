@@ -1,122 +1,112 @@
-# Nuzzy - Nuzlocke Tracker
+# Nuzzy — Nuzlocke Tracker
 
-A web-based tracking tool for Pokémon Nuzlocke challenge runs. Built with React, TypeScript, and Tailwind CSS.
-
-**Currently Supporting:** Pokémon Emerald  
-**Next Up:** Pokémon Radical Red, DS Pokémon Titles
-
-![Project Status](https://img.shields.io/badge/status-in%20development-yellow)
-![License](https://img.shields.io/badge/license-MIT-blue)
+A browser-based tracking tool for Pokémon Nuzlocke challenge runs, built with React, TypeScript, and Tailwind CSS. Run data is saved locally in your browser; there is no account or cloud sync.
 
 ## Current Status
 
-Nuzzy is in active, early development. The core tracker loop is functional for Pokémon Emerald:
-
-- **Run management** -- Create, name, and persist multiple runs via localStorage (includes schema migration for older saves)
-- **Encounter logging** -- Log catches per route from the game's catch pool, assign nicknames, and track status (Alive / Dead / Boxed)
-- **Boss reference** -- View boss trainer teams (Pokémon, types, moves, held items) inline with the route progression
-- **Multi-run support** -- Switch between saved runs from the navbar; runs are stored in a versioned library
-- **Routing** -- Navigation between landing, new-run creation, and the tracker view
-
-The landing page is currently a stub and is the next area of focus.
-
-## Features
+Nuzzy is in active, early development. This overview describes features implemented on `main`, not everything proposed or being iterated on in feature branches. Implemented does not mean every game pack or interaction has completed QA.
 
 ### Implemented
 
-- Run creation with game selection
-- Progression-ordered tracker (routes and boss fights in game order)
-- Per-route encounter logging with species selection from catch pools
-- Encounter status tracking (Alive / Dead / Boxed)
-- Boss team reference tables (species, types, moves, items)
-- localStorage persistence with migration support
-- Navbar with run switcher
-- Game data packs for Emerald (route data, boss teams, progression order)
+- **Landing page** — Project overview, Nuzlocke basics, new-run action, and a continue link when a run is active.
+- **Run management** — Create and name multiple runs, persist them in a versioned localStorage library, and switch between them from the navbar on Tracker, Box, and Graveyard pages.
+- **Progression tracker** — Routes and boss fights in game order, species selection from route catch pools, nicknames, per-route encounter counts, and inline status changes.
+- **Encounter statuses** — `Team`, `Boxed`, and `Dead`. New Team additions and promotions are limited to six Pokémon. Full-team logging defaults to Boxed; older oversized teams remain readable and can be corrected.
+- **Boss reference** — Team tables with species, types, moves, and held items.
+- **Box and Team** — Dedicated view with transfers between Team and Box, type badges, and a Team count.
+- **Type analysis** — Team weaknesses, resistances, super-effective STAB coverage, and coverage gaps. This currently uses modern PokéAPI typings and a Gen VI+ chart for every game, not the selected game's rules; see [#17](https://github.com/RileighLuvsCatz/Nuzzy/issues/17). STAB coverage is based on species types, not recorded movesets.
+- **Graveyard** — Fallen Pokémon from the active run, with nickname, species, and encounter location. Death notes and timestamps are not implemented.
+- **Sprites** — PokéAPI lookups with memory/localStorage caching, in-flight request deduplication, and a placeholder when unavailable.
+- **Persistence migration** — Legacy single-run saves and older encounter shapes are normalized on load.
 
-### Planned
+### Game packs
 
-- Landing page with project overview
-- Emerald Seaglass game pack (data exists, integration in progress)
-- Type coverage analysis
-- Run statistics and analytics
-- Graveyard view for fallen Pokémon
-- Export/import functionality
-- Radical Red and mainline game support
+| Game | Run creation |
+|---|---|
+| Pokémon Emerald | Selectable |
+| Pokémon Diamond | Selectable |
+| Pokémon Pearl | Selectable |
+| Pokémon Platinum | Selectable |
+| Pokémon HeartGold | Selectable |
+| Pokémon SoulSilver | Selectable |
+| Pokémon Emerald Seaglass | Registered but disabled; incomplete routes, catch pools, and boss progression ([#2](https://github.com/RileighLuvsCatz/Nuzzy/issues/2)) |
 
-## Tech Stack
+Selectable packs contain route, boss, and progression data; this is not a claim of complete or authoritative coverage. Repeatable validation and data review remain tracked in [#14](https://github.com/RileighLuvsCatz/Nuzzy/issues/14) and [#15](https://github.com/RileighLuvsCatz/Nuzzy/issues/15).
 
-- **Framework:** React 19
-- **Build Tool:** Vite 8
-- **Routing:** React Router 7
-- **Styling:** Tailwind CSS 4
-- **Language:** TypeScript 5.9
-- **Linting:** ESLint 9
+### Known gaps
 
-## What is a Nuzlocke?
+Encounter species/nicknames cannot yet be edited, encounters cannot be deleted, and multiple catches on a route do not trigger a warning. Run rename/delete actions and backup export/import are also absent. Saved runs without an active run need better recovery paths, especially on the landing page where the navbar is hidden. Type analysis can be incomplete after failed lookups, and sprite lookup failures need more resilient handling.
 
-A Nuzlocke is a self-imposed challenge for Pokémon games with three core rules:
+See [GitHub Issues](https://github.com/RileighLuvsCatz/Nuzzy/issues) for current status and acceptance criteria; the roadmap below is a direction, not a second task-status tracker.
 
-1. **First Encounter Only** -- You may only catch the first Pokémon encountered in each area.
-2. **Permadeath** -- If a Pokémon faints, it is considered dead and must be released or permanently boxed.
-3. **Nicknames Required** -- All Pokémon must be nicknamed to build attachment.
+## Development
 
-Additional optional rules can raise the difficulty further.
+```bash
+npm ci
+npm run dev
+
+# Existing encounter/team-limit regression tests
+npm test
+
+# Lint
+npm run lint
+
+# Type-check both TypeScript projects
+npx tsc -b
+
+# Type-check and build for production
+npm run build
+
+# Serve the production build locally
+npm run preview
+```
+
+The tests import TypeScript source directly with Node; use a Node release that supports this. The documentation refresh was checked with Node 26.7.0 and npm 11.19.0. Production hosting needs an SPA fallback to `index.html` for direct visits to `/new-run`, `/tracker`, `/box`, and `/graveyard`.
+
+### Tech stack
+
+React 19, Vite 8, React Router 7, Tailwind CSS 4 (Vite plugin), TypeScript 5.9, and ESLint 9. Dependency ranges and executable scripts are in [package.json](package.json).
 
 ## Roadmap
 
-### Near-term
+[GitHub Issues](https://github.com/RileighLuvsCatz/Nuzzy/issues) is the active state tracker. [nuzzyTodo.md](nuzzyTodo.md) explains the architecture, persistence contract, and issue-linked backlog.
 
-- Landing page implementation
-- Dedicated graveyard / death summary view
-- Type coverage calculator
+### Near-term: reliability and UI iteration
 
-### Later
+- Make saved runs easy to resume and manage; show the active run clearly ([#1](https://github.com/RileighLuvsCatz/Nuzzy/issues/1), [#9–#12](nuzzyTodo.md#run-management)).
+- Edit/delete encounters, warn on duplicate-route catches, add totals, collapse progression sections, and improve keyboard/accessibility behavior ([#3–#8](nuzzyTodo.md#tracker-and-navigation)).
+- Harden sprites, validate game packs, and resolve Platinum's repeated boss segment ([#13–#15](nuzzyTodo.md#data-and-reference-reliability)).
+- Add death notes and make type analysis game-aware and explicit about missing data ([#16–#18](nuzzyTodo.md#death-log-and-type-analysis)).
+- Iterate on presentation in `codex/ui-overhaul` alongside issue-scoped fixes. Branch work is not shipped until merged into `main`; preserve run persistence and behavior while changing the UI.
 
-- Radical Red support (route data, boss AI documentation)
-- Mainline game support (Platinum, HeartGold/SoulSilver, Black/White, Black2/White2)
-- Export/import runs
-- Run statistics and analytics
-- Backend with user auth and cloud sync
-- Enable Emerald Seaglass game pack for run creation
+### Later: backups, insights, and game support
+
+- Versioned run-library export and validated import ([#19](https://github.com/RileighLuvsCatz/Nuzzy/issues/19), [#20](https://github.com/RileighLuvsCatz/Nuzzy/issues/20)).
+- Basic run analytics, followed by recorded events for meaningful timeline metrics ([#21](https://github.com/RileighLuvsCatz/Nuzzy/issues/21), [#22](https://github.com/RileighLuvsCatz/Nuzzy/issues/22)).
+- Complete and enable Emerald Seaglass ([#2](https://github.com/RileighLuvsCatz/Nuzzy/issues/2)).
+- Add version-scoped Radical Red data and boss/AI references, FireRed/LeafGreen, and Black/White plus Black 2/White 2 packs ([#23–#25](nuzzyTodo.md#additional-game-packs)).
+- Long horizon: authenticated durable run sync with offline support and conflict handling, after backups are established ([#26](https://github.com/RileighLuvsCatz/Nuzzy/issues/26)).
+
+## What is a Nuzlocke?
+
+A Nuzlocke is a self-imposed Pokémon challenge. Common rules include catching only the first encounter in each area, treating fainted Pokémon as permanently unavailable, and nicknaming catches. Optional rules vary by player. Nuzzy helps record the run; it does not enforce every ruleset or detect events in the game itself.
 
 ## Contributing
 
-This is currently a personal project, but contributions are welcome.
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/your-feature`)
-3. Commit your changes
-4. Push to the branch
-5. Open a Pull Request
-
-## Development Notes
-
-This project demonstrates:
-
-- Modern React patterns and hooks
-- Component-based architecture
-- Client-side state management and persistence
-- Responsive design with Tailwind CSS
-- TypeScript for type safety across the codebase
-
-The focus is on clean, maintainable code and incremental feature development.
+This is currently a personal project, but contributions are welcome. Start from an existing issue or discuss a new one, create an issue-scoped branch, run the available checks, and open a pull request. Keep presentation changes and behavior fixes reviewable, and verify that older saves still load when changing persistence.
 
 ## License
 
-This project is licensed under the MIT License -- see the LICENSE file for details.
+The repository does not currently include a `LICENSE` file. A license needs to be added before this documentation can point to licensing terms.
 
 ## Acknowledgments
 
-- Pokémon and all related properties are (c) Nintendo, Game Freak, and The Pokémon Company
-- Emerald Seaglass ROM hack by the Seaglass development team
-- Radical Red ROM hack by Soupercell and the RR team
-- Nuzlocke challenge created by Nick Franco (Nuzlocke Comics)
-- Project Inspiration: [Nuzlocke.app](https://github.com/domtronn/nuzlocke.app)
+- Pokémon and related properties belong to Nintendo, Game Freak, and The Pokémon Company.
+- Emerald Seaglass ROM hack by the Seaglass development team.
+- Radical Red ROM hack by Soupercell and the RR team.
+- Nuzlocke challenge created by Nick Franco (Nuzlocke Comics).
+- Project inspiration: [Nuzlocke.app](https://github.com/domtronn/nuzlocke.app).
 
-## Contact
+Project: [RileighLuvsCatz/Nuzzy](https://github.com/RileighLuvsCatz/Nuzzy).
 
-Project Link: [https://github.com/RileighLuvsCatz/Nuzzy](https://github.com/RileighLuvsCatz/Nuzzy)
-
----
-
-**Note:** This project is a fan-made tool and is not affiliated with Nintendo, Game Freak, or The Pokémon Company.
+Nuzzy is a fan-made tool and is not affiliated with Nintendo, Game Freak, or The Pokémon Company.
