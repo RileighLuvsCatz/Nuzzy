@@ -1,9 +1,13 @@
-import { speciesToSlug } from "./pokemonSprites";
+import { speciesToSlug } from "./pokemonSprites.ts";
 
 const STORAGE_KEY = "nuzzy:poke-types:v1";
 
+export type PokemonTypeResult =
+  | { status: "resolved"; types: string[] }
+  | { status: "unavailable" };
+
 const memoryCache = new Map<string, string[]>();
-const inflight = new Map<string, Promise<string[]>>();
+const inflight = new Map<string, Promise<PokemonTypeResult>>();
 
 function titleCase(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1);
@@ -31,7 +35,10 @@ function persistToStorage(slug: string, types: string[]) {
 function hydrateFromStorage() {
   const stored = loadStorageCache();
   for (const [slug, types] of Object.entries(stored)) {
-    if (!memoryCache.has(slug) && Array.isArray(types)) {
+    if (
+      !memoryCache.has(slug) && Array.isArray(types) && types.length > 0 &&
+      types.every((type) => typeof type === "string" && type.length > 0)
+    ) {
       memoryCache.set(slug, types);
     }
   }
@@ -39,34 +46,39 @@ function hydrateFromStorage() {
 
 hydrateFromStorage();
 
-async function fetchTypes(slug: string): Promise<string[]> {
+async function fetchTypes(slug: string): Promise<PokemonTypeResult> {
   try {
     const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${slug}`);
-    if (!res.ok) return [];
+    if (!res.ok) return { status: "unavailable" };
     const data = await res.json();
     const rawTypes: { type: { name: string } }[] = data.types ?? [];
-    return rawTypes.map((t) => titleCase(t.type.name));
+    const types = rawTypes.map((t) => titleCase(t.type.name));
+    return types.length > 0
+      ? { status: "resolved", types }
+      : { status: "unavailable" };
   } catch {
-    return [];
+    return { status: "unavailable" };
   }
 }
 
 export async function getPokemonTypes(
   displayName: string,
-): Promise<string[]> {
+): Promise<PokemonTypeResult> {
   const slug = speciesToSlug(displayName);
 
   const cached = memoryCache.get(slug);
-  if (cached) return cached;
+  if (cached) return { status: "resolved", types: cached };
 
   const existing = inflight.get(slug);
   if (existing) return existing;
 
-  const promise = fetchTypes(slug).then((types) => {
-    memoryCache.set(slug, types);
-    if (types.length > 0) persistToStorage(slug, types);
+  const promise = fetchTypes(slug).then((result) => {
+    if (result.status === "resolved") {
+      memoryCache.set(slug, result.types);
+      persistToStorage(slug, result.types);
+    }
     inflight.delete(slug);
-    return types;
+    return result;
   });
 
   inflight.set(slug, promise);
