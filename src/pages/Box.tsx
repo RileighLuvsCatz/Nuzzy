@@ -8,7 +8,7 @@ import type { Encounter, Run, Status } from "../types";
 import PokemonSprite from "../components/PokemonSprite";
 import {
   getPokemonTypes,
-  getCachedPokemonTypes,
+  type PokemonTypeResult,
 } from "../lib/pokemonTypes";
 import {
   teamWeaknesses,
@@ -61,61 +61,47 @@ function routeMap(routes: RouteDef[]): Map<string, RouteDef> {
 }
 
 function useTeamTypes(teamEncounters: Encounter[]) {
-  const [typeMap, setTypeMap] = useState<Map<string, string[]>>(new Map());
-  const [loading, setLoading] = useState(false);
+  const [typeMap, setTypeMap] = useState<Map<string, PokemonTypeResult>>(new Map());
+  const [attempt, setAttempt] = useState(0);
+  const retry = () => {
+    setTypeMap((previous) => new Map(
+      [...previous].filter(([, result]) => result.status === "resolved"),
+    ));
+    setAttempt((previous) => previous + 1);
+  };
 
   useEffect(() => {
     let cancelled = false;
     const species = [...new Set(teamEncounters.map((e) => e.pokemon))];
-
-    const initial = new Map<string, string[]>();
-    const toFetch: string[] = [];
     for (const s of species) {
-      const cached = getCachedPokemonTypes(s);
-      if (cached) initial.set(s, cached);
-      else toFetch.push(s);
-    }
-    setTypeMap(new Map(initial));
-
-    if (toFetch.length === 0) {
-      setLoading(false);
-      return;
-    }
-
-    setLoading(true);
-    Promise.all(
-      toFetch.map((s) =>
-        getPokemonTypes(s).then((types) => [s, types] as const),
-      ),
-    ).then((results) => {
-      if (cancelled) return;
-      setTypeMap((prev) => {
-        const next = new Map(prev);
-        for (const [s, types] of results) next.set(s, types);
-        return next;
+      void getPokemonTypes(s).then((result) => {
+        if (cancelled) return;
+        setTypeMap((previous) => new Map(previous).set(s, result));
       });
-      setLoading(false);
-    });
+    }
 
     return () => {
       cancelled = true;
     };
-  }, [teamEncounters]);
+  }, [teamEncounters, attempt]);
 
-  return { typeMap, loading };
+  return { typeMap, retry };
 }
 
-function TeamAnalysis({
+export function TeamAnalysis({
   teamEncounters,
   typeMap,
-  loading,
+  onRetry,
 }: {
   teamEncounters: Encounter[];
-  typeMap: Map<string, string[]>;
-  loading: boolean;
+  typeMap: Map<string, PokemonTypeResult>;
+  onRetry: () => void;
 }) {
-  const teamTypes = teamEncounters.map((e) => typeMap.get(e.pokemon) ?? []);
-  const resolved = teamTypes.filter((t) => t.length > 0);
+  const results = teamEncounters.map((e) => typeMap.get(e.pokemon));
+  const missing = teamEncounters.filter((_, index) => results[index]?.status !== "resolved");
+  const unavailable = results.some((result) => result?.status === "unavailable");
+  const loading = results.some((result) => !result);
+  const teamTypes = results.flatMap((result) => result?.status === "resolved" ? [result.types] : []);
 
   if (teamEncounters.length === 0) {
     return (
@@ -125,12 +111,21 @@ function TeamAnalysis({
     );
   }
 
-  if (loading && resolved.length === 0) {
+  if (missing.length > 0) {
     return (
-      <div className="animate-pulse space-y-2">
-        <div className="h-4 bg-gray-800 rounded w-1/3" />
-        <div className="h-4 bg-gray-800 rounded w-1/2" />
-        <div className="h-4 bg-gray-800 rounded w-2/5" />
+      <div className="space-y-3">
+        <p role="status" className="text-sm text-yellow-400">
+          Type analysis is incomplete. Missing types for {missing.map((e) => e.nickname || e.pokemon).join(", ")}.
+          {loading ? " Loading type data..." : " Type data is unavailable."}
+        </p>
+        <p className="text-sm text-gray-400">
+          Coverage, weaknesses, and resistances will appear once every team member’s types are available.
+        </p>
+        {unavailable && (
+          <button type="button" onClick={onRetry} className="px-3 py-1.5 text-sm text-white bg-gray-800 hover:bg-gray-700 rounded">
+            Retry unavailable types
+          </button>
+        )}
       </div>
     );
   }
@@ -142,10 +137,6 @@ function TeamAnalysis({
 
   return (
     <div className="space-y-4">
-      {loading && (
-        <p className="text-xs text-gray-500">Loading remaining types...</p>
-      )}
-
       <div>
         <h4 className="text-sm font-semibold text-red-400 mb-1.5">
           Weaknesses
@@ -221,12 +212,14 @@ function TeamAnalysis({
 function EncounterCard({
   encounter,
   routeName,
-  types,
+  typeResult,
+  onRetry,
   actions,
 }: {
   encounter: Encounter;
   routeName: string;
-  types: string[];
+  typeResult: PokemonTypeResult | undefined;
+  onRetry: () => void;
   actions?: React.ReactNode;
 }) {
   return (
@@ -242,10 +235,14 @@ function EncounterCard({
           </span>
         </div>
         <div className="flex items-center gap-1.5 mt-0.5">
-          {types.length > 0 ? (
-            types.map((t) => <TypeBadge key={t} type={t} />)
+          {typeResult?.status === "resolved" ? (
+            typeResult.types.map((t) => <TypeBadge key={t} type={t} />)
           ) : (
-            <span className="text-xs text-gray-600">types loading...</span>
+            <span className="text-xs text-gray-400">
+              {typeResult?.status === "unavailable" ? (
+                <>Types unavailable. <button type="button" onClick={onRetry} aria-label={`Retry types for ${encounter.nickname}`} className="text-red-400 underline">Retry</button></>
+              ) : "Loading types..."}
+            </span>
           )}
           <span className="text-xs text-gray-600 ml-1">{routeName}</span>
         </div>
@@ -291,7 +288,7 @@ export default function Box() {
     () => [...teamEncounters, ...boxedEncounters],
     [teamEncounters, boxedEncounters],
   );
-  const { typeMap, loading: typesLoading } = useTeamTypes(allNonDead);
+  const { typeMap, retry } = useTeamTypes(allNonDead);
 
   const changeStatus = useCallback(
     (encounterId: string, newStatus: Status) => {
@@ -371,7 +368,8 @@ export default function Box() {
                 key={enc.id}
                 encounter={enc}
                 routeName={getRouteName(enc.routeId)}
-                types={typeMap.get(enc.pokemon) ?? []}
+                typeResult={typeMap.get(enc.pokemon)}
+                onRetry={retry}
                 actions={
                   <button
                     type="button"
@@ -396,7 +394,7 @@ export default function Box() {
           <TeamAnalysis
             teamEncounters={teamEncounters}
             typeMap={typeMap}
-            loading={typesLoading}
+            onRetry={retry}
           />
         </div>
       </section>
@@ -415,7 +413,8 @@ export default function Box() {
                 key={enc.id}
                 encounter={enc}
                 routeName={getRouteName(enc.routeId)}
-                types={typeMap.get(enc.pokemon) ?? []}
+                typeResult={typeMap.get(enc.pokemon)}
+                onRetry={retry}
                 actions={
                   <button
                     type="button"
