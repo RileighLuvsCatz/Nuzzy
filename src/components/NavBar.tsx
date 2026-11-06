@@ -16,9 +16,10 @@ export default function Navbar() {
   const [runs, setRuns] = useState<Run[]>([]);
   const ref = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (open) setRuns(listRuns());
-  }, [open]);
+  function toggleMenu() {
+    if (!open) setRuns(listRuns());
+    setOpen(!open);
+  }
 
   useEffect(() => {
     function onClickOutside(e: MouseEvent) {
@@ -50,7 +51,7 @@ export default function Navbar() {
           <div ref={ref} className="relative">
             <button
               type="button"
-              onClick={() => setOpen((v) => !v)}
+              onClick={toggleMenu}
               className="text-gray-400 hover:text-white transition-colors p-1 rounded hover:bg-gray-800"
               aria-label="Load Run"
               title="Load Run"

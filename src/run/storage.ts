@@ -135,10 +135,46 @@ function migrateLegacy(): RunLibrary | null {
 
 function persistLibrary(lib: RunLibrary): void {
   localStorage.setItem(LIBRARY_KEY, JSON.stringify(lib));
+  for (const listener of listeners) listener();
 }
 
 function getLibrary(): RunLibrary {
   return loadLibraryRaw() ?? migrateLegacy() ?? { schemaVersion: 2, runs: [], activeRunId: null };
+}
+
+// React subscribers share one stable snapshot until persisted data changes.
+const listeners = new Set<() => void>();
+let snapshotKey: string | undefined;
+let snapshot: Run | null = null;
+
+export function subscribeToRuns(listener: () => void): () => void {
+  listeners.add(listener);
+  const onStorage = (event: StorageEvent) => {
+    if (event.key === LIBRARY_KEY || event.key === LEGACY_KEY || event.key === null) listener();
+  };
+  window.addEventListener("storage", onStorage);
+  return () => {
+    listeners.delete(listener);
+    window.removeEventListener("storage", onStorage);
+  };
+}
+
+export function getActiveRunSnapshot(): Run | null {
+  const key = JSON.stringify([localStorage.getItem(LIBRARY_KEY), localStorage.getItem(LEGACY_KEY)]);
+  if (key !== snapshotKey) {
+    snapshot = loadActiveRun();
+    snapshotKey = JSON.stringify([localStorage.getItem(LIBRARY_KEY), localStorage.getItem(LEGACY_KEY)]);
+  }
+  return snapshot;
+}
+
+// Only update the run that the event handler was rendered for. A delayed event
+// from the previous run must never edit or reactivate it after a switch.
+export function updateActiveRun(id: string | undefined, update: (run: Run) => Run): void {
+  const current = loadActiveRun();
+  if (!current || current.id !== id) return;
+  const next = update(current);
+  if (next !== current && next.id === current.id) saveRun(next);
 }
 
 // ---- Public API ----
