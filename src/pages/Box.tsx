@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { getGamePack } from "../data/games";
-import { loadActiveRun, saveRun } from "../run/storage";
+import { useActiveRun } from "../run/useActiveRun";
 import { changeEncounterStatus, TEAM_FULL_MESSAGE, TEAM_LIMIT } from "../run/encounters";
 import type { RouteDef } from "../types/game";
-import type { Encounter, Run, Status } from "../types";
+import type { Encounter, Status } from "../types";
 import PokemonSprite from "../components/PokemonSprite";
 import {
   getPokemonTypes,
@@ -258,22 +258,13 @@ function EncounterCard({
 }
 
 export default function Box() {
-  const location = useLocation();
-  const [run, setRun] = useState<Run | null>(() => loadActiveRun());
-
-  useEffect(() => {
-    setRun(loadActiveRun());
-  }, [location.state]);
+  const [run, setRun] = useActiveRun();
 
   const pack = run ? getGamePack(run.gameId) : undefined;
   const routesById = useMemo(
     () => (pack ? routeMap(pack.routes) : new Map<string, RouteDef>()),
     [pack],
   );
-
-  useEffect(() => {
-    if (run) saveRun(run);
-  }, [run]);
 
   const teamEncounters = useMemo(
     () => (run?.encounters ?? []).filter((e) => e.status === "Team"),
@@ -296,7 +287,7 @@ export default function Box() {
         current ? changeEncounterStatus(current, encounterId, newStatus) : current,
       );
     },
-    [],
+    [setRun],
   );
 
   const getRouteName = useCallback(

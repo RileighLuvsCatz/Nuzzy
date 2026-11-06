@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useMemo } from "react";
+import { Link } from "react-router-dom";
 import { getGamePack } from "../data/games";
-import { loadActiveRun } from "../run/storage";
+import { useActiveRun } from "../run/useActiveRun";
 import type { RouteDef } from "../types/game";
 import type { Encounter } from "../types";
 import PokemonSprite from "../components/PokemonSprite";
@@ -37,12 +37,7 @@ function GraveyardCard({
 }
 
 export default function Graveyard() {
-  const location = useLocation();
-  const [run, setRun] = useState(() => loadActiveRun());
-
-  useEffect(() => {
-    setRun(loadActiveRun());
-  }, [location.state]);
+  const [run] = useActiveRun();
 
   const pack = run ? getGamePack(run.gameId) : undefined;
   const routesById = useMemo(

@@ -7,7 +7,11 @@ interface Props {
   className?: string;
 }
 
-export default function PokemonSprite({
+export default function PokemonSprite(props: Props) {
+  return <SpeciesSprite key={props.species} {...props} />;
+}
+
+function SpeciesSprite({
   species,
   size = 40,
   className = "",
@@ -17,8 +21,6 @@ export default function PokemonSprite({
 
   useEffect(() => {
     let cancelled = false;
-    setUrl(null);
-    setFailed(false);
 
     getSpriteUrl(species).then((resolved) => {
       if (cancelled) return;

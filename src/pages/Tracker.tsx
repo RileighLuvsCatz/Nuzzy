@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useMemo, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { getGamePack } from "../data/games";
-import { loadActiveRun, saveRun } from "../run/storage";
+import { useActiveRun } from "../run/useActiveRun";
 import { addEncounter, changeEncounterStatus, isTeamFull } from "../run/encounters";
 import type { BossDef, RouteDef } from "../types/game";
 import type { Encounter, Status } from "../types";
@@ -193,12 +193,7 @@ function RouteSection({
 }
 
 export default function Tracker() {
-  const location = useLocation();
-  const [run, setRun] = useState(() => loadActiveRun());
-
-  useEffect(() => {
-    setRun(loadActiveRun());
-  }, [location.state]);
+  const [run, setRun] = useActiveRun();
 
   const pack = run ? getGamePack(run.gameId) : undefined;
   const routesById = useMemo(
@@ -209,10 +204,6 @@ export default function Tracker() {
     () => (pack ? bossMap(pack.bosses) : new Map<string, BossDef>()),
     [pack],
   );
-
-  useEffect(() => {
-    if (run) saveRun(run);
-  }, [run]);
 
   function handleAddEncounter(
     routeId: string,
