@@ -6,6 +6,7 @@ import { addEncounter, changeEncounterStatus, isTeamFull } from "../run/encounte
 import type { BossDef, RouteDef } from "../types/game";
 import type { Encounter, Status } from "../types";
 import PokemonSprite from "../components/PokemonSprite";
+import NoActiveRun from "../components/NoActiveRun";
 
 const STATUS_COLORS: Record<Status, string> = {
   Team: "text-green-400",
@@ -227,19 +228,7 @@ export default function Tracker() {
     );
   }
 
-  if (!run) {
-    return (
-      <div className="text-center py-16 text-gray-400">
-        <p>No active run found.</p>
-        <Link
-          to="/new-run"
-          className="text-red-400 hover:underline mt-2 inline-block"
-        >
-          Start a new run
-        </Link>
-      </div>
-    );
-  }
+  if (!run) return <NoActiveRun />;
 
   if (!pack) {
     return (

@@ -35,7 +35,7 @@ Selectable packs contain route, boss, and progression data; this is not a claim 
 
 ### Known gaps
 
-Encounter species/nicknames cannot yet be edited, encounters cannot be deleted, and multiple catches on a route do not trigger a warning. Run rename/delete actions and backup export/import are also absent. Saved runs without an active run need better recovery paths, especially on the landing page where the navbar is hidden. Type analysis can be incomplete after failed lookups, and sprite lookup failures need more resilient handling.
+Encounter species/nicknames cannot yet be edited, encounters cannot be deleted, and multiple catches on a route do not trigger a warning. Run rename/delete actions and backup export/import are also absent. Tracker, Box, and Graveyard offer a saved-run picker when no run is active. The landing page still needs a recovery path when the navbar is hidden. Type analysis can be incomplete after failed lookups, and sprite lookup failures need more resilient handling.
 
 See [GitHub Issues](https://github.com/RileighLuvsCatz/Nuzzy/issues) for current status and acceptance criteria; the roadmap below is a direction, not a second task-status tracker.
 

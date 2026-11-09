@@ -131,3 +131,46 @@ test('edits persist across remounts and stale handlers cannot edit or reactivate
   await act(async () => edit(current => ({ ...current, encounters: current.encounters.map(e => ({ ...e, status: 'Dead' })) })));
   assert.equal(storage.loadActiveRun().encounters[0].status, 'Dead');
 });
+
+for (const Page of [Tracker, Box, Graveyard]) {
+  for (const activeRunId of [null, 'missing-run']) {
+    test(`${Page.name} resumes a chosen save with active ID ${activeRunId}`, async () => {
+      const first = run('Older adventure');
+      first.createdAt = '2026-01-01T00:00:00.000Z';
+      first.gameTitle = 'Pokémon Emerald';
+      const second = run('Newer adventure');
+      second.createdAt = '2026-02-01T00:00:00.000Z';
+      localStorage.setItem('nuzzy_run_library', JSON.stringify({
+        schemaVersion: 2, runs: [first, second], activeRunId,
+      }));
+      const before = localStorage.getItem('nuzzy_run_library');
+      await render(h(Page));
+      assert.match(container.textContent, /Resume a saved run/);
+      assert.equal(container.querySelector('a[href="/new-run"]').textContent, 'Start a new run');
+      const buttons = [...container.querySelectorAll('button')];
+      assert.equal(buttons.length, 2);
+      assert.match(buttons[0].textContent, /Newer adventure/);
+      assert.match(buttons[0].textContent, /emerald/);
+      assert.match(buttons[1].textContent, /Pokémon Emerald/);
+      assert.equal(localStorage.getItem('nuzzy_run_library'), before);
+      await click(buttons[1]);
+      assert.equal(storage.loadActiveRun().id, first.id);
+      assert.match(container.querySelector('h1').textContent, /Older adventure/);
+      assert.doesNotMatch(container.textContent, /No active run found/);
+      assert.deepEqual(storage.listRuns(), [first, second]);
+      await act(async () => root.unmount());
+      root = undefined;
+      await render(h(Page));
+      assert.match(container.querySelector('h1').textContent, /Older adventure/);
+    });
+  }
+
+  test(`${Page.name} offers new-run creation with an empty library`, async () => {
+    await render(h(Page));
+    assert.match(container.textContent, /No saved runs yet/);
+    assert.doesNotMatch(container.textContent, /Resume a saved run/);
+    assert.equal(container.querySelector('button'), null);
+    assert.ok(container.querySelector('a[href="/new-run"]'));
+    assert.equal(localStorage.getItem('nuzzy_run_library'), null);
+  });
+}
