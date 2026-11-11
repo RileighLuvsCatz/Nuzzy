@@ -11,6 +11,7 @@ Nuzzy is in active, early development. This overview describes features implemen
 - **Landing page** — Project overview, Nuzlocke basics, new-run action, and a continue link when a run is active.
 - **Run management** — Create and name multiple runs, persist them in a versioned localStorage library, and switch between them from the navbar on Tracker, Box, and Graveyard pages. The navbar displays the active run name, truncating long names to fit.
 - **Progression tracker** — Routes and boss fights in game order, species selection from route catch pools, nicknames, per-route encounter counts, and inline status changes.
+- **Encounter totals** — Team, Boxed, Dead, and total counts above progression, updated immediately when encounters or the active run change.
 - **Encounter statuses** — `Team`, `Boxed`, and `Dead`. New Team additions and promotions are limited to six Pokémon. Full-team logging defaults to Boxed; older oversized teams remain readable and can be corrected.
 - **Boss reference** — Team tables with species, types, moves, and held items.
 - **Box and Team** — Dedicated view with transfers between Team and Box, type badges, and a Team count.
