@@ -19,7 +19,7 @@ React 19, Vite 8, React Router 7, Tailwind CSS 4 through `@tailwindcss/vite`, Ty
 - Sprites fetched through PokéAPI, cached in memory/localStorage, and reused across encounter and boss entries.
 - Selectable Emerald, Diamond, Pearl, Platinum, HeartGold, and SoulSilver packs. Emerald Seaglass is registered but disabled and incomplete.
 
-Important boundaries: routes can still accept multiple encounters without warning; species/nickname editing is absent. Tracker encounter deletion uses a named inline confirmation with Cancel/Escape and persists removal by ID. `deleteRun` exists only as a storage API. Graveyard has no death notes/timestamps. Type analysis uses current PokéAPI species types and the Gen VI+ chart, regardless of game, and does not model moves, abilities, or items.
+Important boundaries: logging controls are hidden while a route has saved encounters and return after its last encounter is deleted; older multiple-encounter routes remain readable. Species/nickname editing is absent. Tracker encounter deletion uses a named inline confirmation with Cancel/Escape and persists removal by ID. `deleteRun` exists only as a storage API. Graveyard has no death notes/timestamps. Type analysis uses current PokéAPI species types and the Gen VI+ chart, regardless of game, and does not model moves, abilities, or items.
 
 ## Architecture
 
