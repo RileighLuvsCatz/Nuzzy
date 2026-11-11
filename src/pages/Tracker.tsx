@@ -86,6 +86,7 @@ function RouteSection({
 }) {
   const pool = route.catchPool ?? [];
   const [species, setSpecies] = useState(pool[0] ?? "");
+  const selectedSpecies = encounters[0]?.pokemon ?? species;
   const [nickname, setNickname] = useState("");
   const [status, setStatus] = useState<Status>("Team");
   const [showDuplicateWarning, setShowDuplicateWarning] = useState(false);
@@ -95,12 +96,12 @@ function RouteSection({
   const logStatus = teamFull && status === "Team" ? "Boxed" : status;
 
   function handleLog(confirmed = false) {
-    if (!species || !nickname.trim()) return;
+    if (!selectedSpecies || !nickname.trim()) return;
     if (encounters.length > 0 && !confirmed) {
       setShowDuplicateWarning(true);
       return;
     }
-    onAdd(route.id, species, nickname.trim(), logStatus);
+    onAdd(route.id, selectedSpecies, nickname.trim(), logStatus);
     setShowDuplicateWarning(false);
     setNickname("");
     setStatus("Team");
@@ -119,18 +120,23 @@ function RouteSection({
       <div className="p-4 space-y-3">
         {pool.length > 0 ? (
           <div className="flex flex-wrap items-end gap-2">
-            {species && (
+            {selectedSpecies && (
               <div className="shrink-0 self-center w-10 h-10 rounded-md bg-gray-800 flex items-center justify-center overflow-hidden">
-                <PokemonSprite species={species} size={36} />
+                <PokemonSprite species={selectedSpecies} size={36} />
               </div>
             )}
             <div className="space-y-1 min-w-[140px] flex-1">
               <label className="block text-xs text-gray-400">Pokémon</label>
               <select
-                value={species}
+                value={selectedSpecies}
+                disabled={encounters.length > 0}
+                aria-label={`Pokémon for ${route.name}`}
                 onChange={(e) => setSpecies(e.target.value)}
-                className="w-full px-2 py-1.5 bg-gray-800 border border-gray-700 rounded text-sm text-white focus:outline-none focus:border-red-500"
+                className="w-full px-2 py-1.5 bg-gray-800 border border-gray-700 rounded text-sm text-white disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus:border-red-500"
               >
+                {selectedSpecies && !pool.includes(selectedSpecies) && (
+                  <option value={selectedSpecies}>{selectedSpecies}</option>
+                )}
                 {pool.map((s) => (
                   <option key={s} value={s}>
                     {s}
@@ -166,7 +172,7 @@ function RouteSection({
               type="button"
               ref={logButtonRef}
               onClick={() => handleLog()}
-              disabled={!species || !nickname.trim()}
+              disabled={!selectedSpecies || !nickname.trim()}
               className="px-4 py-1.5 bg-red-500 hover:bg-red-400 disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed text-white text-sm font-semibold rounded transition-colors"
             >
               Log
@@ -189,7 +195,7 @@ function RouteSection({
               <button
                 type="button"
                 onClick={() => handleLog(true)}
-                disabled={!species || !nickname.trim()}
+                disabled={!selectedSpecies || !nickname.trim()}
                 className="px-3 py-1.5 bg-amber-700 hover:bg-amber-600 disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed text-white text-sm font-semibold rounded transition-colors"
               >
                 Log anyway

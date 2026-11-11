@@ -11,6 +11,7 @@ Nuzzy is in active, early development. This overview describes features implemen
 - **Landing page** — Project overview, Nuzlocke basics, new-run action, and a continue link when a run is active.
 - **Run management** — Create and name multiple runs, persist them in a versioned localStorage library, and switch between them from the navbar on Tracker, Box, and Graveyard pages.
 - **Encounter deletion** — Delete a mistaken log from its Tracker entry after a named confirmation. Route counts, Box, and Graveyard update from the saved run; Cancel or Escape keeps the encounter.
+- **Locked Pokémon choice** — A route's Pokémon dropdown shows its first saved encounter and stays disabled while any encounters remain. Deleting the last encounter unlocks the dropdown.
 - **Progression tracker** — Routes and boss fights in game order, species selection from route catch pools, nicknames, per-route encounter counts, and inline status changes.
 - **Encounter statuses** — `Team`, `Boxed`, and `Dead`. New Team additions and promotions are limited to six Pokémon. Full-team logging defaults to Boxed; older oversized teams remain readable and can be corrected.
 - **Boss reference** — Team tables with species, types, moves, and held items.

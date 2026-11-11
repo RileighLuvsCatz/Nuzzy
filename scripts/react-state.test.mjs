@@ -145,6 +145,9 @@ for (const status of ['Team', 'Boxed', 'Dead']) {
     const route = () => [...container.querySelectorAll('section')].find(section => section.querySelector('h3')?.textContent === 'Route 101');
     const button = (label) => [...route().querySelectorAll('button')].find(item => item.textContent === label);
     const before = localStorage.getItem('nuzzy_run_library');
+    const speciesPicker = () => route().querySelector('[aria-label="Pokémon for Route 101"]');
+    assert.equal(speciesPicker().disabled, true);
+    assert.equal(speciesPicker().value, 'Poochyena');
     await click(button('Delete'));
     const group = container.querySelector('[aria-label="Confirm encounter deletion"]');
     assert.match(group.textContent, /Delete Twin \(Poochyena\) from Route 101\? This cannot be undone/);
@@ -162,6 +165,7 @@ for (const status of ['Team', 'Boxed', 'Dead']) {
     assert.deepEqual(storage.loadActiveRun().encounters, [first.encounters[1]]);
     assert.deepEqual(storage.listRuns().find(item => item.id === second.id), second);
     assert.match(route().textContent, /1 encounter\b/);
+    assert.equal(speciesPicker().disabled, true);
     assert.equal(document.activeElement, route().querySelector('h3'));
     // One remaining Twin in Tracker and one in its corresponding destination view.
     assert.equal([...container.querySelectorAll('span')].filter(item => item.textContent === 'Twin').length, 2);
@@ -170,11 +174,14 @@ for (const status of ['Team', 'Boxed', 'Dead']) {
     await act(async () => root.unmount());
     root = undefined;
     await render(h(Tracker));
+    assert.equal(speciesPicker().disabled, true);
+    assert.equal(speciesPicker().value, 'Poochyena');
     assert.equal(route().querySelectorAll('[aria-label="Delete Twin (Poochyena)"]').length, 1);
     await click(button('Delete'));
     await click(button('Confirm delete'));
     assert.deepEqual(storage.loadActiveRun().encounters, []);
     assert.match(route().textContent, /0 encounters/);
+    assert.equal(speciesPicker().disabled, false);
     assert.match(container.textContent, /No encounters logged yet/);
   });
 }
