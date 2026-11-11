@@ -1,8 +1,8 @@
-import { useMemo, useRef, useState } from "react";
+import { useId, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { getGamePack } from "../data/games";
 import { useActiveRun } from "../run/useActiveRun";
-import { addEncounter, changeEncounterStatus, isTeamFull } from "../run/encounters";
+import { addEncounter, changeEncounterStatus, deleteEncounter, isTeamFull } from "../run/encounters";
 import type { BossDef, RouteDef } from "../types/game";
 import type { Encounter, Status } from "../types";
 import PokemonSprite from "../components/PokemonSprite";
@@ -21,18 +21,68 @@ function bossMap(bosses: BossDef[]): Map<string, BossDef> {
   return new Map(bosses.map((b) => [b.id, b]));
 }
 
+function DeleteEncounterAction({ encounter, routeName, onDelete }: {
+  encounter: Encounter;
+  routeName: string;
+  onDelete: () => void;
+}) {
+  const [confirming, setConfirming] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const descriptionId = useId();
+  function cancel() {
+    setConfirming(false);
+    buttonRef.current?.focus();
+  }
+  return (
+    <div className={confirming ? "w-full space-y-2" : "shrink-0"}
+      onKeyDown={(event) => {
+        if (confirming && event.key === "Escape") {
+          event.stopPropagation();
+          cancel();
+        }
+      }}>
+      <button ref={buttonRef} type="button" onClick={() => setConfirming(true)}
+        aria-label={`Delete ${encounter.nickname} (${encounter.pokemon})`}
+        aria-expanded={confirming}
+        className="px-2 py-1 text-sm text-red-400 rounded hover:bg-gray-800 focus-visible:outline-2 focus-visible:outline-red-400">
+        Delete
+      </button>
+      {confirming && (
+        <div role="group" aria-describedby={descriptionId} aria-label="Confirm encounter deletion"
+          className="border border-red-800 rounded-lg p-3 space-y-2">
+          <p id={descriptionId} className="text-sm text-gray-300 break-words">
+            Delete {encounter.nickname} ({encounter.pokemon}) from {routeName}? This cannot be undone.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            <button type="button" autoFocus onClick={cancel}
+              className="px-3 py-1.5 text-sm text-white bg-gray-800 rounded hover:bg-gray-700 focus-visible:outline-2 focus-visible:outline-white">
+              Cancel
+            </button>
+            <button type="button" onClick={onDelete}
+              className="px-3 py-1.5 text-sm text-white bg-red-700 rounded hover:bg-red-600 focus-visible:outline-2 focus-visible:outline-white">
+              Confirm delete
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function RouteSection({
   route,
   encounters,
   teamFull,
   onAdd,
   onStatusChange,
+  onDelete,
 }: {
   route: RouteDef;
   encounters: Encounter[];
   teamFull: boolean;
   onAdd: (routeId: string, pokemon: string, nickname: string, status: Status) => void;
   onStatusChange: (encounterId: string, newStatus: Status) => void;
+  onDelete: (encounterId: string) => void;
 }) {
   const pool = route.catchPool ?? [];
   const [species, setSpecies] = useState(pool[0] ?? "");
@@ -41,6 +91,7 @@ function RouteSection({
   const [showDuplicateWarning, setShowDuplicateWarning] = useState(false);
   const logButtonRef = useRef<HTMLButtonElement>(null);
   const nicknameRef = useRef<HTMLInputElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
   const logStatus = teamFull && status === "Team" ? "Boxed" : status;
 
   function handleLog(confirmed = false) {
@@ -59,7 +110,7 @@ function RouteSection({
   return (
     <section className="border border-gray-800 rounded-xl overflow-hidden bg-gray-900/50">
       <div className="px-4 py-3 bg-gray-900 border-b border-gray-800">
-        <span className="font-semibold text-white">{route.name}</span>
+        <h3 ref={headingRef} tabIndex={-1} className="inline font-semibold text-white">{route.name}</h3>
         <span className="text-gray-500 text-sm ml-2">
           {encounters.length} encounter{encounters.length !== 1 ? "s" : ""}
         </span>
@@ -160,7 +211,7 @@ function RouteSection({
         {encounters.map((encounter) => (
           <div
             key={encounter.id}
-            className="flex items-center bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 gap-3"
+            className="flex flex-wrap items-center bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 gap-3"
           >
             <div className="shrink-0 w-10 h-10 rounded-md bg-gray-800 flex items-center justify-center overflow-hidden">
               <PokemonSprite species={encounter.pokemon} size={36} />
@@ -185,6 +236,10 @@ function RouteSection({
               <option value="Boxed">Boxed</option>
               <option value="Dead">Dead</option>
             </select>
+            <DeleteEncounterAction encounter={encounter} routeName={route.name} onDelete={() => {
+              onDelete(encounter.id);
+              headingRef.current?.focus();
+            }} />
           </div>
         ))}
       </div>
@@ -225,6 +280,10 @@ export default function Tracker() {
     setRun((current) =>
       current ? changeEncounterStatus(current, encounterId, newStatus) : current,
     );
+  }
+
+  function handleDeleteEncounter(encounterId: string) {
+    setRun((current) => deleteEncounter(current, encounterId));
   }
 
   if (!run) {
@@ -282,6 +341,7 @@ export default function Tracker() {
                 teamFull={teamFull}
                 onAdd={handleAddEncounter}
                 onStatusChange={handleStatusChange}
+                onDelete={handleDeleteEncounter}
               />
             );
           }
