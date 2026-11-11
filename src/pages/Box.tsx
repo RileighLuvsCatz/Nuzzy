@@ -6,6 +6,7 @@ import { changeEncounterStatus, TEAM_FULL_MESSAGE, TEAM_LIMIT } from "../run/enc
 import type { RouteDef } from "../types/game";
 import type { Encounter, Status } from "../types";
 import PokemonSprite from "../components/PokemonSprite";
+import NoActiveRun from "../components/NoActiveRun";
 import {
   getPokemonTypes,
   type PokemonTypeResult,
@@ -295,19 +296,7 @@ export default function Box() {
     [routesById],
   );
 
-  if (!run) {
-    return (
-      <div className="text-center py-16 text-gray-400">
-        <p>No active run found.</p>
-        <Link
-          to="/new-run"
-          className="text-red-400 hover:underline mt-2 inline-block"
-        >
-          Start a new run
-        </Link>
-      </div>
-    );
-  }
+  if (!run) return <NoActiveRun />;
 
   if (!pack) {
     return (
