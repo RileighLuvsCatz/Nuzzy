@@ -5,6 +5,7 @@ import { useActiveRun } from "../run/useActiveRun";
 import type { RouteDef } from "../types/game";
 import type { Encounter } from "../types";
 import PokemonSprite from "../components/PokemonSprite";
+import NoActiveRun from "../components/NoActiveRun";
 
 function routeMap(routes: RouteDef[]): Map<string, RouteDef> {
   return new Map(routes.map((r) => [r.id, r]));
@@ -50,19 +51,7 @@ export default function Graveyard() {
     [run],
   );
 
-  if (!run) {
-    return (
-      <div className="text-center py-16 text-gray-400">
-        <p>No active run found.</p>
-        <Link
-          to="/new-run"
-          className="text-red-400 hover:underline mt-2 inline-block"
-        >
-          Start a new run
-        </Link>
-      </div>
-    );
-  }
+  if (!run) return <NoActiveRun />;
 
   if (!pack) {
     return (

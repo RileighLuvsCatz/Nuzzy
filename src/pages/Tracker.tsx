@@ -6,6 +6,7 @@ import { addEncounter, changeEncounterStatus, deleteEncounter, isTeamFull } from
 import type { BossDef, RouteDef } from "../types/game";
 import type { Encounter, Status } from "../types";
 import PokemonSprite from "../components/PokemonSprite";
+import NoActiveRun from "../components/NoActiveRun";
 
 const STATUS_COLORS: Record<Status, string> = {
   Team: "text-green-400",
@@ -247,19 +248,7 @@ export default function Tracker() {
     setRun((current) => deleteEncounter(current, encounterId));
   }
 
-  if (!run) {
-    return (
-      <div className="text-center py-16 text-gray-400">
-        <p>No active run found.</p>
-        <Link
-          to="/new-run"
-          className="text-red-400 hover:underline mt-2 inline-block"
-        >
-          Start a new run
-        </Link>
-      </div>
-    );
-  }
+  if (!run) return <NoActiveRun />;
 
   if (!pack) {
     return (
@@ -277,6 +266,13 @@ export default function Tracker() {
 
   const displayTitle = run.gameTitle ?? run.gameId;
   const teamFull = isTeamFull(run.encounters);
+  const counts = run.encounters.reduce(
+    (totals, encounter) => {
+      totals[encounter.status] += 1;
+      return totals;
+    },
+    { Team: 0, Boxed: 0, Dead: 0 },
+  );
 
   return (
     <div className="space-y-8">
@@ -284,6 +280,24 @@ export default function Tracker() {
         <h1 className="text-3xl font-bold text-white">{run.name}</h1>
         <p className="text-gray-400">{displayTitle}</p>
       </div>
+
+      <dl
+        aria-label="Encounter totals"
+        aria-live="polite"
+        aria-atomic="true"
+        className="grid grid-cols-2 sm:grid-cols-4 gap-3"
+      >
+        {(["Team", "Boxed", "Dead", "Total"] as const).map((label) => (
+          <div key={label} className="rounded-xl border border-gray-800 bg-gray-900/50 px-4 py-3">
+            <dt className={`text-sm ${label === "Total" ? "text-gray-400" : STATUS_COLORS[label]}`}>
+              {label}
+            </dt>
+            <dd className="text-2xl font-bold text-white tabular-nums">
+              {label === "Total" ? run.encounters.length : counts[label]}
+            </dd>
+          </div>
+        ))}
+      </dl>
 
       <div className="space-y-6">
         <h2 className="text-lg font-semibold text-white">Progression</h2>

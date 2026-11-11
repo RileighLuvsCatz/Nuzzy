@@ -3,7 +3,6 @@ import { test, afterEach } from 'node:test';
 import { register } from 'tsx/esm/api';
 import { JSDOM } from 'jsdom';
 import { createElement as h, act, StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
 
 register({ tsconfig: './tsconfig.app.json' });
 const dom = new JSDOM('<div id="root"></div>', { url: 'http://localhost' });
@@ -12,6 +11,7 @@ Object.assign(globalThis, {
   localStorage: dom.window.localStorage, IS_REACT_ACT_ENVIRONMENT: true,
 });
 globalThis.fetch = async () => ({ ok: false });
+const { createRoot } = await import('react-dom/client');
 const { MemoryRouter } = await import('react-router-dom');
 const { default: Navbar } = await import('../src/components/NavBar.tsx');
 const { default: Sprite } = await import('../src/components/PokemonSprite.tsx');
@@ -203,3 +203,110 @@ test('switching runs clears a pending encounter deletion', async () => {
   assert.deepEqual(storage.listRuns().find(item => item.id === first.id), first);
   assert.deepEqual(storage.loadActiveRun(), second);
 });
+
+function trackerTotals() {
+  const summary = container.querySelector('dl[aria-label="Encounter totals"]');
+  assert.ok(summary);
+  return Object.fromEntries([...summary.children].map(item => [
+    item.querySelector('dt').textContent, Number(item.querySelector('dd').textContent),
+  ]));
+}
+
+async function changeValue(element, value) {
+  assert.ok(element);
+  const prototype = element.tagName === 'INPUT'
+    ? dom.window.HTMLInputElement.prototype : dom.window.HTMLSelectElement.prototype;
+  await act(async () => {
+    Object.getOwnPropertyDescriptor(prototype, 'value').set.call(element, value);
+    element.dispatchEvent(new dom.window.Event(element.tagName === 'INPUT' ? 'input' : 'change', { bubbles: true }));
+  });
+}
+
+test('tracker totals start at zero and update after logging and status changes', async () => {
+  storage.saveRun(run('Fresh adventure'));
+  await render(h(Tracker));
+  assert.deepEqual(trackerTotals(), { Team: 0, Boxed: 0, Dead: 0, Total: 0 });
+  const summary = container.querySelector('dl[aria-label="Encounter totals"]');
+  assert.ok(summary.compareDocumentPosition(container.querySelector('h2')) & dom.window.Node.DOCUMENT_POSITION_FOLLOWING);
+  assert.equal(summary.getAttribute('aria-live'), 'polite');
+  const starter = container.querySelector('section');
+  await changeValue(starter.querySelector('input'), 'Leaf');
+  await click([...starter.querySelectorAll('button')].find(button => button.textContent === 'Log'));
+  assert.deepEqual(trackerTotals(), { Team: 1, Boxed: 0, Dead: 0, Total: 1 });
+  const status = () => container.querySelector('[aria-label="Status for Leaf"]');
+  await changeValue(status(), 'Boxed');
+  assert.deepEqual(trackerTotals(), { Team: 0, Boxed: 1, Dead: 0, Total: 1 });
+  await changeValue(status(), 'Dead');
+  assert.deepEqual(trackerTotals(), { Team: 0, Boxed: 0, Dead: 1, Total: 1 });
+  assert.equal(storage.loadActiveRun().encounters[0].status, 'Dead');
+  await act(async () => root.unmount());
+  root = undefined;
+  await render(h(Tracker));
+  assert.deepEqual(trackerTotals(), { Team: 0, Boxed: 0, Dead: 1, Total: 1 });
+});
+
+test('tracker totals count all saved encounters and follow the active run', async () => {
+  const first = { ...run('Older adventure'), encounters: [
+    ...Array.from({ length: 8 }, (_, index) => ({
+      id: `team-${index}`, routeId: 'route-101', pokemon: 'Poochyena', nickname: `Pup ${index}`, status: 'Team',
+    })),
+    { id: 'reserve', routeId: 'route-101', pokemon: 'Zigzagoon', nickname: 'Zig', status: 'Boxed' },
+    { id: 'fallen', routeId: 'old-route-id', pokemon: 'Wurmple', nickname: 'Worm', status: 'Dead' },
+  ] };
+  const second = run('Empty adventure');
+  storage.saveRun(second);
+  storage.saveRun(first);
+  const saved = localStorage.getItem('nuzzy_run_library');
+  await render(h(Tracker));
+  assert.deepEqual(trackerTotals(), { Team: 8, Boxed: 1, Dead: 1, Total: 10 });
+  assert.equal(localStorage.getItem('nuzzy_run_library'), saved);
+  await act(async () => storage.setActiveRun(second.id));
+  assert.deepEqual(trackerTotals(), { Team: 0, Boxed: 0, Dead: 0, Total: 0 });
+  await act(async () => storage.setActiveRun(first.id));
+  assert.deepEqual(trackerTotals(), { Team: 8, Boxed: 1, Dead: 1, Total: 10 });
+  await act(async () => { storage.deleteRun(first.id); storage.deleteRun(second.id); });
+  assert.equal(container.querySelector('dl[aria-label="Encounter totals"]'), null);
+});
+
+for (const Page of [Tracker, Box, Graveyard]) {
+  for (const activeRunId of [null, 'missing-run']) {
+    test(`${Page.name} resumes a chosen save with active ID ${activeRunId}`, async () => {
+      const first = run('Older adventure');
+      first.createdAt = '2026-01-01T00:00:00.000Z';
+      first.gameTitle = 'Pokémon Emerald';
+      const second = run('Newer adventure');
+      second.createdAt = '2026-02-01T00:00:00.000Z';
+      localStorage.setItem('nuzzy_run_library', JSON.stringify({
+        schemaVersion: 2, runs: [first, second], activeRunId,
+      }));
+      const before = localStorage.getItem('nuzzy_run_library');
+      await render(h(Page));
+      assert.match(container.textContent, /Resume a saved run/);
+      assert.equal(container.querySelector('a[href="/new-run"]').textContent, 'Start a new run');
+      const buttons = [...container.querySelectorAll('button')];
+      assert.equal(buttons.length, 2);
+      assert.match(buttons[0].textContent, /Newer adventure/);
+      assert.match(buttons[0].textContent, /emerald/);
+      assert.match(buttons[1].textContent, /Pokémon Emerald/);
+      assert.equal(localStorage.getItem('nuzzy_run_library'), before);
+      await click(buttons[1]);
+      assert.equal(storage.loadActiveRun().id, first.id);
+      assert.match(container.querySelector('h1').textContent, /Older adventure/);
+      assert.doesNotMatch(container.textContent, /No active run found/);
+      assert.deepEqual(storage.listRuns(), [first, second]);
+      await act(async () => root.unmount());
+      root = undefined;
+      await render(h(Page));
+      assert.match(container.querySelector('h1').textContent, /Older adventure/);
+    });
+  }
+
+  test(`${Page.name} offers new-run creation with an empty library`, async () => {
+    await render(h(Page));
+    assert.match(container.textContent, /No saved runs yet/);
+    assert.doesNotMatch(container.textContent, /Resume a saved run/);
+    assert.equal(container.querySelector('button'), null);
+    assert.ok(container.querySelector('a[href="/new-run"]'));
+    assert.equal(localStorage.getItem('nuzzy_run_library'), null);
+  });
+}
