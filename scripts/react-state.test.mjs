@@ -132,6 +132,78 @@ test('edits persist across remounts and stale handlers cannot edit or reactivate
   assert.equal(storage.loadActiveRun().encounters[0].status, 'Dead');
 });
 
+for (const status of ['Team', 'Boxed', 'Dead']) {
+  test(`confirmed ${status} deletion persists by ID and updates route, Box, and Graveyard`, async () => {
+    const first = { ...run('First'), encounters: [
+      { id: 'target', routeId: 'route-101', pokemon: 'Poochyena', nickname: 'Twin', status },
+      { id: 'keep', routeId: 'route-101', pokemon: 'Poochyena', nickname: 'Twin', status },
+    ] };
+    const second = { ...run('Second'), encounters: [...first.encounters] };
+    storage.saveRun(second);
+    storage.saveRun(first);
+    await render(h('div', null, h(Tracker), h(Box), h(Graveyard)));
+    const route = () => [...container.querySelectorAll('section')].find(section => section.querySelector('h3')?.textContent === 'Route 101');
+    const button = (label) => [...route().querySelectorAll('button')].find(item => item.textContent === label);
+    const before = localStorage.getItem('nuzzy_run_library');
+    const speciesPicker = () => route().querySelector('[aria-label="Pokémon for Route 101"]');
+    assert.equal(speciesPicker(), null);
+    assert.equal(route().querySelector('input'), null);
+    await click(button('Delete'));
+    const group = container.querySelector('[aria-label="Confirm encounter deletion"]');
+    assert.match(group.textContent, /Delete Twin \(Poochyena\) from Route 101\? This cannot be undone/);
+    assert.equal(document.activeElement.textContent, 'Cancel');
+    assert.equal(localStorage.getItem('nuzzy_run_library'), before);
+    await click(button('Cancel'));
+    assert.equal(document.activeElement, button('Delete'));
+    assert.equal(localStorage.getItem('nuzzy_run_library'), before);
+    await click(button('Delete'));
+    await act(async () => document.activeElement.dispatchEvent(new dom.window.KeyboardEvent('keydown', { key: 'Escape', bubbles: true })));
+    assert.equal(container.querySelector('[aria-label="Confirm encounter deletion"]'), null);
+    assert.equal(document.activeElement, button('Delete'));
+    await click(button('Delete'));
+    await click(button('Confirm delete'));
+    assert.deepEqual(storage.loadActiveRun().encounters, [first.encounters[1]]);
+    assert.deepEqual(storage.listRuns().find(item => item.id === second.id), second);
+    assert.match(route().textContent, /1 encounter\b/);
+    assert.equal(speciesPicker(), null);
+    assert.equal(route().querySelector('input'), null);
+    assert.equal(document.activeElement, route().querySelector('h3'));
+    // One remaining Twin in Tracker and one in its corresponding destination view.
+    assert.equal([...container.querySelectorAll('span')].filter(item => item.textContent === 'Twin').length, 2);
+    if (status === 'Team') assert.match(container.textContent, /1 \/ 6/);
+    if (status === 'Dead') assert.match(container.textContent, /1 fallen/);
+    await act(async () => root.unmount());
+    root = undefined;
+    await render(h(Tracker));
+    assert.equal(speciesPicker(), null);
+    assert.equal(route().querySelector('input'), null);
+    assert.equal(route().querySelectorAll('[aria-label="Delete Twin (Poochyena)"]').length, 1);
+    await click(button('Delete'));
+    await click(button('Confirm delete'));
+    assert.deepEqual(storage.loadActiveRun().encounters, []);
+    assert.match(route().textContent, /0 encounters/);
+    assert.equal(speciesPicker().disabled, false);
+    assert.ok(route().querySelector('input'));
+    assert.ok(button('Log'));
+    assert.match(container.textContent, /No encounters logged yet/);
+  });
+}
+
+test('switching runs clears a pending encounter deletion', async () => {
+  const first = { ...run('First'), encounters: [
+    { id: 'shared', routeId: 'route-101', pokemon: 'Poochyena', nickname: 'First pup', status: 'Team' },
+  ] };
+  const second = { ...run('Second'), encounters: [{ ...first.encounters[0], nickname: 'Second pup' }] };
+  storage.saveRun(second);
+  storage.saveRun(first);
+  await render(h(Tracker));
+  await click(container.querySelector('[aria-label="Delete First pup (Poochyena)"]'));
+  await act(async () => storage.setActiveRun(second.id));
+  assert.equal(container.querySelector('[aria-label="Confirm encounter deletion"]'), null);
+  assert.deepEqual(storage.listRuns().find(item => item.id === first.id), first);
+  assert.deepEqual(storage.loadActiveRun(), second);
+});
+
 function trackerTotals() {
   const summary = container.querySelector('dl[aria-label="Encounter totals"]');
   assert.ok(summary);

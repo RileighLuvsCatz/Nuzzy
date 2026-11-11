@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { addEncounter, changeEncounterStatus } from "../src/run/encounters.ts";
+import { addEncounter, changeEncounterStatus, deleteEncounter } from "../src/run/encounters.ts";
 
 function encounter(id, status = "Team") {
   return { id, routeId: "route-101", pokemon: "Poochyena", nickname: id, status };
@@ -13,6 +13,18 @@ function runWithTeam(size) {
     encounters: Array.from({ length: size }, (_, index) => encounter(`team-${index}`)),
   };
 }
+
+test("deletion matches the ID, preserves other records, and frees a Team slot", () => {
+  const original = addEncounter(runWithTeam(6), encounter("reserve", "Boxed"));
+  original.encounters[1] = { ...original.encounters[0], id: "team-1" };
+  const updated = deleteEncounter(original, "team-0");
+  assert.deepEqual(updated.encounters, original.encounters.slice(1));
+  assert.strictEqual(updated.encounters[0], original.encounters[1]);
+  assert.equal(original.encounters.length, 7);
+  assert.equal(changeEncounterStatus(updated, "reserve", "Team").encounters.at(-1).status, "Team");
+  assert.strictEqual(deleteEncounter(updated, "missing"), updated);
+  assert.deepEqual(deleteEncounter({ ...original, encounters: [encounter("only")] }, "only").encounters, []);
+});
 
 test("logging the sixth member succeeds and the seventh is blocked", () => {
   const original = runWithTeam(5);

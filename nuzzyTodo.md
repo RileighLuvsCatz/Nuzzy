@@ -19,7 +19,7 @@ React 19, Vite 8, React Router 7, Tailwind CSS 4 through `@tailwindcss/vite`, Ty
 - Sprites fetched through PokéAPI, cached in memory/localStorage, and reused across encounter and boss entries.
 - Selectable Emerald, Diamond, Pearl, Platinum, HeartGold, and SoulSilver packs. Emerald Seaglass is registered but disabled and incomplete.
 
-Important boundaries: routes can still accept multiple encounters without warning; species/nickname editing and encounter deletion are absent. `deleteRun` exists only as a storage API. Graveyard has no death notes/timestamps. Type analysis uses current PokéAPI species types and the Gen VI+ chart, regardless of game, and does not model moves, abilities, or items.
+Important boundaries: logging controls are hidden while a route has saved encounters and return after its last encounter is deleted; older multiple-encounter routes remain readable. Species/nickname editing is absent. Tracker encounter deletion uses a named inline confirmation with Cancel/Escape and persists removal by ID. `deleteRun` exists only as a storage API. Graveyard has no death notes/timestamps. Type analysis uses current PokéAPI species types and the Gen VI+ chart, regardless of game, and does not model moves, abilities, or items.
 
 ## Architecture
 
@@ -179,7 +179,7 @@ The model has no per-game type ruleset yet (#17). Boss typings come from pack da
 
 ### Encounter mutation rules
 
-`src/run/encounters.ts` exposes `TEAM_LIMIT`, `TEAM_FULL_MESSAGE`, `isTeamFull`, `addEncounter`, and `changeEncounterStatus`. Additions/promotions to Team are rejected when six or more members are already on Team. Boxed and Dead additions remain possible. Oversized legacy saves are not truncated, and moving members out of Team frees slots. These helpers guard UI mutations; `saveRun` itself does not enforce the Team limit.
+`src/run/encounters.ts` exposes `TEAM_LIMIT`, `TEAM_FULL_MESSAGE`, `isTeamFull`, `addEncounter`, `deleteEncounter`, and `changeEncounterStatus`. `deleteEncounter` removes the matching encounter ID without changing other records; a missing ID returns the original run. Additions/promotions to Team are rejected when six or more members are already on Team. Boxed and Dead additions remain possible. Oversized legacy saves are not truncated, and moving members out of Team frees slots. These helpers guard UI mutations; `saveRun` itself does not enforce the Team limit.
 
 Tracker defaults a new log to Boxed when Team is full. Its status selector can move an existing Team encounter to Boxed or Dead; promotion back to Team is exposed on the Box page. The six-member fix is already merged (#27 via PR #29), not pending roadmap work.
 

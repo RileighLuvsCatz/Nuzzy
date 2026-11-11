@@ -13,6 +13,11 @@ export function addEncounter(run: Run, encounter: Encounter): Run {
   return { ...run, encounters: [...run.encounters, encounter] };
 }
 
+export function deleteEncounter(run: Run, encounterId: string): Run {
+  const encounters = run.encounters.filter((item) => item.id !== encounterId);
+  return encounters.length === run.encounters.length ? run : { ...run, encounters };
+}
+
 export function changeEncounterStatus(
   run: Run,
   encounterId: string,
