@@ -310,3 +310,99 @@ for (const Page of [Tracker, Box, Graveyard]) {
     assert.equal(localStorage.getItem('nuzzy_run_library'), null);
   });
 }
+
+const navButton = (text) => [...container.querySelectorAll('nav button')].find(button => button.textContent === text);
+const renameInput = () => container.querySelector('nav input');
+async function submitRename() {
+  await act(async () => container.querySelector('nav form').dispatchEvent(
+    new dom.window.Event('submit', { bubbles: true, cancelable: true }),
+  ));
+}
+
+test('renaming the active run updates every heading, menu and persisted save without changing other data', async () => {
+  const first = { ...run('First adventure'), encounters: [
+    { id: 'catch', routeId: 'route-101', pokemon: 'Poochyena', nickname: 'Pup', status: 'Boxed' },
+  ] };
+  const second = run('Second adventure');
+  storage.saveRun(second);
+  storage.saveRun(first);
+  await render(h('div', null, h(Navbar), h(Tracker), h(Box), h(Graveyard)));
+  await click(container.querySelector('[aria-label="Load Run"]'));
+  await click(navButton('Rename active run'));
+  assert.equal(renameInput().value, first.name);
+  assert.equal(document.activeElement, renameInput());
+  assert.equal(container.querySelector('nav label').htmlFor, renameInput().id);
+  await changeValue(renameInput(), '  Hoenn survivors  ');
+  await submitRename();
+  assert.equal(renameInput(), null);
+  assert.equal(document.activeElement, navButton('Rename active run'));
+  assert.deepEqual(storage.loadActiveRun(), { ...first, name: 'Hoenn survivors' });
+  assert.deepEqual(storage.listRuns().find(item => item.id === second.id), second);
+  assert.deepEqual([...container.querySelectorAll('h1')].map(heading => heading.textContent),
+    ['Hoenn survivors', 'Hoenn survivors', 'Hoenn survivors']);
+  const toggle = container.querySelector('[aria-label="Load Run"]');
+  assert.match(toggle.textContent, /Hoenn survivors/);
+  assert.match(container.querySelector('nav ul').textContent, /Hoenn survivors/);
+  assert.doesNotMatch(container.querySelector('nav').textContent, /First adventure/);
+  await act(async () => root.unmount());
+  root = undefined;
+  await render(h('div', null, h(Navbar), h(Graveyard)));
+  assert.equal(container.querySelector('h1').textContent, 'Hoenn survivors');
+  assert.deepEqual(storage.loadActiveRun(), { ...first, name: 'Hoenn survivors' });
+});
+
+test('blank names are rejected and Cancel, Escape and closing the menu discard drafts', async () => {
+  storage.saveRun(run('Keep this name'));
+  await render(h(Navbar));
+  const before = localStorage.getItem('nuzzy_run_library');
+  const toggle = () => container.querySelector('[aria-label="Load Run"]');
+  await click(toggle());
+  for (const blank of ['', '   ']) {
+    if (!renameInput()) await click(navButton('Rename active run'));
+    await changeValue(renameInput(), blank);
+    await submitRename();
+    assert.match(container.querySelector('[role="alert"]').textContent, /Enter a run name/);
+    assert.equal(renameInput().getAttribute('aria-invalid'), 'true');
+    assert.equal(renameInput().getAttribute('aria-describedby'), container.querySelector('[role="alert"]').id);
+    assert.equal(localStorage.getItem('nuzzy_run_library'), before);
+  }
+  await click(navButton('Cancel'));
+  assert.equal(document.activeElement, navButton('Rename active run'));
+  await click(navButton('Rename active run'));
+  assert.equal(renameInput().value, 'Keep this name');
+  await changeValue(renameInput(), 'Discard with Escape');
+  await act(async () => renameInput().dispatchEvent(new dom.window.KeyboardEvent('keydown', { key: 'Escape', bubbles: true })));
+  assert.equal(renameInput(), null);
+  assert.equal(document.activeElement, navButton('Rename active run'));
+  await click(navButton('Rename active run'));
+  await changeValue(renameInput(), 'Discard by closing');
+  await click(toggle());
+  await click(toggle());
+  await click(navButton('Rename active run'));
+  assert.equal(renameInput().value, 'Keep this name');
+  assert.equal(localStorage.getItem('nuzzy_run_library'), before);
+});
+
+test('switching or deleting the active run clears its rename draft; no-active state has no rename action', async () => {
+  const first = run('First');
+  const second = run('Second');
+  storage.saveRun(second);
+  storage.saveRun(first);
+  await render(h(Navbar));
+  await click(container.querySelector('[aria-label="Load Run"]'));
+  await click(navButton('Rename active run'));
+  await changeValue(renameInput(), 'Abandoned draft');
+  await act(async () => storage.setActiveRun(second.id));
+  assert.equal(renameInput(), null);
+  await click(navButton('Rename active run'));
+  assert.equal(renameInput().value, 'Second');
+  await changeValue(renameInput(), 'Renamed second');
+  await submitRename();
+  assert.deepEqual(storage.listRuns().find(item => item.id === first.id), first);
+  assert.deepEqual(storage.loadActiveRun(), { ...second, name: 'Renamed second' });
+  await click(navButton('Rename active run'));
+  await act(async () => { storage.deleteRun(first.id); storage.deleteRun(second.id); });
+  assert.equal(renameInput(), null);
+  assert.equal(navButton('Rename active run'), undefined);
+  assert.equal(storage.loadActiveRun(), null);
+});

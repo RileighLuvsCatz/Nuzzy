@@ -11,7 +11,7 @@ React 19, Vite 8, React Router 7, Tailwind CSS 4 through `@tailwindcss/vite`, Ty
 ### Implemented behavior
 
 - Landing page with project overview, rules, new-run action, and active-run continuation.
-- Multiple named local runs, navbar switching, and legacy-save migration.
+- Multiple named local runs, navbar switching, active-run renaming, and legacy-save migration.
 - Progression-ordered routes and boss tables; encounters use route catch pools and require a nickname when logged.
 - `Team` / `Boxed` / `Dead` statuses, inline tracker status changes, Team/Box transfers, and a six-member Team guard shared between logging and transfers.
 - Box page with type badges and Team defensive/STAB analysis.
@@ -58,7 +58,9 @@ flowchart TD
 
 ### State and navigation
 
-Pages read the active run from storage into component state. Tracker and Box persist run changes via effects; Graveyard is read-only. Navbar switching calls `setActiveRun` then navigates to `/tracker` with `location.state` to trigger a reload. There is no shared run context/store or cross-tab storage-event subscription.
+Pages and Navbar subscribe to a stable active-run snapshot through `useActiveRun` and `useSyncExternalStore`. Writes notify subscribers in the same tab, and storage events refresh other tabs. Updates use `updateActiveRun`, which rejects a handler belonging to a run that is no longer active. Navbar switching calls `setActiveRun` then navigates to `/tracker`.
+
+The Load Run menu offers **Rename active run** when a run is active. Its labeled form starts with the saved name, trims whitespace on submit, and rejects blank names with an inline error. It updates only `name` through the existing guarded persistence path and refreshes the menu list, so navbar and page headings follow immediately. Cancel, Escape, or closing the menu discards the draft; Save/Cancel/Escape return focus to the rename button. Keying the form by run ID clears drafts on run switches. Run identity, encounters, timestamps, and schema are unchanged.
 
 `App.tsx` shows the navbar only on `/tracker`, `/box`, and `/graveyard`. It is deliberately absent on `/` and `/new-run`; the landing page's instruction to use that hidden control when no run is active is the bug tracked in #1. Hosting must route SPA deep links back to `index.html`.
 

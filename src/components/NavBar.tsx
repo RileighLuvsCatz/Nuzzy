@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { listRuns, setActiveRun } from "../run/storage";
 import { useActiveRun } from "../run/useActiveRun";
@@ -10,10 +10,60 @@ const TABS = [
   { to: "/graveyard", label: "Graveyard" },
 ] as const;
 
+function RenameRunAction({ run, onSave }: { run: Run; onSave: (name: string) => void }) {
+  const [editing, setEditing] = useState(false);
+  const [name, setName] = useState(run.name);
+  const [error, setError] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const inputId = useId();
+  const errorId = useId();
+
+  function finish() {
+    setEditing(false);
+    setError(false);
+    buttonRef.current?.focus();
+  }
+
+  return (
+    <div className="border-t border-gray-700 p-3" onKeyDown={(event) => {
+      if (editing && event.key === "Escape") {
+        event.stopPropagation();
+        event.preventDefault();
+        finish();
+      }
+    }}>
+      <button ref={buttonRef} type="button" aria-expanded={editing}
+        onClick={() => { setName(run.name); setError(false); setEditing(true); }}
+        className="text-sm text-red-300 hover:text-red-200 rounded focus-visible:outline-2 focus-visible:outline-white">
+        Rename active run
+      </button>
+      {editing && (
+        <form className="mt-2 space-y-2" onSubmit={(event) => {
+          event.preventDefault();
+          if (!name.trim()) { setError(true); return; }
+          onSave(name.trim());
+          finish();
+        }}>
+          <label htmlFor={inputId} className="block text-sm text-gray-300">Run name</label>
+          <input id={inputId} autoFocus type="text" value={name}
+            onChange={(event) => { setName(event.target.value); setError(false); }}
+            aria-invalid={error} aria-describedby={error ? errorId : undefined}
+            className="w-full min-w-0 px-2 py-1.5 bg-gray-900 border border-gray-600 rounded text-sm text-white focus-visible:outline-2 focus-visible:outline-red-400" />
+          {error && <p id={errorId} role="alert" className="text-sm text-red-300">Enter a run name.</p>}
+          <div className="flex flex-wrap gap-2">
+            <button type="submit" className="px-3 py-1.5 text-sm text-white bg-red-700 rounded hover:bg-red-600 focus-visible:outline-2 focus-visible:outline-white">Save name</button>
+            <button type="button" onClick={finish} className="px-3 py-1.5 text-sm text-white bg-gray-700 rounded hover:bg-gray-600 focus-visible:outline-2 focus-visible:outline-white">Cancel</button>
+          </div>
+        </form>
+      )}
+    </div>
+  );
+}
+
 export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [activeRun] = useActiveRun();
+  const [activeRun, updateRun] = useActiveRun();
   const [open, setOpen] = useState(false);
   const [runs, setRuns] = useState<Run[]>([]);
   const ref = useRef<HTMLDivElement>(null);
@@ -111,6 +161,12 @@ export default function Navbar() {
                         </li>
                       ))}
                   </ul>
+                )}
+                {activeRun && (
+                  <RenameRunAction key={activeRun.id} run={activeRun} onSave={(name) => {
+                    updateRun((current) => ({ ...current, name }));
+                    setRuns(listRuns());
+                  }} />
                 )}
               </div>
             )}
