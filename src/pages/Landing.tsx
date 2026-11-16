@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
-import { listRuns, loadActiveRun } from "../run/storage";
+import { listRuns, loadActiveRun, setActiveRun } from "../run/storage";
 
 export default function Landing() {
   const activeRun = loadActiveRun();
-  const hasRuns = listRuns().length > 0;
+  const runs = listRuns().sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+  );
 
   return (
     <div className="space-y-12 py-8">
@@ -34,12 +36,27 @@ export default function Landing() {
           )}
         </div>
 
-        {!activeRun && hasRuns && (
-          <p className="text-sm text-gray-500">
-            You have saved runs — use{" "}
-            <span className="text-gray-300 font-medium">Load Run</span> in the
-            navbar to pick one up.
-          </p>
+        {!activeRun && runs.length > 0 && (
+          <div className="max-w-lg mx-auto space-y-3 text-left">
+            <h2 className="text-lg font-semibold text-white">Resume a saved run</h2>
+            <p className="text-sm text-gray-400">Choose a run to continue in Tracker.</p>
+            <ul className="space-y-2">
+              {runs.map((run) => (
+                <li key={run.id}>
+                  <Link
+                    to="/tracker"
+                    onClick={() => setActiveRun(run.id)}
+                    className="block px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg hover:bg-gray-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400"
+                  >
+                    <span className="block font-medium text-white break-words">{run.name}</span>
+                    <span className="block text-sm text-gray-400 break-words">
+                      {run.gameTitle ?? run.gameId} &middot; {new Date(run.createdAt).toLocaleDateString()}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         )}
       </section>
 

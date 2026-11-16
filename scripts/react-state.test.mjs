@@ -12,9 +12,10 @@ Object.assign(globalThis, {
 });
 globalThis.fetch = async () => ({ ok: false });
 const { createRoot } = await import('react-dom/client');
-const { MemoryRouter } = await import('react-router-dom');
+const { MemoryRouter, Routes, Route } = await import('react-router-dom');
 const { default: Navbar } = await import('../src/components/NavBar.tsx');
 const { default: Sprite } = await import('../src/components/PokemonSprite.tsx');
+const { default: Landing } = await import('../src/pages/Landing.tsx');
 const { default: Tracker } = await import('../src/pages/Tracker.tsx');
 const { default: Box } = await import('../src/pages/Box.tsx');
 const { default: Graveyard } = await import('../src/pages/Graveyard.tsx');
@@ -28,7 +29,7 @@ async function render(element) {
 }
 async function click(element) {
   assert.ok(element);
-  await act(async () => element.dispatchEvent(new dom.window.MouseEvent('click', { bubbles: true })));
+  await act(async () => element.dispatchEvent(new dom.window.MouseEvent('click', { bubbles: true, cancelable: true })));
 }
 function run(name) {
   return storage.createRun({ name, gameId: 'emerald' });
@@ -310,3 +311,51 @@ for (const Page of [Tracker, Box, Graveyard]) {
     assert.equal(localStorage.getItem('nuzzy_run_library'), null);
   });
 }
+
+for (const activeRunId of [null, 'missing-run']) {
+  test(`Landing resumes a selected save in Tracker with active ID ${activeRunId}`, async () => {
+    const first = { ...run('Older adventure'), gameTitle: 'Pokémon Emerald', createdAt: '2026-01-01T00:00:00.000Z', encounters: [
+      { id: 'saved-catch', routeId: 'route-101', pokemon: 'Poochyena', nickname: 'Pup', status: 'Team' },
+    ] };
+    const second = { ...run('Newer adventure'), createdAt: '2026-02-01T00:00:00.000Z' };
+    localStorage.setItem('nuzzy_run_library', JSON.stringify({
+      schemaVersion: 2, runs: [first, second], activeRunId,
+    }));
+    const before = localStorage.getItem('nuzzy_run_library');
+    await render(h(Routes, null,
+      h(Route, { path: '/', element: h(Landing) }),
+      h(Route, { path: '/tracker', element: h(Tracker) }),
+    ));
+    assert.match(container.textContent, /Resume a saved run/);
+    assert.doesNotMatch(container.textContent, /navbar|Load Run/);
+    assert.ok(container.querySelector('a[href="/new-run"]'));
+    const links = [...container.querySelectorAll('a[href="/tracker"]')];
+    assert.equal(links.length, 2);
+    assert.match(links[0].textContent, /Newer adventure/);
+    assert.match(links[0].textContent, /emerald/);
+    assert.match(links[1].textContent, /Older adventure/);
+    assert.match(links[1].textContent, /Pokémon Emerald/);
+    assert.ok(links[1].textContent.includes(new Date(first.createdAt).toLocaleDateString()));
+    assert.equal(localStorage.getItem('nuzzy_run_library'), before);
+    links[1].focus();
+    assert.equal(document.activeElement, links[1]);
+    await click(links[1]);
+    assert.match(container.querySelector('h1').textContent, /Older adventure/);
+    assert.match(container.textContent, /Pup/);
+    assert.deepEqual(storage.loadActiveRun(), first);
+    assert.deepEqual(storage.listRuns(), [first, second]);
+    await act(async () => root.unmount());
+    root = undefined;
+    await render(h(Landing));
+    assert.equal(container.querySelector('a[href="/tracker"]').textContent, 'Continue Older adventure');
+    assert.doesNotMatch(container.textContent, /Resume a saved run/);
+  });
+}
+
+test('Landing offers new-run creation without writing an empty library', async () => {
+  await render(h(Landing));
+  assert.ok(container.querySelector('a[href="/new-run"]'));
+  assert.equal(container.querySelector('a[href="/tracker"]'), null);
+  assert.doesNotMatch(container.textContent, /Resume a saved run|navbar|Load Run/);
+  assert.equal(localStorage.getItem('nuzzy_run_library'), null);
+});
