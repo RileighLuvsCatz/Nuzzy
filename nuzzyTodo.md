@@ -10,7 +10,7 @@ React 19, Vite 8, React Router 7, Tailwind CSS 4 through `@tailwindcss/vite`, Ty
 
 ### Implemented behavior
 
-- Landing page with project overview, rules, new-run action, and active-run continuation.
+- Landing page with project overview, rules, new-run action, active-run continuation, and saved-run recovery when no run is active.
 - Multiple named local runs, navbar switching, and legacy-save migration.
 - Progression-ordered routes and boss tables; encounters use route catch pools and require a nickname when logged.
 - `Team` / `Boxed` / `Dead` statuses, inline tracker status changes, Team/Box transfers, and a six-member Team guard shared between logging and transfers.
@@ -32,7 +32,7 @@ flowchart TD
     App --> Box["Box /box"]
     App --> Graveyard["Graveyard /graveyard"]
     App --> Navbar["NavBar on Tracker, Box, Graveyard"]
-    Landing -->|"listRuns / loadActiveRun"| Storage["run/storage.ts"]
+    Landing -->|"listRuns / loadActiveRun / setActiveRun"| Storage["run/storage.ts"]
     NewRun -->|"createRun / saveRun"| Storage
     Navbar -->|"listRuns / setActiveRun"| Storage
     Tracker -->|"loadActiveRun / saveRun"| Storage
@@ -60,7 +60,7 @@ flowchart TD
 
 Pages read the active run from storage into component state. Tracker and Box persist run changes via effects; Graveyard is read-only. Navbar switching calls `setActiveRun` then navigates to `/tracker` with `location.state` to trigger a reload. There is no shared run context/store or cross-tab storage-event subscription.
 
-`App.tsx` shows the navbar only on `/tracker`, `/box`, and `/graveyard`. It is deliberately absent on `/` and `/new-run`; the landing page's instruction to use that hidden control when no run is active is the bug tracked in #1. Hosting must route SPA deep links back to `index.html`.
+`App.tsx` shows the navbar only on `/tracker`, `/box`, and `/graveyard`. It is deliberately absent on `/` and `/new-run`; the landing page provides its own saved-run picker when no run is active, activating the chosen save before navigating to `/tracker`. Hosting must route SPA deep links back to `index.html`.
 
 ## Folder Layout
 
