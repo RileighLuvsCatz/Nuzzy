@@ -310,3 +310,80 @@ for (const Page of [Tracker, Box, Graveyard]) {
     assert.equal(localStorage.getItem('nuzzy_run_library'), null);
   });
 }
+
+const sectionToggle = section => section.querySelector('h3 button');
+const sectionContent = section => document.getElementById(sectionToggle(section).getAttribute('aria-controls'));
+
+test('progression toggles retain route drafts, saved controls, counts, and boss tables without writing storage', async () => {
+  storage.saveRun(run('Collapsible adventure'));
+  await render(h(Tracker));
+  const before = localStorage.getItem('nuzzy_run_library');
+  const sections = [...container.querySelectorAll('section')];
+  const starter = sections[0];
+  const boss = sections.find(section => section.querySelector('table'));
+  for (const section of sections) {
+    assert.equal(sectionToggle(section).getAttribute('aria-expanded'), 'true');
+    assert.equal(sectionToggle(section).type, 'button');
+    assert.equal(sectionToggle(section).tabIndex, 0);
+    assert.equal(sectionContent(section).hidden, false);
+  }
+  assert.equal(new Set(sections.map(section => sectionContent(section).id)).size, sections.length);
+  await changeValue(starter.querySelector('input'), 'Leaf');
+  sectionToggle(starter).focus();
+  await click(sectionToggle(starter));
+  assert.equal(sectionToggle(starter).getAttribute('aria-expanded'), 'false');
+  assert.equal(sectionContent(starter).hidden, true);
+  assert.equal(document.activeElement, sectionToggle(starter));
+  assert.match(starter.querySelector('h3').textContent, /Starter/);
+  assert.match(starter.textContent, /0 encounters/);
+  assert.equal(sectionToggle(boss).getAttribute('aria-expanded'), 'true');
+  await click(sectionToggle(boss));
+  assert.equal(sectionContent(boss).hidden, true);
+  assert.ok(boss.querySelector('h3').textContent.trim());
+  assert.equal(localStorage.getItem('nuzzy_run_library'), before);
+  await click(sectionToggle(starter));
+  assert.equal(starter.querySelector('input').value, 'Leaf');
+  await click([...starter.querySelectorAll('button')].find(button => button.textContent === 'Log'));
+  const saved = storage.loadActiveRun();
+  await click(sectionToggle(starter));
+  assert.match(starter.textContent, /1 encounter\b/);
+  assert.equal(sectionContent(starter).hidden, true);
+  assert.deepEqual(storage.loadActiveRun(), saved);
+  await click(sectionToggle(starter));
+  assert.ok(starter.querySelector('[aria-label="Status for Leaf"]'));
+  await click(starter.querySelector('[aria-label^="Delete Leaf"]'));
+  await click([...starter.querySelectorAll('button')].find(button => button.textContent === 'Confirm delete'));
+  assert.match(starter.textContent, /0 encounters/);
+  assert.ok(starter.querySelector('input'));
+  await click(sectionToggle(boss));
+  assert.equal(sectionContent(boss).hidden, false);
+  assert.ok(boss.querySelector('tbody tr'));
+});
+
+test('progression expansion and drafts reset on run switches and remounts, including shared boss IDs', async () => {
+  const first = run('First');
+  const second = run('Second');
+  storage.saveRun(second);
+  storage.saveRun(first);
+  await render(h(Tracker));
+  const starter = () => container.querySelector('section');
+  const boss = () => [...container.querySelectorAll('section')].find(section => section.querySelector('table'));
+  await changeValue(starter().querySelector('input'), 'Abandoned');
+  await click(sectionToggle(starter()));
+  await click(sectionToggle(boss()));
+  await act(async () => storage.setActiveRun(second.id));
+  assert.equal(sectionContent(starter()).hidden, false);
+  assert.equal(sectionContent(boss()).hidden, false);
+  assert.equal(starter().querySelector('input').value, '');
+  await act(async () => storage.setActiveRun(first.id));
+  assert.equal(sectionContent(starter()).hidden, false);
+  assert.equal(sectionContent(boss()).hidden, false);
+  assert.equal(starter().querySelector('input').value, '');
+  await click(sectionToggle(starter()));
+  await act(async () => root.unmount());
+  root = undefined;
+  await render(h(Tracker));
+  assert.equal(sectionContent(starter()).hidden, false);
+  assert.deepEqual(storage.loadActiveRun(), first);
+  assert.deepEqual(storage.listRuns().find(item => item.id === second.id), second);
+});

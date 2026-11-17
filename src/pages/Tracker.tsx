@@ -1,4 +1,5 @@
 import { useId, useMemo, useRef, useState } from "react";
+import type { ReactNode, Ref } from "react";
 import { Link } from "react-router-dom";
 import { getGamePack } from "../data/games";
 import { useActiveRun } from "../run/useActiveRun";
@@ -20,6 +21,38 @@ function routeMap(routes: RouteDef[]): Map<string, RouteDef> {
 
 function bossMap(bosses: BossDef[]): Map<string, BossDef> {
   return new Map(bosses.map((b) => [b.id, b]));
+}
+
+function ProgressionSection({ title, count, location, headingRef, children }: {
+  title: string;
+  count?: number;
+  location?: string;
+  headingRef?: Ref<HTMLHeadingElement>;
+  children: ReactNode;
+}) {
+  const [expanded, setExpanded] = useState(true);
+  const contentId = useId();
+  return (
+    <section className="border border-gray-800 rounded-xl overflow-hidden bg-gray-900/50">
+      <div className="px-4 py-3 bg-gray-900 border-b border-gray-800">
+        <h3 ref={headingRef} tabIndex={-1} className="font-semibold text-white">
+          <button type="button" aria-expanded={expanded} aria-controls={contentId}
+            onClick={() => setExpanded(current => !current)}
+            className="w-full flex items-center gap-2 text-left rounded focus-visible:outline-2 focus-visible:outline-red-400">
+            <span aria-hidden="true" className={`shrink-0 border-l-6 border-l-gray-400 border-y-4 border-y-transparent transition-transform ${expanded ? "rotate-90" : ""}`} />
+            {title}
+          </button>
+        </h3>
+        {count !== undefined && (
+          <span className="text-gray-500 text-sm">
+            {count} encounter{count !== 1 ? "s" : ""}
+          </span>
+        )}
+        {location && <p className="text-gray-400 text-sm">{location}</p>}
+      </div>
+      <div id={contentId} hidden={!expanded}>{children}</div>
+    </section>
+  );
 }
 
 function DeleteEncounterAction({ encounter, routeName, onDelete }: {
@@ -101,14 +134,7 @@ function RouteSection({
   }
 
   return (
-    <section className="border border-gray-800 rounded-xl overflow-hidden bg-gray-900/50">
-      <div className="px-4 py-3 bg-gray-900 border-b border-gray-800">
-        <h3 ref={headingRef} tabIndex={-1} className="inline font-semibold text-white">{route.name}</h3>
-        <span className="text-gray-500 text-sm ml-2">
-          {encounters.length} encounter{encounters.length !== 1 ? "s" : ""}
-        </span>
-      </div>
-
+    <ProgressionSection title={route.name} count={encounters.length} headingRef={headingRef}>
       <div className="p-4 space-y-3">
         {encounters.length === 0 && (pool.length > 0 ? (
           <div className="flex flex-wrap items-end gap-2">
@@ -205,7 +231,7 @@ function RouteSection({
           </div>
         ))}
       </div>
-    </section>
+    </ProgressionSection>
   );
 }
 
@@ -324,16 +350,11 @@ export default function Tracker() {
           const boss = bossesById.get(segment.bossId);
           if (!boss) return null;
           return (
-            <section
-              key={`boss-${segment.bossId}-${index}`}
-              className="border border-gray-800 rounded-xl overflow-hidden bg-gray-900/50"
+            <ProgressionSection
+              key={`${run.id}-boss-${segment.bossId}-${index}`}
+              title={boss.name}
+              location={boss.location}
             >
-              <div className="px-4 py-3 bg-gray-900 border-b border-gray-800">
-                <h3 className="font-semibold text-white">{boss.name}</h3>
-                {boss.location ? (
-                  <p className="text-gray-400 text-sm">{boss.location}</p>
-                ) : null}
-              </div>
               <div className="p-4 overflow-x-auto">
                 <table className="w-full text-sm text-left">
                   <thead>
@@ -370,7 +391,7 @@ export default function Tracker() {
                   </tbody>
                 </table>
               </div>
-            </section>
+            </ProgressionSection>
           );
         })}
       </div>
