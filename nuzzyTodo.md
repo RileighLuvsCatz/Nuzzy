@@ -58,6 +58,12 @@ flowchart TD
 
 ### State and navigation
 
+Tracker wraps every route and boss in a shared `ProgressionSection`. Its heading contains a native button with `aria-expanded`, a unique `aria-controls` target, a disclosure arrow, and a visible keyboard-focus outline. Enter/Space or a click toggles the content's `hidden` attribute. Route names and encounter counts, plus boss names and locations, remain visible. Hidden content stays mounted to retain species, nickname, status, and confirmation drafts during toggling, while leaving the tab order and accessibility tree. Toggling only changes component state and does not write run data.
+
+All sections initially expand, keeping new routes and reference tables available without inferring completion from catches (the model stores no boss completion). Collapse earlier sections to shorten the page. Each section is keyed by run ID and progression occurrence, including repeated boss IDs; switching runs or remounting Tracker resets expansion and route drafts.
+
+Keyboard verification for #7: in a local browser QA run, Enter collapsed Starter, Tab moved directly to Littleroot Town, Space reopened Starter and collapsed May's reference table, and Enter reopened May. Collapsed route headings/counts and boss headings/locations remained in the accessibility tree; hidden forms/tables were absent. Automated component tests additionally cover retained drafts, unique targets, independent toggles, logging/deletion after reopening, no storage writes, and run-switch/remount resets. Screenshot capture was unavailable.
+
 Pages read the active run from storage into component state. Tracker and Box persist run changes via effects; Graveyard is read-only. Navbar switching calls `setActiveRun` then navigates to `/tracker` with `location.state` to trigger a reload. There is no shared run context/store or cross-tab storage-event subscription.
 
 `App.tsx` shows the navbar only on `/tracker`, `/box`, and `/graveyard`. It is deliberately absent on `/` and `/new-run`; the landing page's instruction to use that hidden control when no run is active is the bug tracked in #1. Hosting must route SPA deep links back to `index.html`.
