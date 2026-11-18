@@ -20,6 +20,7 @@ Nuzzy is in active, early development. This overview describes features implemen
 - **Type analysis** — Team weaknesses, resistances, super-effective STAB coverage, and coverage gaps. This currently uses modern PokéAPI typings and a Gen VI+ chart for every game, not the selected game's rules; see [#17](https://github.com/RileighLuvsCatz/Nuzzy/issues/17). STAB coverage is based on species types, not recorded movesets.
 - **Graveyard** — Fallen Pokémon from the active run, with nickname, species, and encounter location. Death notes and timestamps are not implemented.
 - **Sprites** — PokéAPI lookups with memory/localStorage caching, in-flight request deduplication, and a placeholder when unavailable.
+- **Run-library export** — Load Run → Export all runs downloads a versioned JSON backup of every saved run and the active-run ID, excluding sprite/type caches. See the [backup format](docs/run-library-backup.md). Import is not implemented yet.
 - **Persistence migration** — Legacy single-run saves and older encounter shapes are normalized on load.
 
 ### Game packs
@@ -38,7 +39,7 @@ Selectable packs contain route, boss, and progression data; this is not a claim 
 
 ### Known gaps
 
-Encounter species/nicknames cannot yet be edited. Route logging is limited to empty routes; older multiple-encounter saves remain readable. Run rename/delete actions and backup export/import are also absent. Tracker, Box, and Graveyard offer a saved-run picker when no run is active. The landing page still needs a recovery path when the navbar is hidden. Type analysis can be incomplete after failed lookups, and sprite lookup failures need more resilient handling.
+Encounter species/nicknames cannot yet be edited. Route logging is limited to empty routes; older multiple-encounter saves remain readable. Run rename/delete actions and backup import are also absent. Tracker, Box, and Graveyard offer a saved-run picker when no run is active. The landing page still needs a recovery path when the navbar is hidden. Type analysis can be incomplete after failed lookups, and sprite lookup failures need more resilient handling.
 
 See [GitHub Issues](https://github.com/RileighLuvsCatz/Nuzzy/issues) for current status and acceptance criteria; the roadmap below is a direction, not a second task-status tracker.
 
@@ -84,7 +85,7 @@ React 19, Vite 8, React Router 7, Tailwind CSS 4 (Vite plugin), TypeScript 5.9, 
 
 ### Later: backups, insights, and game support
 
-- Versioned run-library export and validated import ([#19](https://github.com/RileighLuvsCatz/Nuzzy/issues/19), [#20](https://github.com/RileighLuvsCatz/Nuzzy/issues/20)).
+- Validated import of versioned run-library backups ([#19](https://github.com/RileighLuvsCatz/Nuzzy/issues/19), [#20](https://github.com/RileighLuvsCatz/Nuzzy/issues/20)).
 - Basic run analytics, followed by recorded events for meaningful timeline metrics ([#21](https://github.com/RileighLuvsCatz/Nuzzy/issues/21), [#22](https://github.com/RileighLuvsCatz/Nuzzy/issues/22)).
 - Complete and enable Emerald Seaglass ([#2](https://github.com/RileighLuvsCatz/Nuzzy/issues/2)).
 - Add version-scoped Radical Red data and boss/AI references, FireRed/LeafGreen, and Black/White plus Black 2/White 2 packs ([#23–#25](nuzzyTodo.md#additional-game-packs)).

@@ -56,6 +56,103 @@ test('menu refreshes on every open after creating and renaming saved runs', asyn
   assert.doesNotMatch(container.textContent, /First run/);
 });
 
+test('run menu downloads the current whole library and cleans up download resources', async () => {
+  const first = { ...run('First é adventure'), gameTitle: 'Pokémon Emerald', encounters: [
+    { id: 'catch', routeId: 'route-101', pokemon: 'Poochyena', nickname: 'Pup', status: 'Dead' },
+  ] };
+  const second = run('Second');
+  delete second.gameTitle;
+  storage.saveRun(first);
+  storage.saveRun(second);
+  localStorage.setItem('nuzzy:poke-sprites:v1', 'sprite data');
+  localStorage.setItem('nuzzy:poke-types:v1', 'type data');
+  await render(h(Navbar));
+  await click(container.querySelector('[aria-label="Load Run"]'));
+  // Export must read at click time, even if the library changed after opening.
+  await act(async () => storage.setActiveRun(first.id));
+  const before = { ...localStorage };
+  const originalCreate = URL.createObjectURL;
+  const originalRevoke = URL.revokeObjectURL;
+  const originalClick = dom.window.HTMLAnchorElement.prototype.click;
+  let blob, filename, attached, revoked;
+  URL.createObjectURL = value => { blob = value; return 'blob:backup'; };
+  URL.revokeObjectURL = value => { revoked = value; };
+  dom.window.HTMLAnchorElement.prototype.click = function () {
+    filename = this.download;
+    attached = document.body.contains(this);
+    assert.equal(this.getAttribute('href'), 'blob:backup');
+  };
+  try {
+    const button = [...container.querySelectorAll('button')].find(item => item.textContent === 'Export all runs');
+    assert.equal(button.tabIndex, 0);
+    await click(button);
+    assert.equal(blob.type, 'application/json');
+    assert.deepEqual(JSON.parse(await blob.text()), {
+      schemaVersion: 2, runs: [first, second], activeRunId: first.id,
+    });
+    assert.match(filename, /^nuzzy-runs-\d{4}-\d{2}-\d{2}\.json$/);
+    assert.equal(attached, true);
+    assert.equal(document.querySelector('a[download]'), null);
+    await new Promise(resolve => setTimeout(resolve, 5));
+    assert.equal(revoked, 'blob:backup');
+    assert.deepEqual({ ...localStorage }, before);
+    assert.equal(container.querySelector('[role="alert"]'), null);
+  } finally {
+    URL.createObjectURL = originalCreate;
+    URL.revokeObjectURL = originalRevoke;
+    dom.window.HTMLAnchorElement.prototype.click = originalClick;
+  }
+});
+
+test('run menu offers export without an active run and reports download failures for retry', async () => {
+  await render(h(Navbar));
+  await click(container.querySelector('[aria-label="Load Run"]'));
+  const button = [...container.querySelectorAll('button')].find(item => item.textContent === 'Export all runs');
+  const originalCreate = URL.createObjectURL;
+  URL.createObjectURL = () => { throw new Error('Download unavailable'); };
+  try {
+    await click(button);
+    assert.match(container.querySelector('[role="alert"]').textContent, /Could not start the download/);
+    assert.equal(localStorage.getItem('nuzzy_run_library'), null);
+    await click(container.querySelector('[aria-label="Load Run"]'));
+    await click(container.querySelector('[aria-label="Load Run"]'));
+    assert.equal(container.querySelector('[role="alert"]'), null);
+  } finally {
+    URL.createObjectURL = originalCreate;
+  }
+});
+
+for (const activeRunId of [null, 'missing-run']) {
+  test(`library export preserves saved data when active ID is ${activeRunId}`, () => {
+    const saved = run('Inactive adventure');
+    delete saved.gameTitle;
+    const library = { schemaVersion: 2, runs: [saved], activeRunId };
+    localStorage.setItem('nuzzy_run_library', JSON.stringify(library));
+    const before = localStorage.getItem('nuzzy_run_library');
+    assert.deepEqual(JSON.parse(storage.serializeRunLibrary()), library);
+    assert.equal(localStorage.getItem('nuzzy_run_library'), before);
+  });
+}
+
+test('library export supports an empty library and migrates a legacy single-run save', () => {
+  assert.deepEqual(JSON.parse(storage.serializeRunLibrary()), {
+    schemaVersion: 2, runs: [], activeRunId: null,
+  });
+  assert.equal(localStorage.getItem('nuzzy_run_library'), null);
+  const legacy = { ...run('Legacy adventure'), gameTitle: 'Pokémon Emerald', encounters: [
+    { id: 'legacy-catch', location: 'Route 101', pokemon: 'Poochyena', nickname: 'Pup', status: 'Alive' },
+  ] };
+  localStorage.setItem('nuzzy_run', JSON.stringify(legacy));
+  const exported = JSON.parse(storage.serializeRunLibrary());
+  assert.equal(exported.schemaVersion, 2);
+  assert.equal(exported.activeRunId, legacy.id);
+  assert.deepEqual(exported.runs, [{ ...legacy, encounters: [
+    { id: 'legacy-catch', routeId: 'route-101', pokemon: 'Poochyena', nickname: 'Pup', status: 'Team' },
+  ] }]);
+  assert.equal(localStorage.getItem('nuzzy_run'), null);
+  assert.deepEqual(JSON.parse(localStorage.getItem('nuzzy_run_library')), exported);
+});
+
 test('species changes reset loading and failures and ignore outdated pending results', async () => {
   const pending = new Map();
   globalThis.fetch = (url) => new Promise(resolve => pending.set(url.split('/').at(-1), resolve));
