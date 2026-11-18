@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { listRuns, setActiveRun } from "../run/storage";
 import { useActiveRun } from "../run/useActiveRun";
 import type { Run } from "../types";
+import { downloadRunLibrary } from "../run/backup";
 
 const TABS = [
   { to: "/tracker", label: "Tracker" },
@@ -16,11 +17,22 @@ export default function Navbar() {
   const [activeRun] = useActiveRun();
   const [open, setOpen] = useState(false);
   const [runs, setRuns] = useState<Run[]>([]);
+  const [exportError, setExportError] = useState<string | null>(null);
   const ref = useRef<HTMLDivElement>(null);
 
   function toggleMenu() {
     if (!open) setRuns(listRuns());
+    setExportError(null);
     setOpen(!open);
+  }
+
+  function handleExport() {
+    setExportError(null);
+    try {
+      downloadRunLibrary();
+    } catch {
+      setExportError("Could not start the download. Please try exporting again.");
+    }
   }
 
   useEffect(() => {
@@ -112,6 +124,21 @@ export default function Navbar() {
                       ))}
                   </ul>
                 )}
+                <div className="border-t border-gray-700">
+                  <button
+                    type="button"
+                    onClick={handleExport}
+                    className="w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-700 focus-visible:outline-2 focus-visible:outline-red-400 focus-visible:-outline-offset-2"
+                  >
+                    Export all runs
+                  </button>
+                  <p className="px-4 pb-3 text-xs text-gray-400">
+                    Download a JSON backup of every saved run.
+                  </p>
+                  {exportError && (
+                    <p role="alert" className="px-4 pb-3 text-sm text-red-300">{exportError}</p>
+                  )}
+                </div>
               </div>
             )}
           </div>

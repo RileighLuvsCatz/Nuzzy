@@ -183,6 +183,11 @@ export function listRuns(): Run[] {
   return getLibrary().runs;
 }
 
+/** Schema 2 library containing schema 1 runs; excludes unrelated browser caches. */
+export function serializeRunLibrary(): string {
+  return JSON.stringify(getLibrary(), null, 2);
+}
+
 export function loadActiveRun(): Run | null {
   const lib = getLibrary();
   if (!lib.activeRunId) return null;

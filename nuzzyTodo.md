@@ -185,7 +185,7 @@ Tracker defaults a new log to Boxed when Team is full. Its status selector can m
 
 ## Persistence Contract
 
-Run data is local to the browser/origin. Clearing browser storage removes it; backup and sync are not implemented.
+Run data is local to the browser/origin. Clearing browser storage removes it. Load Run → Export all runs downloads a versioned JSON backup; import and sync are not implemented. See [the backup format](docs/run-library-backup.md).
 
 | Key | Purpose |
 |---|---|
@@ -217,6 +217,7 @@ An absent or stale `activeRunId` makes `loadActiveRun()` return `null` even when
 | Function | Behavior |
 |---|---|
 | `listRuns()` | Return library runs. |
+| `serializeRunLibrary()` | Pretty-print the normalized schema-2 library as JSON, excluding caches. Uses existing legacy migration. |
 | `loadActiveRun()` | Return the matching active run or `null`. |
 | `setActiveRun(id)` | Activate an existing run; unknown IDs are ignored. |
 | `saveRun(run)` | Upsert by ID, set active, persist the library. |
@@ -277,7 +278,7 @@ Keep acceptance criteria and completion state in [GitHub Issues](https://github.
 
 ### Backups and analytics
 
-- [#19 — Versioned run-library export](https://github.com/RileighLuvsCatz/Nuzzy/issues/19), excluding sprite/type caches.
+- [#19 — Versioned run-library export](https://github.com/RileighLuvsCatz/Nuzzy/issues/19): implemented through the Load Run menu, excluding sprite/type caches. [Format and behavior](docs/run-library-backup.md).
 - [#20 — Validated import](https://github.com/RileighLuvsCatz/Nuzzy/issues/20), dependent on the export format, with preview and explicit collision/merge behavior.
 - [#21 — Basic analytics](https://github.com/RileighLuvsCatz/Nuzzy/issues/21): encounter counts, current deaths/death rate, and most common species; handle zero encounters and ties.
 - [#22 — Recorded events for timeline analytics](https://github.com/RileighLuvsCatz/Nuzzy/issues/22): timestamps/history for new events and explicit unknown history for older runs. Longest-streak claims cannot be derived reliably from the current model.
