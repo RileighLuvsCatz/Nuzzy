@@ -229,7 +229,7 @@ test('tracker totals start at zero and update after logging and status changes',
   const summary = container.querySelector('dl[aria-label="Encounter totals"]');
   assert.ok(summary.compareDocumentPosition(container.querySelector('h2')) & dom.window.Node.DOCUMENT_POSITION_FOLLOWING);
   assert.equal(summary.getAttribute('aria-live'), 'polite');
-  const starter = container.querySelector('section');
+  const starter = container.querySelector('h3').closest('section');
   await changeValue(starter.querySelector('input'), 'Leaf');
   await click([...starter.querySelectorAll('button')].find(button => button.textContent === 'Log'));
   assert.deepEqual(trackerTotals(), { Team: 1, Boxed: 0, Dead: 0, Total: 1 });
@@ -239,6 +239,9 @@ test('tracker totals start at zero and update after logging and status changes',
   await changeValue(status(), 'Dead');
   assert.deepEqual(trackerTotals(), { Team: 0, Boxed: 0, Dead: 1, Total: 1 });
   assert.equal(storage.loadActiveRun().encounters[0].status, 'Dead');
+  const analytics = [...container.querySelectorAll('section')].find(section => section.querySelector('h2')?.textContent === 'Run analytics');
+  assert.match(analytics.textContent, /100%/);
+  assert.match(analytics.textContent, /\(1 each\)/);
   await act(async () => root.unmount());
   root = undefined;
   await render(h(Tracker));
@@ -310,3 +313,33 @@ for (const Page of [Tracker, Box, Graveyard]) {
     assert.equal(localStorage.getItem('nuzzy_run_library'), null);
   });
 }
+
+test('Tracker analytics updates on status, deletion, switching and remount without writing on render', async () => {
+  const first = run('Analytics adventure');
+  first.encounters = [
+    { id: 'a', routeId: 'r1', pokemon: 'Abra', nickname: 'A', status: 'Team' },
+    { id: 'z', routeId: 'r2', pokemon: 'Zubat', nickname: 'Z', status: 'Dead' },
+  ];
+  const second = run('Empty adventure');
+  storage.saveRun(second);
+  storage.saveRun(first);
+  const before = localStorage.getItem('nuzzy_run_library');
+  await render(h(Tracker));
+  const analytics = () => [...container.querySelectorAll('section')].find(section => section.querySelector('h2')?.textContent === 'Run analytics');
+  assert.match(analytics().textContent, /50%/);
+  assert.match(analytics().textContent, /Tied: Abra, Zubat \(1 each\)/);
+  assert.equal(localStorage.getItem('nuzzy_run_library'), before);
+  await act(async () => storage.saveRun({ ...first, encounters: first.encounters.map(e => ({ ...e, status: 'Dead' })) }));
+  assert.match(analytics().textContent, /100%/);
+  await act(async () => storage.saveRun({ ...first, encounters: [first.encounters[0]] }));
+  assert.match(analytics().textContent, /0%/);
+  assert.match(analytics().textContent, /Abra \(1 each\)/);
+  assert.doesNotMatch(analytics().textContent, /Zubat|Tied:/);
+  await act(async () => root.unmount());
+  root = undefined;
+  await render(h(Tracker));
+  assert.match(analytics().textContent, /Abra \(1 each\)/);
+  await act(async () => storage.setActiveRun(second.id));
+  assert.match(analytics().textContent, /Not available — no encounters/);
+  assert.match(analytics().textContent, /No encounters yet/);
+});

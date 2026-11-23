@@ -7,6 +7,7 @@ import type { BossDef, RouteDef } from "../types/game";
 import type { Encounter, Status } from "../types";
 import PokemonSprite from "../components/PokemonSprite";
 import NoActiveRun from "../components/NoActiveRun";
+import RunAnalytics from "../components/RunAnalytics";
 
 const STATUS_COLORS: Record<Status, string> = {
   Team: "text-green-400",
@@ -298,6 +299,8 @@ export default function Tracker() {
           </div>
         ))}
       </dl>
+
+      <RunAnalytics encounters={run.encounters} />
 
       <div className="space-y-6">
         <h2 className="text-lg font-semibold text-white">Progression</h2>

@@ -14,6 +14,7 @@ Nuzzy is in active, early development. This overview describes features implemen
 - **Logged route display** — Once a route has an encounter, its logging form (Pokémon dropdown, nickname input, initial status, and Log button) is hidden. Saved encounters keep their status and Delete controls. Deleting the last encounter restores the form.
 - **Progression tracker** — Routes and boss fights in game order, species selection from route catch pools, nicknames, per-route encounter counts, and inline status changes.
 - **Encounter totals** — Team, Boxed, Dead, and total counts above progression, updated immediately when encounters or the active run change.
+- **Run analytics** — Tracker summarizes total encounters, current deaths, death rate (Dead / all saved encounters), and all tied most-common species. Empty runs show an unavailable rate and no most-common species. Counts include every status and update with the active save; no historical streaks are inferred.
 - **Encounter statuses** — `Team`, `Boxed`, and `Dead`. New Team additions and promotions are limited to six Pokémon. Full-team logging defaults to Boxed; older oversized teams remain readable and can be corrected.
 - **Boss reference** — Team tables with species, types, moves, and held items.
 - **Box and Team** — Dedicated view with transfers between Team and Box, type badges, and a Team count.
