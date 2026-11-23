@@ -14,6 +14,7 @@ React 19, Vite 8, React Router 7, Tailwind CSS 4 through `@tailwindcss/vite`, Ty
 - Multiple named local runs, navbar switching, and legacy-save migration.
 - Progression-ordered routes and boss tables; encounters use route catch pools and require a nickname when logged.
 - `Team` / `Boxed` / `Dead` statuses, inline tracker status changes, Team/Box transfers, and a six-member Team guard shared between logging and transfers.
+- Tracker run analytics derived from saved encounters: total, current deaths, Dead/all death rate, and all most-common species ties. Empty runs explicitly have no rate or leading species. Includes Team, Boxed, and Dead records; changes/deletions and run switches update the summary without storing derived data.
 - Box page with type badges and Team defensive/STAB analysis.
 - Graveyard listing Dead encounters in the active run, including encounter location.
 - Sprites fetched through PokéAPI, cached in memory/localStorage, and reused across encounter and boss entries.
@@ -322,3 +323,7 @@ Baseline for this refresh, reviewed from main commit `f8e62b52f978d9f03a15ccf4d0
 - Read-only structural review of all registered packs found no duplicate route/boss IDs or unresolved progression references, but confirmed Platinum's repeated `b6` and missing catch pools. This was not canonical gameplay-data verification or a replacement for #14.
 
 No dependency upgrades, gameplay fixes, or UI implementation changes are part of this documentation refresh. Browser interaction QA remains necessary when tackling those issues.
+
+### Run analytics verification
+
+Issue #21 adds a summary on Tracker using `run/analytics.ts` and `components/RunAnalytics.tsx`. Species are grouped by saved species name (trimmed), across every status; all tied leaders are listed alphabetically. Death rate is displayed to at most one decimal percentage point, with no denominator reported as unavailable. The existing encounter totals remain available. No persisted fields or schema versions change, and no timestamps or streaks are inferred. Pure tests cover empty, tied, single-winner, all-alive, all-dead and fractional rates; the component suite covers summary updates, active-run switching, remounts and read-only rendering. Manual responsive and screen-reader QA remains to be performed.
