@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { listRuns, setActiveRun } from "../run/storage";
+import { deleteRun, listRuns, setActiveRun } from "../run/storage";
 import { useActiveRun } from "../run/useActiveRun";
 import type { Run } from "../types";
 
@@ -10,6 +10,82 @@ const TABS = [
   { to: "/graveyard", label: "Graveyard" },
 ] as const;
 
+function SavedRunItem({ run, onPick, onDelete }: {
+  run: Run;
+  onPick: (id: string) => void;
+  onDelete: (id: string) => void;
+}) {
+  const [confirming, setConfirming] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const deleteButton = useRef<HTMLButtonElement>(null);
+  const cancelButton = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (confirming) cancelButton.current?.focus();
+  }, [confirming]);
+
+  function cancel() {
+    setConfirming(false);
+    setError(null);
+    deleteButton.current?.focus();
+  }
+
+  return (
+    <li className="border-b border-gray-700 last:border-0">
+      <button
+        type="button"
+        onClick={() => onPick(run.id)}
+        className="w-full text-left px-4 py-2 hover:bg-gray-700 transition-colors"
+      >
+        <span className="block text-sm text-white font-medium truncate">{run.name}</span>
+        <span className="block text-xs text-gray-400 truncate">
+          {run.gameTitle ?? run.gameId} &middot; {new Date(run.createdAt).toLocaleDateString()}
+        </span>
+      </button>
+      <button
+        ref={deleteButton}
+        type="button"
+        onClick={() => setConfirming(true)}
+        aria-label={`Delete run ${run.name}`}
+        aria-expanded={confirming}
+        className="mx-4 mb-2 text-sm text-red-300 hover:text-red-200 focus-visible:outline-2 focus-visible:outline-red-400"
+      >
+        Delete
+      </button>
+      {confirming && (
+        <div
+          role="group"
+          aria-label={`Confirm deletion of run ${run.name}`}
+          className="px-4 pb-3 text-sm text-gray-200"
+          onKeyDown={(event) => {
+            if (event.key === "Escape") {
+              event.stopPropagation();
+              cancel();
+            }
+          }}
+        >
+          <p className="break-words">Delete “{run.name}” and all its encounters? This cannot be undone.</p>
+          <div className="mt-2 flex flex-wrap gap-3">
+            <button ref={cancelButton} type="button" onClick={cancel} className="rounded px-2 py-1 bg-gray-700 focus-visible:outline-2 focus-visible:outline-red-400">Cancel</button>
+            <button
+              type="button"
+              className="rounded px-2 py-1 bg-red-900 text-red-100 focus-visible:outline-2 focus-visible:outline-red-400"
+              onClick={() => {
+                try {
+                  onDelete(run.id);
+                } catch {
+                  setError("Could not delete this run. Please try again.");
+                }
+              }}
+            >Confirm delete</button>
+          </div>
+          {error && <p role="alert" className="mt-2 text-red-300">{error}</p>}
+        </div>
+      )}
+    </li>
+  );
+}
+
 export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -17,6 +93,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [runs, setRuns] = useState<Run[]>([]);
   const ref = useRef<HTMLDivElement>(null);
+  const menuButton = useRef<HTMLButtonElement>(null);
 
   function toggleMenu() {
     if (!open) setRuns(listRuns());
@@ -39,6 +116,12 @@ export default function Navbar() {
     navigate("/tracker", { state: { activeRunId: id }, replace: true });
   }
 
+  function handleDelete(id: string) {
+    deleteRun(id);
+    setRuns(listRuns());
+    menuButton.current?.focus();
+  }
+
   return (
     <nav className="bg-gray-900 border-b border-gray-800 px-4 py-3">
       <div className="max-w-4xl mx-auto flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -50,8 +133,14 @@ export default function Navbar() {
             Nuzzy
           </Link>
 
-          <div ref={ref} className="relative min-w-0">
+          <div ref={ref} className="relative min-w-0" onKeyDown={(event) => {
+            if (event.key === "Escape") {
+              setOpen(false);
+              menuButton.current?.focus();
+            }
+          }}>
             <button
+              ref={menuButton}
               type="button"
               onClick={toggleMenu}
               className="flex items-center gap-2 max-w-full text-gray-400 hover:text-white transition-colors p-1 rounded hover:bg-gray-800"
@@ -94,21 +183,7 @@ export default function Navbar() {
                           new Date(a.createdAt).getTime(),
                       )
                       .map((r) => (
-                        <li key={r.id}>
-                          <button
-                            type="button"
-                            onClick={() => handlePick(r.id)}
-                            className="w-full text-left px-4 py-2 hover:bg-gray-700 transition-colors"
-                          >
-                            <span className="block text-sm text-white font-medium truncate">
-                              {r.name}
-                            </span>
-                            <span className="block text-xs text-gray-400 truncate">
-                              {r.gameTitle ?? r.gameId} &middot;{" "}
-                              {new Date(r.createdAt).toLocaleDateString()}
-                            </span>
-                          </button>
-                        </li>
+                        <SavedRunItem key={r.id} run={r} onPick={handlePick} onDelete={handleDelete} />
                       ))}
                   </ul>
                 )}

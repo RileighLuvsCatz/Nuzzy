@@ -19,7 +19,7 @@ React 19, Vite 8, React Router 7, Tailwind CSS 4 through `@tailwindcss/vite`, Ty
 - Sprites fetched through PokéAPI, cached in memory/localStorage, and reused across encounter and boss entries.
 - Selectable Emerald, Diamond, Pearl, Platinum, HeartGold, and SoulSilver packs. Emerald Seaglass is registered but disabled and incomplete.
 
-Important boundaries: logging controls are hidden while a route has saved encounters and return after its last encounter is deleted; older multiple-encounter routes remain readable. Species/nickname editing is absent. Tracker encounter deletion uses a named inline confirmation with Cancel/Escape and persists removal by ID. `deleteRun` exists only as a storage API. Graveyard has no death notes/timestamps. Type analysis uses current PokéAPI species types and the Gen VI+ chart, regardless of game, and does not model moves, abilities, or items.
+Important boundaries: logging controls are hidden while a route has saved encounters and return after its last encounter is deleted; older multiple-encounter routes remain readable. Species/nickname editing is absent. Tracker encounter deletion uses a named inline confirmation with Cancel/Escape and persists removal by ID. Each Load Run entry offers Delete with a named confirmation warning that all its encounters will be removed. Cancel receives initial focus; Cancel or Escape restores Delete focus without writing. Closing the menu discards confirmations. Confirming calls `deleteRun` by ID, refreshes the list, and returns focus to Load Run. Storage write failures show an alert and allow retry. Graveyard has no death notes/timestamps. Type analysis uses current PokéAPI species types and the Gen VI+ chart, regardless of game, and does not model moves, abilities, or items.
 
 ## Architecture
 
@@ -58,7 +58,7 @@ flowchart TD
 
 ### State and navigation
 
-Pages read the active run from storage into component state. Tracker and Box persist run changes via effects; Graveyard is read-only. Navbar switching calls `setActiveRun` then navigates to `/tracker` with `location.state` to trigger a reload. There is no shared run context/store or cross-tab storage-event subscription.
+Navbar, Tracker, Box, and Graveyard share `useActiveRun`, backed by `useSyncExternalStore` and storage subscriptions. Writes notify same-tab subscribers, and relevant storage events update other tabs. Tracker and Box mutations use guarded callbacks that update only the run their handler was rendered for; Graveyard is read-only. Navbar switching calls `setActiveRun` then navigates to `/tracker`. Deletion updates the current page through the same subscription without redirecting. Deleting an inactive save preserves selection; deleting the active save selects the first remaining run in library order, or `null` for an empty library.
 
 `App.tsx` shows the navbar only on `/tracker`, `/box`, and `/graveyard`. It is deliberately absent on `/` and `/new-run`; the landing page's instruction to use that hidden control when no run is active is the bug tracked in #1. Hosting must route SPA deep links back to `index.html`.
 
@@ -220,7 +220,7 @@ An absent or stale `activeRunId` makes `loadActiveRun()` return `null` even when
 | `loadActiveRun()` | Return the matching active run or `null`. |
 | `setActiveRun(id)` | Activate an existing run; unknown IDs are ignored. |
 | `saveRun(run)` | Upsert by ID, set active, persist the library. |
-| `deleteRun(id)` | Remove by ID; deleting the active run selects the first remaining run or `null`. No UI yet (#11). |
+| `deleteRun(id)` | Remove by ID; deleting the active run selects the first remaining run or `null`. Available for each saved run in Load Run after a named confirmation (#11). |
 | `createRun({ name, gameId, gameTitle? })` | Build a schema-1 run with trimmed name; caller must persist it. |
 
 ## Reference Data and Caching
@@ -322,3 +322,9 @@ Baseline for this refresh, reviewed from main commit `f8e62b52f978d9f03a15ccf4d0
 - Read-only structural review of all registered packs found no duplicate route/boss IDs or unresolved progression references, but confirmed Platinum's repeated `b6` and missing catch pools. This was not canonical gameplay-data verification or a replacement for #14.
 
 No dependency upgrades, gameplay fixes, or UI implementation changes are part of this documentation refresh. Browser interaction QA remains necessary when tackling those issues.
+
+### Saved-run deletion QA
+
+Open Load Run and tab to a saved run’s Delete button. Activate it with Enter or Space: the confirmation names the run, warns that encounters are removed, and initially focuses Cancel. Cancel or Escape must leave storage unchanged and return focus to Delete; Escape from the menu closes it and returns focus to Load Run. Closing/reopening the menu discards pending confirmations. Confirm deletion of an inactive save and verify the active run stays selected. Confirm deletion of an active save from Tracker, Box, or Graveyard: the first remaining library run should appear immediately; deleting the final save should offer Start a new run. Reload to verify persistence.
+
+The component suite automates these state/focus outcomes, duplicate-name ID isolation, absent/stale active IDs, and failed-write retry. Native browser keyboard behavior and screen-reader announcements still need manual QA.

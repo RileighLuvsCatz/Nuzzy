@@ -9,7 +9,7 @@ Nuzzy is in active, early development. This overview describes features implemen
 ### Implemented
 
 - **Landing page** — Project overview, Nuzlocke basics, new-run action, and a continue link when a run is active.
-- **Run management** — Create and name multiple runs, persist them in a versioned localStorage library, and switch between them from the navbar on Tracker, Box, and Graveyard pages. The navbar displays the active run name, truncating long names to fit.
+- **Run management** — Create and name multiple runs, persist them in a versioned localStorage library, and switch between them from the navbar on Tracker, Box, and Graveyard pages. The navbar displays the active run name, truncating long names to fit. Each saved run has a Delete action with a named confirmation; deleting the active run selects the first remaining save, or shows the empty state when none remain.
 - **Encounter deletion** — Delete a mistaken log from its Tracker entry after a named confirmation. Route counts, Box, and Graveyard update from the saved run; Cancel or Escape keeps the encounter.
 - **Logged route display** — Once a route has an encounter, its logging form (Pokémon dropdown, nickname input, initial status, and Log button) is hidden. Saved encounters keep their status and Delete controls. Deleting the last encounter restores the form.
 - **Progression tracker** — Routes and boss fights in game order, species selection from route catch pools, nicknames, per-route encounter counts, and inline status changes.
@@ -38,7 +38,7 @@ Selectable packs contain route, boss, and progression data; this is not a claim 
 
 ### Known gaps
 
-Encounter species/nicknames cannot yet be edited. Route logging is limited to empty routes; older multiple-encounter saves remain readable. Run rename/delete actions and backup export/import are also absent. Tracker, Box, and Graveyard offer a saved-run picker when no run is active. The landing page still needs a recovery path when the navbar is hidden. Type analysis can be incomplete after failed lookups, and sprite lookup failures need more resilient handling.
+Encounter species/nicknames cannot yet be edited. Route logging is limited to empty routes; older multiple-encounter saves remain readable. Run renaming and backup export/import are also absent. Tracker, Box, and Graveyard offer a saved-run picker when no run is active. The landing page still needs a recovery path when the navbar is hidden. Type analysis can be incomplete after failed lookups, and sprite lookup failures need more resilient handling.
 
 See [GitHub Issues](https://github.com/RileighLuvsCatz/Nuzzy/issues) for current status and acceptance criteria; the roadmap below is a direction, not a second task-status tracker.
 

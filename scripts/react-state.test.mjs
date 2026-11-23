@@ -310,3 +310,129 @@ for (const Page of [Tracker, Box, Graveyard]) {
     assert.equal(localStorage.getItem('nuzzy_run_library'), null);
   });
 }
+
+function menuToggle() {
+  return container.querySelector('[aria-label="Load Run"]');
+}
+function savedRunRow(index) {
+  return container.querySelectorAll('nav li')[index];
+}
+function rowButton(row, label) {
+  return [...row.querySelectorAll('button')].find(button => button.textContent === label);
+}
+
+test('run deletion requires named confirmation; Cancel, Escape, and menu dismissal preserve storage', async () => {
+  const first = run('Hoenn survivors');
+  storage.saveRun(first);
+  await render(h(Navbar));
+  const before = localStorage.getItem('nuzzy_run_library');
+  await click(menuToggle());
+  await click(rowButton(savedRunRow(0), 'Delete'));
+  const confirmation = () => container.querySelector('[role="group"]');
+  assert.match(confirmation().getAttribute('aria-label'), /Hoenn survivors/);
+  assert.match(confirmation().textContent, /Delete “Hoenn survivors” and all its encounters\? This cannot be undone/);
+  assert.equal(document.activeElement.textContent, 'Cancel');
+  assert.equal(localStorage.getItem('nuzzy_run_library'), before);
+  await click(rowButton(savedRunRow(0), 'Cancel'));
+  assert.equal(confirmation(), null);
+  assert.equal(document.activeElement, rowButton(savedRunRow(0), 'Delete'));
+  await click(rowButton(savedRunRow(0), 'Delete'));
+  await act(async () => document.activeElement.dispatchEvent(new dom.window.KeyboardEvent('keydown', { key: 'Escape', bubbles: true })));
+  assert.equal(confirmation(), null);
+  assert.equal(menuToggle().getAttribute('aria-expanded'), 'true');
+  assert.equal(document.activeElement, rowButton(savedRunRow(0), 'Delete'));
+  await click(rowButton(savedRunRow(0), 'Delete'));
+  await click(menuToggle());
+  await click(menuToggle());
+  assert.equal(confirmation(), null);
+  await click(rowButton(savedRunRow(0), 'Delete'));
+  await act(async () => document.body.dispatchEvent(new dom.window.MouseEvent('mousedown', { bubbles: true })));
+  assert.equal(menuToggle().getAttribute('aria-expanded'), 'false');
+  await click(menuToggle());
+  assert.equal(confirmation(), null);
+  await act(async () => menuToggle().dispatchEvent(new dom.window.KeyboardEvent('keydown', { key: 'Escape', bubbles: true })));
+  assert.equal(menuToggle().getAttribute('aria-expanded'), 'false');
+  assert.equal(document.activeElement, menuToggle());
+  assert.equal(localStorage.getItem('nuzzy_run_library'), before);
+});
+
+for (const Page of [Tracker, Box, Graveyard]) {
+  test(`deleting active run updates ${Page.name}, preserves other save, and persists empty library`, async () => {
+    const survivor = { ...run('Surviving adventure'), createdAt: '2026-01-01T00:00:00.000Z', encounters: [
+      { id: 'survivor', routeId: 'route-101', pokemon: 'Poochyena', nickname: 'Pup', status: 'Dead' },
+    ] };
+    const target = { ...run('Remove adventure'), createdAt: '2026-02-01T00:00:00.000Z', encounters: [
+      { id: 'target', routeId: 'route-101', pokemon: 'Zigzagoon', nickname: 'Zig', status: 'Team' },
+    ] };
+    storage.saveRun(survivor);
+    storage.saveRun(target);
+    await render(h('div', null, h(Navbar), h(Page)));
+    await click(menuToggle());
+    await click(rowButton(savedRunRow(0), 'Delete'));
+    await click(rowButton(savedRunRow(0), 'Confirm delete'));
+    assert.deepEqual(storage.listRuns(), [survivor]);
+    assert.deepEqual(storage.loadActiveRun(), survivor);
+    assert.match(container.querySelector('h1').textContent, /Surviving adventure/);
+    assert.match(menuToggle().textContent, /Surviving adventure/);
+    assert.doesNotMatch(container.textContent, /Remove adventure/);
+    assert.equal(document.activeElement, menuToggle());
+    assert.equal(container.querySelectorAll('nav li').length, 1);
+    await act(async () => root.unmount());
+    root = undefined;
+    await render(h('div', null, h(Navbar), h(Page)));
+    assert.match(container.querySelector('h1').textContent, /Surviving adventure/);
+    await click(menuToggle());
+    await click(rowButton(savedRunRow(0), 'Delete'));
+    await click(rowButton(savedRunRow(0), 'Confirm delete'));
+    assert.deepEqual(storage.listRuns(), []);
+    assert.equal(storage.loadActiveRun(), null);
+    assert.match(menuToggle().textContent, /No active run/);
+    assert.match(container.textContent, /No saved runs\./);
+    assert.match(container.textContent, /No active run found/);
+    assert.ok(container.querySelector('a[href="/new-run"]'));
+    assert.equal(document.activeElement, menuToggle());
+    await act(async () => root.unmount());
+    root = undefined;
+    await render(h('div', null, h(Navbar), h(Page)));
+    assert.equal(storage.loadActiveRun(), null);
+    assert.match(container.textContent, /No saved runs yet/);
+  });
+}
+
+for (const active of ['first', null, 'missing']) {
+  test(`deleting an inactive same-name run uses its ID and preserves active selection ${active}`, async () => {
+    const first = { ...run('Twin'), id: 'first', createdAt: '2026-02-01T00:00:00.000Z' };
+    const second = { ...run('Twin'), id: 'second', createdAt: '2026-01-01T00:00:00.000Z' };
+    localStorage.setItem('nuzzy_run_library', JSON.stringify({ schemaVersion: 2, runs: [first, second], activeRunId: active }));
+    await render(h(Navbar));
+    await click(menuToggle());
+    await click(rowButton(savedRunRow(1), 'Delete'));
+    await click(rowButton(savedRunRow(1), 'Confirm delete'));
+    assert.deepEqual(storage.listRuns(), [first]);
+    assert.equal(JSON.parse(localStorage.getItem('nuzzy_run_library')).activeRunId, active);
+    assert.equal(storage.loadActiveRun()?.id ?? null, active === 'first' ? 'first' : null);
+  });
+}
+
+test('failed run deletion keeps the save and confirmation available for retry', async () => {
+  const first = run('Keep on failure');
+  storage.saveRun(first);
+  await render(h(Navbar));
+  await click(menuToggle());
+  await click(rowButton(savedRunRow(0), 'Delete'));
+  const prototype = dom.window.Storage.prototype;
+  const original = prototype.setItem;
+  const before = localStorage.getItem('nuzzy_run_library');
+  try {
+    prototype.setItem = () => { throw new Error('Storage unavailable'); };
+    await click(rowButton(savedRunRow(0), 'Confirm delete'));
+    assert.match(container.querySelector('[role="alert"]').textContent, /Could not delete this run/);
+    assert.equal(localStorage.getItem('nuzzy_run_library'), before);
+    assert.ok(container.querySelector('[role="group"]'));
+  } finally {
+    prototype.setItem = original;
+  }
+  await click(rowButton(savedRunRow(0), 'Confirm delete'));
+  assert.deepEqual(storage.listRuns(), []);
+  assert.equal(storage.loadActiveRun(), null);
+});
