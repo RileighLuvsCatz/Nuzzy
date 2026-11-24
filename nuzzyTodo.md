@@ -191,7 +191,7 @@ Run data is local to the browser/origin. Clearing browser storage removes it; ba
 |---|---|
 | `nuzzy_run_library` | Primary `RunLibrary`, schema 2 |
 | `nuzzy_run` | Legacy single run, migrated when no readable library is found |
-| `nuzzy:poke-sprites:v1` | Sprite lookup cache, separate from run data |
+| `nuzzy:poke-sprites:v2` | Sprite lookup cache, separate from run data; reuses successful v1 entries |
 | `nuzzy:poke-types:v1` | Species type cache, separate from run data |
 
 ```ts
@@ -225,7 +225,11 @@ An absent or stale `activeRunId` makes `loadActiveRun()` return `null` even when
 
 ## Reference Data and Caching
 
-`pokemonSprites.ts` normalizes a display name to a PokéAPI slug, deduplicates concurrent sprite requests, and caches results. Failed lookups are currently persisted as `null`, so temporary failures can become sticky (#13). `PokemonSprite` displays a loading placeholder and `?` on failure.
+`pokemonSprites.ts` normalizes trimmed names and curly apostrophes, with explicit PokéAPI aliases for the punctuation-sensitive names in current packs (Farfetch’d, Mr. Mime, Mime Jr., Nidoran♀/♂, Ho-Oh). Current packs do not contain explicitly named alternate forms. The slug helper is also used by type lookups.
+
+Concurrent sprite requests are deduplicated. Successful URLs, HTTP 404s, and explicit `front_default: null` responses are cached in memory and `nuzzy:poke-sprites:v2`. Network errors, other HTTP errors (including rate limits), JSON errors and malformed sprite fields are not cached, allowing later lookups to recover. Existing v1 successes are reused; v1 nulls are ignored because they may represent temporary errors. Invalid cache shapes/entries and unavailable storage are tolerated; run-library storage is untouched. `PokemonSprite` shows a loading placeholder and `?` on failure. Remounting retries temporary failures; there is no background polling or automatic refresh of an already displayed placeholder. Confirmed missing results remain cached.
+
+Sprite regression tests cover pack aliases, v1 recovery, v2 missing-result persistence, corrupt caches, fetch/JSON/HTTP failures, concurrent success/failure deduplication and memory caching when storage fails. The component suite verifies recovery after remount under StrictMode. Real-network availability and visual browser behavior are not covered by these mocked tests.
 
 `pokemonTypes.ts` uses a separate type cache and fetch path. Empty results from failures are cached in memory; successful results are persisted. Box analysis does not clearly label unresolved team members (#18).
 
