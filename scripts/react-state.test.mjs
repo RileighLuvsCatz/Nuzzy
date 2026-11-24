@@ -310,3 +310,25 @@ for (const Page of [Tracker, Box, Graveyard]) {
     assert.equal(localStorage.getItem('nuzzy_run_library'), null);
   });
 }
+
+
+test('sprite remount retries a temporary outage and then reuses its successful URL', async () => {
+  let calls = 0;
+  const species = 'Sprite outage recovery';
+  globalThis.fetch = async () => { calls++; throw new Error('offline'); };
+  await render(h(Sprite, { species }));
+  assert.equal(container.textContent, '?');
+  assert.equal(calls, 1); // StrictMode shares the in-flight request.
+  await render(null);
+  globalThis.fetch = async () => {
+    calls++;
+    return { ok: true, json: async () => ({ sprites: { front_default: '/recovery.png' } }) };
+  };
+  await render(h(Sprite, { species }));
+  assert.equal(container.querySelector('img').getAttribute('src'), '/recovery.png');
+  assert.equal(calls, 2);
+  await render(null);
+  await render(h(Sprite, { species }));
+  assert.equal(container.querySelector('img').getAttribute('src'), '/recovery.png');
+  assert.equal(calls, 2);
+});

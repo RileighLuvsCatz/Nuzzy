@@ -19,7 +19,7 @@ Nuzzy is in active, early development. This overview describes features implemen
 - **Box and Team** — Dedicated view with transfers between Team and Box, type badges, and a Team count.
 - **Type analysis** — Team weaknesses, resistances, super-effective STAB coverage, and coverage gaps. This currently uses modern PokéAPI typings and a Gen VI+ chart for every game, not the selected game's rules; see [#17](https://github.com/RileighLuvsCatz/Nuzzy/issues/17). STAB coverage is based on species types, not recorded movesets.
 - **Graveyard** — Fallen Pokémon from the active run, with nickname, species, and encounter location. Death notes and timestamps are not implemented.
-- **Sprites** — PokéAPI lookups with memory/localStorage caching, in-flight request deduplication, and a placeholder when unavailable.
+- **Sprites** — PokéAPI lookups with explicit pack-name aliases, memory/localStorage caching, in-flight request deduplication, and a placeholder when unavailable. Temporary lookup failures retry on later lookups (including remounts); confirmed missing sprites remain cached.
 - **Persistence migration** — Legacy single-run saves and older encounter shapes are normalized on load.
 
 ### Game packs
@@ -38,7 +38,7 @@ Selectable packs contain route, boss, and progression data; this is not a claim 
 
 ### Known gaps
 
-Encounter species/nicknames cannot yet be edited. Route logging is limited to empty routes; older multiple-encounter saves remain readable. Run rename/delete actions and backup export/import are also absent. Tracker, Box, and Graveyard offer a saved-run picker when no run is active. The landing page still needs a recovery path when the navbar is hidden. Type analysis can be incomplete after failed lookups, and sprite lookup failures need more resilient handling.
+Encounter species/nicknames cannot yet be edited. Route logging is limited to empty routes; older multiple-encounter saves remain readable. Run rename/delete actions and backup export/import are also absent. Tracker, Box, and Graveyard offer a saved-run picker when no run is active. The landing page still needs a recovery path when the navbar is hidden. Type analysis can be incomplete after failed lookups. Sprite lookup failures show a placeholder; temporary errors retry when the sprite mounts again rather than polling in the background.
 
 See [GitHub Issues](https://github.com/RileighLuvsCatz/Nuzzy/issues) for current status and acceptance criteria; the roadmap below is a direction, not a second task-status tracker.
 
